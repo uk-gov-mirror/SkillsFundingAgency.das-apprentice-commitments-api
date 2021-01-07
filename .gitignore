@@ -348,3 +348,28 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# NCrunch
+
+*.ncrunchsolution
+*.ncrunchproject
+
+# Local Logs
+
+*-nlog.txt
+
+# vscode project files
+.vscode/
+
+# AppSetting environment files
+*.development.json
+local.settings.json
+
+#SonarCloud
+
+.sonarqube/
+SonarQube.Analysis.xml
+**/*.slconfig
+
+#Test generated nservicebus queues
+**/.learningtransport/**
