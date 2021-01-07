@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using SFA.DAS.Configuration.AzureTableStorage;
+using Microsoft.Extensions.Options;
+using SFA.DAS.ApprenticeCommitments.Api.Authentication;
+using SFA.DAS.ApprenticeCommitments.Api.Configuration;
+using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 
 namespace SFA.DAS.ApprenticeCommitments.Api
 {
@@ -48,17 +46,17 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.AddHealthChecks();
             services.AddSwaggerGen();
 
-            //services.Configure<AzureActiveDirectoryConfiguration>(Configuration.GetSection("AzureAd"));
-            //services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
+            services.Configure<AzureActiveDirectoryConfiguration>(Configuration.GetSection("AzureAd"));
+            services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
 
-            //if (!ConfigurationIsLocalOrDevOrAcceptanceTests())
-            //{
-            //    var azureAdConfiguration = Configuration
-            //        .GetSection("AzureAd")
-            //        .Get<AzureActiveDirectoryConfiguration>();
+            if (!ConfigurationIsLocalOrDev())
+            {
+                var azureAdConfiguration = Configuration
+                    .GetSection("AzureAd")
+                    .Get<AzureActiveDirectoryConfiguration>();
 
-            //    services.AddAuthentication(azureAdConfiguration);
-            //}
+                services.AddApiAuthentication(azureAdConfiguration);
+            }
 
 
             //services.AddEntityFrameworkForEmployerIncentives()
@@ -94,12 +92,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 });
             }
 
-            app.UseHttpsRedirection();
-            //.UseApiGlobalExceptionHandler();
+            app.UseHttpsRedirection()
+                .UseApiGlobalExceptionHandler();
 
             app.UseRouting();
 
             //app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
