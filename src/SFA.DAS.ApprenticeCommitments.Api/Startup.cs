@@ -97,9 +97,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
 
             app.UseRouting();
 
-            //app.UseAuthorization();
             app.UseAuthentication();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
