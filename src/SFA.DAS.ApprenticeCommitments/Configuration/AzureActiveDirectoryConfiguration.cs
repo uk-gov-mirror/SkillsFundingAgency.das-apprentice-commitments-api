@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ApprenticeCommitments.Api.Configuration
+﻿namespace SFA.DAS.ApprenticeCommitments.Configuration
 {
     public class AzureActiveDirectoryConfiguration
     {

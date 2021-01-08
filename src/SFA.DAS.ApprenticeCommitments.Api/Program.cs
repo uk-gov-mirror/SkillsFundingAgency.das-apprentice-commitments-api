@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
+using SFA.DAS.NServiceBus.Configuration.MicrosoftDependencyInjection;
 
 namespace SFA.DAS.ApprenticeCommitments.Api
 {
@@ -28,6 +29,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 {
                     webBuilder.UseStartup<Startup>();
                 })
+                .UseNServiceBusContainer()
                 .UseNLog();
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Reflection;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +9,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using NServiceBus.ObjectBuilder.MSDependencyInjection;
 using SFA.DAS.ApprenticeCommitments.Api.Authentication;
-using SFA.DAS.ApprenticeCommitments.Api.Configuration;
 using SFA.DAS.ApprenticeCommitments.Api.Extensions;
+using SFA.DAS.ApprenticeCommitments.Configuration;
+using SFA.DAS.ApprenticeCommitments.Infrastructure;
+using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
+using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.UnitOfWork.EntityFrameworkCore.DependencyResolution.Microsoft;
+using SFA.DAS.UnitOfWork.NServiceBus.Features.ClientOutbox.DependencyResolution.Microsoft;
 
 namespace SFA.DAS.ApprenticeCommitments.Api
 {
@@ -58,15 +66,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 services.AddApiAuthentication(azureAdConfiguration);
             }
 
+            services.AddOptions();
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-            //services.AddEntityFrameworkForEmployerIncentives()
-            //    .AddEntityFrameworkUnitOfWork<EmployerIncentivesDbContext>()
-            //    .AddNServiceBusClientUnitOfWork();
+            services.AddEntityFrameworkForApprenticeCommitments()
+                .AddEntityFrameworkUnitOfWork<ApprenticeCommitmentsDbContext>()
+                .AddNServiceBusClientUnitOfWork();
 
-            //services.AddPersistenceServices();
-            //services.AddCommandServices();
-            //services.AddQueryServices();
-            //services.AddEventServices();
+            services.AddMediatR(typeof(UnitOfWorkPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
 
             services
                 .AddMvc(o =>
@@ -103,6 +112,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/ping");
             });
+        }
+
+        public void ConfigureContainer(UpdateableServiceProvider serviceProvider)
+        {
+            serviceProvider.StartNServiceBus(Configuration).GetAwaiter().GetResult();
         }
 
         private bool ConfigurationIsLocalOrDev()

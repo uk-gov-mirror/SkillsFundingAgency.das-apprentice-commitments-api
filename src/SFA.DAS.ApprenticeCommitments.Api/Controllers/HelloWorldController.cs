@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SFA.DAS.ApprenticeCommitments.Application.Queries.TestQuery;
 using SFA.DAS.ApprenticeCommitments.Exceptions;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
@@ -13,10 +14,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
     public class HelloWorldController : ControllerBase
     {
         private readonly ILogger<HelloWorldController> _logger;
+        private readonly IMediator _mediator;
 
-        public HelloWorldController(ILogger<HelloWorldController> logger)
+
+        public HelloWorldController(ILogger<HelloWorldController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -39,7 +43,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
             throw new InvalidRequestException(errors);
         }
 
+        [HttpGet]
+        [Route("test-query")]
+        public async Task<IActionResult> TestQuery()
+        {
+            _logger.LogInformation("TestQuery");
 
+            await _mediator.Send(new TestQuery { ApplicationId = Guid.NewGuid() });
 
+            return Ok();
+        }
     }
 }
