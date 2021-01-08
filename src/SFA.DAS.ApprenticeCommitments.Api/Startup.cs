@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,7 @@ using SFA.DAS.ApprenticeCommitments.Api.Authentication;
 using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Configuration;
 using SFA.DAS.ApprenticeCommitments.Infrastructure;
+using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
 using SFA.DAS.ApprenticeCommitments.Models;
 using SFA.DAS.UnitOfWork.EntityFrameworkCore.DependencyResolution.Microsoft;
@@ -82,7 +84,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 {
                     if (!ConfigurationIsLocalOrDev())
                     {
-                        //o.Conventions.Add(new AuthorizeControllerModelConvention());
+                        o.Filters.Add(new AuthorizeFilter(PolicyNames.Default));
                     }
                 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }

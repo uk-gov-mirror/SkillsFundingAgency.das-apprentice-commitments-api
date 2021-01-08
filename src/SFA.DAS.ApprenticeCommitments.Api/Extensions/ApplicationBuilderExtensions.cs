@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
                     }
                     else
                     {
-                        //Do nothing but log it (will result in a 500 error)
+                        //Do nothing (will result in a 500 error)
                     }
                 }
             }

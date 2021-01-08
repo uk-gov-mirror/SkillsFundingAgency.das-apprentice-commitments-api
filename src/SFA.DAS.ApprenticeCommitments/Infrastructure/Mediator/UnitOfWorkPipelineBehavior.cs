@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
 using SFA.DAS.UnitOfWork.Managers;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
