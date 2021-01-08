@@ -4,6 +4,8 @@ jobs:
     name: DAS - Continuous Integration
   variables:
   - group: Prod Management Resources
+  - name: buildConfiguratio
+    value: release
   workspace:
     clean: all
   steps:
