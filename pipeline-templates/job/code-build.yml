@@ -4,8 +4,6 @@ jobs:
     name: DAS - Continuous Integration
   variables:
   - group: Prod Management Resources
-  - name: buildConfiguration
-    value: release
   workspace:
     clean: all
   steps:
@@ -26,18 +24,12 @@ jobs:
       command: publish
       publishWebProjects: false
       projects: src/SFA.DAS.ApprenticeCommitments.Api/SFA.DAS.ApprenticeCommitments.Api.csproj
-      arguments: --configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/publish --no-restore --no-build
+      arguments: --configuration release --output $(build.artifactstagingdirectory)/publish --no-restore --no-build
 
   - task: CopyFiles@2
     displayName: Copy Files to $(build.artifactstagingdirectory)/publish
     inputs:
-      Contents: |
+      contents: |
         azure/**
-      TargetFolder: $(build.artifactstagingdirectory)/publish
-      OverWrite: true
-
-  - task: PublishPipelineArtifact@1
-    displayName: Publish Artifact - ApprenticeCommitmentsApi
-    inputs:
-      targetPath: $(build.artifactstagingdirectory)/publish
-      artifactName: ApprenticeCommitmentsApi
+      targetFolder: $(build.artifactstagingdirectory)/publish
+      overWrite: true
