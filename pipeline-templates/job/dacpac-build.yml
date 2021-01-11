@@ -10,7 +10,7 @@ jobs:
   - task: VSBuild@1
     displayName: Build DACPAC
     inputs:
-      solution: src/SFA.DAS.Courses.Database/SFA.DAS.ApprenticeCommitments.Database.sqlproj
+      solution: src/SFA.DAS.ApprenticeCommitments.Database/SFA.DAS.ApprenticeCommitments.Database.sqlproj
       platform: any cpu
       configuration: release
       msbuildArgs: /p:PackageLocation="$(build.artifactstagingdirectory)/publish"
