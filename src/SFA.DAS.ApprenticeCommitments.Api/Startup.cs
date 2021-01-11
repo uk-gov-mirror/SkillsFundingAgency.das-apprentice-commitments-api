@@ -14,6 +14,8 @@ using NServiceBus.ObjectBuilder.MSDependencyInjection;
 using SFA.DAS.ApprenticeCommitments.Api.Authentication;
 using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Configuration;
+using SFA.DAS.ApprenticeCommitments.Data;
+using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Infrastructure;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
@@ -78,6 +80,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.AddMediatR(typeof(UnitOfWorkPipelineBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
+
+            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
 
             services
                 .AddMvc(o =>

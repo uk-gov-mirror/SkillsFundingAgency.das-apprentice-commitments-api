@@ -59,6 +59,6 @@
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\AccountRegistration.sql" />
+    <Build Include="Tables\Registration.sql" />
   </ItemGroup>
 </Project>
