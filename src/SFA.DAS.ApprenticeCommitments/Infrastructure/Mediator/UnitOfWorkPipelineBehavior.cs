@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
 using SFA.DAS.UnitOfWork.Managers;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
@@ -18,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            if (!(request is ITransactionCommand))
+            if (!(request is IUnitOfWorkCommand))
             {
                 return await next();
             }

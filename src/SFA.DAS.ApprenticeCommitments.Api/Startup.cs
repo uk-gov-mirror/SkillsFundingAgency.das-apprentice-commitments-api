@@ -18,7 +18,6 @@ using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Infrastructure;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
-using SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions;
 using SFA.DAS.ApprenticeCommitments.Models;
 using SFA.DAS.UnitOfWork.EntityFrameworkCore.DependencyResolution.Microsoft;
 using SFA.DAS.UnitOfWork.NServiceBus.Features.ClientOutbox.DependencyResolution.Microsoft;
