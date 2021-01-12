@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace SFA.DAS.ApprenticeCommitments.Infrastructure.MediatorExtensions
+namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
 {
     public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {

@@ -16,7 +16,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         }
         public async Task Add(RegistrationModel model)
         {
-            await _dbContext.Value.AddAsync(model.Map());
+            await _dbContext.Value.AddAsync(model.MapToRegistration());
         }
     }
 }
