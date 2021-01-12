@@ -26,4 +26,4 @@ jobs:
     displayName: Publish Artifact - ApprenticeCommitmentsApi
     inputs:
       targetPath: $(build.artifactstagingdirectory)/publish
-      artifactName: ApprenticeCommitmentsApi
+      artifactName: ApprenticeCommitmentsApiDacpac
