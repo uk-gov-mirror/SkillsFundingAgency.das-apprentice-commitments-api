@@ -35,3 +35,9 @@ jobs:
         azure/**
       targetFolder: $(build.artifactstagingdirectory)/publish
       overWrite: true
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Artifact - ApprenticeCommitmentsApi
+    inputs:
+      targetPath: $(build.artifactstagingdirectory)/publish
+      artifactName: ApprenticeCommitmentsApi
