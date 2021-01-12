@@ -19,14 +19,14 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
         {
             try
             {
-                _logger.LogInformation($"Start handling '{typeof(TRequest)}' command");
+                _logger.LogInformation($"Start handling '{typeof(TRequest)}'");
                 var response = await next();
-                _logger.LogInformation($"End handling '{typeof(TRequest)}' command");
+                _logger.LogInformation($"End handling '{typeof(TRequest)}'");
                 return response;
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"Error handling '{typeof(TRequest)}' command");
+                _logger.LogError(e, $"Error handling '{typeof(TRequest)}'");
                 throw;
             }
         }
