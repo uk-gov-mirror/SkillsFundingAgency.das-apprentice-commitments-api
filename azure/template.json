@@ -72,10 +72,10 @@
     },
     "variables": {
         "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/das-platform-building-blocks/master/templates/",
-        "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
-        "resourceGroupName": "[concat(variables('resourceNamePrefix'), '-rg')]",
-        "apiAppServiceName": "[concat(variables('resourceNamePrefix'), 'api-as')]",
-        "databaseName": "[concat(variables('resourceNamePrefix'), '-db')]"
+        "resourceNamePrefix": "[toLower(concat('das-', parameters('resourceEnvironmentName'), '-'))]",
+        "apiAppServiceName": "[concat(variables('resourceNamePrefix'), parameters('serviceName'), '-as')]",
+        "resourceGroupName": "[concat(variables('resourceNamePrefix'), parameters('serviceName'), '-rg')]",
+        "databaseName": "[concat(variables('resourceNamePrefix'), parameters('serviceName'), '-db')]"
     },
     "resources": [
         {
@@ -165,7 +165,7 @@
                                 },
                                 {
                                     "name": "ConfigNames",
-                                    "value": "TBA"
+                                    "value": "SFA.DAS.ApprenticeCommitments.Api"
                                 },
                                 {
                                     "name": "LoggingRedisConnectionString",
