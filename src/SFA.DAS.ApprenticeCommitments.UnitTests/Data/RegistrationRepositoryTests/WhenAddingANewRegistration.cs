@@ -12,7 +12,6 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Data.RegistrationRepositoryTes
 {
     public class WhenAddingANewRegistration
     {
-
         private ApprenticeCommitmentsDbContext _dbContext;
         private RegistrationRepository _sut;
 

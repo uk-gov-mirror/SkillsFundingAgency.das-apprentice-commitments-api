@@ -21,7 +21,6 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
             _sut = new CreateRegistrationCommandHandler(_registrationRepositoryMock.Object);
         }
 
-
         [Test, AutoData]
         public async Task Then_registration_repository_should_receive_the_registration_model(CreateRegistrationCommand command)
         {

@@ -17,9 +17,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         }
 
         [HttpPost("apprenticeships")]
-        public async Task<IActionResult> CreateRegistration([FromBody] RegistrationRequest request)
+        public async Task<IActionResult> CreateRegistration([FromBody] CreateRegistrationCommand request)
         {
-            await _mediator.Send(new CreateRegistrationCommand {RegistrationId = request.RegistrationId, ApprenticeshipId = request.ApprenticeshipId, Email = request.Email});
+            await _mediator.Send(request);
             return Accepted();
         }
     }

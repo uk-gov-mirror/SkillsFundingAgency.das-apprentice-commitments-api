@@ -13,7 +13,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Authentication
 
         public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
-
             var scopeClaims = principal.FindAll(ScopeClaimType).ToList();
             if (scopeClaims.Count != 1 || !scopeClaims[0].Value.Contains(' '))
             {
