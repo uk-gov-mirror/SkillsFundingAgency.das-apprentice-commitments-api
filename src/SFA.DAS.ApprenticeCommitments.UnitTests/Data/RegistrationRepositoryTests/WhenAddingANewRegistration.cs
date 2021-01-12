@@ -19,7 +19,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Data.RegistrationRepositoryTes
         public void Arrange()
         {
             var options = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>()
-                .UseInMemoryDatabase("EmployerIncentivesDbContext" + Guid.NewGuid()).Options;
+                .UseInMemoryDatabase("ApprenticeCommitmentsDbContext" + Guid.NewGuid()).Options;
             _dbContext = new ApprenticeCommitmentsDbContext(options);
 
             _sut = new RegistrationRepository(new Lazy<ApprenticeCommitmentsDbContext>(_dbContext));
