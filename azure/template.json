@@ -165,7 +165,7 @@
                                 },
                                 {
                                     "name": "ConfigNames",
-                                    "value": "TBA"
+                                    "value": "SFA.DAS.ApprenticeCommitments.Api"
                                 },
                                 {
                                     "name": "LoggingRedisConnectionString",
