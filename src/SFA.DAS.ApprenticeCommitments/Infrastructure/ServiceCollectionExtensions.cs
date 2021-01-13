@@ -64,18 +64,18 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                 .UseSqlServerPersistence(() => new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]))
                 .UseUnitOfWork();
 
-            if (configuration["NServiceBusConnectionString"].Equals("UseLearningEndpoint=true", StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrEmpty(configuration["NServiceBusConnectionString"]))
+            if (configuration["ApplicationSettings:NServiceBusConnectionString"].Equals("UseLearningEndpoint=true", StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrEmpty(configuration["NServiceBusConnectionString"]))
             {
                 endpointConfiguration.UseTransport<LearningTransport>();
             }
             else
             {
-                endpointConfiguration.UseAzureServiceBusTransport(configuration["NServiceBusConnectionString"]);
+                endpointConfiguration.UseAzureServiceBusTransport(configuration["ApplicationSettings:NServiceBusConnectionString"]);
             }
 
-            if (!string.IsNullOrEmpty(configuration["NServiceBusLicense"]))
+            if (!string.IsNullOrEmpty(configuration["ApplicationSettings:NServiceBusLicense"]))
             {
-                endpointConfiguration.License(configuration["NServiceBusLicense"]);
+                endpointConfiguration.License(configuration["ApplicationSettings:NServiceBusLicense"]);
             }
 
             var endpoint = await Endpoint.Start(endpointConfiguration);
