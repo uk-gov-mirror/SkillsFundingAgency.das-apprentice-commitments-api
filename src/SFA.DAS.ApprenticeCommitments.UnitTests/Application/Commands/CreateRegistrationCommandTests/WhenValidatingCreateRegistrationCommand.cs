@@ -53,7 +53,5 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
                 validator.ShouldHaveValidationErrorFor(property, value);
             }
         }
-
-
     }
 }
