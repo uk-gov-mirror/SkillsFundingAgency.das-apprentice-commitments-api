@@ -64,7 +64,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                 .UseSqlServerPersistence(() => new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]))
                 .UseUnitOfWork();
 
-            if (configuration["ApplicationSettings:NServiceBusConnectionString"].Equals("UseLearningEndpoint=true", StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrEmpty(configuration["NServiceBusConnectionString"]))
+            if (configuration["ApplicationSettings:NServiceBusConnectionString"].Equals("UseLearningEndpoint=true", StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrEmpty(configuration["ApplicationSettings:NServiceBusConnectionString"]))
             {
                 endpointConfiguration.UseTransport<LearningTransport>();
             }
