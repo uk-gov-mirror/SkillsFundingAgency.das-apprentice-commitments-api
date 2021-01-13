@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using SFA.DAS.ApprenticeCommitments.Exceptions;
+using Newtonsoft.Json;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
 {
@@ -18,10 +21,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                 if (contextFeature != null)
                 {
-                    if (contextFeature.Error is InvalidRequestException)
+                    if (contextFeature.Error is ValidationException ex)
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        await context.Response.WriteAsync(contextFeature.Error.Message);
+                        await context.Response.WriteAsync(CreateErrorResponse(ex.Errors));
                     }
                     else
                     {
@@ -35,6 +38,17 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
                 appError.Run(Handler);
             });
             return app;
+        }
+
+        private static string CreateErrorResponse(IEnumerable<ValidationFailure> errors)
+        {
+            var errorList = new Dictionary<string, string>();
+            foreach (var error in errors)
+            {
+                errorList.Add(error.PropertyName, error.ErrorMessage);
+            }
+
+            return JsonConvert.SerializeObject(errorList, Formatting.Indented);
         }
     }
 }
