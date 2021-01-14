@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -42,12 +43,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
 
         private static string CreateErrorResponse(IEnumerable<ValidationFailure> errors)
         {
-            var errorList = new Dictionary<string, string>();
-            foreach (var error in errors)
-            {
-                errorList.Add(error.PropertyName, error.ErrorMessage);
-            }
-
+            var errorList = errors.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
             return JsonConvert.SerializeObject(errorList, Formatting.Indented);
         }
     }
