@@ -1,8 +1,5 @@
 using System;
 using System.IO;
-using System.Reflection;
-using MediatR;
-using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +12,8 @@ using NServiceBus.ObjectBuilder.MSDependencyInjection;
 using SFA.DAS.ApprenticeCommitments.Api.Authentication;
 using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Configuration;
-using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Infrastructure;
-using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
-using SFA.DAS.ApprenticeCommitments.Models;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.UnitOfWork.EntityFrameworkCore.DependencyResolution.Microsoft;
 using SFA.DAS.UnitOfWork.NServiceBus.Features.ClientOutbox.DependencyResolution.Microsoft;
@@ -30,19 +24,23 @@ namespace SFA.DAS.ApprenticeCommitments.Api
     {
         public Startup(IConfiguration configuration)
         {
+            Configuration = configuration;
+
             var config = new ConfigurationBuilder()
                 .AddConfiguration(configuration)
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables();
 
-            config.AddAzureTableStorage(options =>
+            if (!ConfigurationIsAcceptanceTest())
             {
-                options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
-                options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                options.EnvironmentName = configuration["EnvironmentName"];
-                options.PreFixConfigurationKeys = false;
-            });
-
+                config.AddAzureTableStorage(options =>
+                {
+                    options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
+                    options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
+                    options.EnvironmentName = configuration["EnvironmentName"];
+                    options.PreFixConfigurationKeys = false;
+                });
+            }
 #if DEBUG
             config.AddJsonFile($"appsettings.Development.json", optional: true);
 #endif
@@ -62,7 +60,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.Configure<AzureActiveDirectoryConfiguration>(Configuration.GetSection("AzureAd"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
 
-            if (!ConfigurationIsLocalOrDev())
+            if (!ConfigurationIsLocalAcceptanceOrDev())
             {
                 var azureAdConfiguration = Configuration
                     .GetSection("AzureAd")
@@ -83,7 +81,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services
                 .AddMvc(o =>
                 {
-                    if (!ConfigurationIsLocalOrDev())
+                    if (!ConfigurationIsLocalAcceptanceOrDev())
                     {
                         o.Filters.Add(new AuthorizeFilter(PolicyNames.Default));
                     }
@@ -122,10 +120,17 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             serviceProvider.StartNServiceBus(Configuration).GetAwaiter().GetResult();
         }
 
-        private bool ConfigurationIsLocalOrDev()
+        private bool ConfigurationIsAcceptanceTest()
+        {
+            return Configuration["EnvironmentName"].Equals("ACCEPTANCE_TESTS", StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        private bool ConfigurationIsLocalAcceptanceOrDev()
         {
             return Configuration["EnvironmentName"].Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase) ||
+                   Configuration["EnvironmentName"].Equals("ACCEPTANCE_TESTS", StringComparison.CurrentCultureIgnoreCase) ||
                    Configuration["EnvironmentName"].Equals("DEV", StringComparison.CurrentCultureIgnoreCase);
         }
+
     }
 }
