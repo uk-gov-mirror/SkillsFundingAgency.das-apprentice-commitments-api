@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -77,11 +78,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 .AddEntityFrameworkUnitOfWork<ApprenticeCommitmentsDbContext>()
                 .AddNServiceBusClientUnitOfWork();
 
-            services.AddMediatR(typeof(UnitOfWorkPipelineBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
-
-            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+            services.AddServicesForApprenticeCommitments();
 
             services
                 .AddMvc(o =>

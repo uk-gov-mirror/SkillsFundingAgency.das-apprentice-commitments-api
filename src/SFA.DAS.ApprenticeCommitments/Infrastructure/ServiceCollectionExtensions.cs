@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
+using MediatR;
+using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +12,9 @@ using NServiceBus;
 using NServiceBus.ObjectBuilder.MSDependencyInjection;
 using NServiceBus.Persistence;
 using SFA.DAS.ApprenticeCommitments.Configuration;
+using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
 using SFA.DAS.NServiceBus.Configuration;
 using SFA.DAS.NServiceBus.Configuration.AzureServiceBus;
 using SFA.DAS.NServiceBus.Configuration.MicrosoftDependencyInjection;
@@ -27,9 +29,20 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddServicesForApprenticeCommitments(this IServiceCollection services)
+        {
+            services.AddMediatR(typeof(UnitOfWorkPipelineBehavior<,>).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
+            services.AddFluentValidation(new[] { typeof(UnitOfWorkPipelineBehavior<,>).Assembly });
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
+
+            services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+
+            return services;
+        }
+
         public static IServiceCollection AddEntityFrameworkForApprenticeCommitments(this IServiceCollection services)
         {
-            //return services;
             return services.AddScoped(p =>
             {
                 var unitOfWorkContext = p.GetService<IUnitOfWorkContext>();
@@ -52,7 +65,6 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                 return dbContext;
             });
         }
-
 
         public static async Task<UpdateableServiceProvider> StartNServiceBus(this UpdateableServiceProvider serviceProvider, IConfiguration configuration)
         {
@@ -86,6 +98,5 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
             return serviceProvider;
         }
-
     }
 }
