@@ -26,7 +26,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
                 var config = new Dictionary<string, string>
                 {
                     { "EnvironmentName", "ACCEPTANCE_TESTS" },
-                    { "ApplicationSettings:DbConnectionString", "" }
+                    { "ApplicationSettings:DbConnectionString", _context.DatabaseConnectionString }
                 };
 
 

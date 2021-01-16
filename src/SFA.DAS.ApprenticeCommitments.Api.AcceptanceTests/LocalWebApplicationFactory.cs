@@ -19,10 +19,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
         {
             builder.ConfigureServices(s =>
             {
-                s.Configure<ApplicationSettings>(a =>
-                {
-                    a.DbConnectionString = "_context.SqlDatabase.DatabaseInfo.ConnectionString";
-                });
+                s.AddEntityFrameworkSqlite();
             });
 
             builder.ConfigureAppConfiguration(a =>

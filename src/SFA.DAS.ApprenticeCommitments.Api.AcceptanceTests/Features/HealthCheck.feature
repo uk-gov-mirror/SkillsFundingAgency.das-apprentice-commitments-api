@@ -2,7 +2,7 @@
 
 Feature: HealthCheck
 	In order to check if the api is working
-	As a appliocation monitor
+	As a application monitor
 	I want to be told the status of the api
 
 Scenario: Checking Api is running correctly

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ using SFA.DAS.ApprenticeCommitments.Api.Authentication;
 using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Configuration;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using SFA.DAS.ApprenticeCommitments.Extensions;
 using SFA.DAS.ApprenticeCommitments.Infrastructure;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.UnitOfWork.EntityFrameworkCore.DependencyResolution.Microsoft;
@@ -31,7 +33,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables();
 
-            if (!ConfigurationIsAcceptanceTest())
+            if (!Configuration.IsAcceptanceTest())
             {
                 config.AddAzureTableStorage(options =>
                 {
@@ -40,10 +42,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                     options.EnvironmentName = configuration["EnvironmentName"];
                     options.PreFixConfigurationKeys = false;
                 });
-            }
 #if DEBUG
-            config.AddJsonFile($"appsettings.Development.json", optional: true);
+                config.AddJsonFile($"appsettings.Development.json", optional: true);
 #endif
+            }
+
             Configuration = config.Build();
         }
 
@@ -60,7 +63,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.Configure<AzureActiveDirectoryConfiguration>(Configuration.GetSection("AzureAd"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<AzureActiveDirectoryConfiguration>>().Value);
 
-            if (!ConfigurationIsLocalAcceptanceOrDev())
+            if (!Configuration.IsLocalAcceptanceOrDev())
             {
                 var azureAdConfiguration = Configuration
                     .GetSection("AzureAd")
@@ -72,16 +75,34 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.AddOptions();
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-            services.AddEntityFrameworkForApprenticeCommitments()
+            if (Configuration.IsAcceptanceTest())
+            {
+                services.AddEntityFrameworkSqlite();
+            }
+
+            services.AddEntityFrameworkForApprenticeCommitments(Configuration)
                 .AddEntityFrameworkUnitOfWork<ApprenticeCommitmentsDbContext>()
                 .AddNServiceBusClientUnitOfWork();
+
+            //if (Configuration.IsAcceptanceTest())
+            //{
+            //    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlite(Configuration["ApplicationSettings:DbConnectionString"]);
+            //    var dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
+
+            //    dbContext.Registrations.Add(new Registration
+            //        { ApprenticeshipId = 100, Email = "paul@1222", Id = Guid.NewGuid() });
+            //    dbContext.SaveChanges();
+            //}
+
+
+
 
             services.AddServicesForApprenticeCommitments();
 
             services
                 .AddMvc(o =>
                 {
-                    if (!ConfigurationIsLocalAcceptanceOrDev())
+                    if (!Configuration.IsLocalAcceptanceOrDev())
                     {
                         o.Filters.Add(new AuthorizeFilter(PolicyNames.Default));
                     }
@@ -119,18 +140,5 @@ namespace SFA.DAS.ApprenticeCommitments.Api
         {
             serviceProvider.StartNServiceBus(Configuration).GetAwaiter().GetResult();
         }
-
-        private bool ConfigurationIsAcceptanceTest()
-        {
-            return Configuration["EnvironmentName"].Equals("ACCEPTANCE_TESTS", StringComparison.CurrentCultureIgnoreCase);
-        }
-
-        private bool ConfigurationIsLocalAcceptanceOrDev()
-        {
-            return Configuration["EnvironmentName"].Equals("LOCAL", StringComparison.CurrentCultureIgnoreCase) ||
-                   Configuration["EnvironmentName"].Equals("ACCEPTANCE_TESTS", StringComparison.CurrentCultureIgnoreCase) ||
-                   Configuration["EnvironmentName"].Equals("DEV", StringComparison.CurrentCultureIgnoreCase);
-        }
-
     }
 }
