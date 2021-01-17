@@ -29,7 +29,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
                     { "ApplicationSettings:DbConnectionString", _context.DatabaseConnectionString }
                 };
 
-
                 Factory = new LocalWebApplicationFactory<Startup>(config);
                 Client = Factory.CreateClient();
             }
@@ -37,5 +36,4 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
             _context.Api = Client;
         }
     }
-
 }

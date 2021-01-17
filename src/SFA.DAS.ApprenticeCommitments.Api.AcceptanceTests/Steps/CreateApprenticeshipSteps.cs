@@ -45,14 +45,14 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _response = await _context.Api.PostValueAsync("apprenticeships", _createApprenticeshipRequest);
         }
 
-        [Then(@"the result should be return bad request")]
-        public void ThenTheResultShouldBeReturnBadRequest()
+        [Then(@"the result should return bad request")]
+        public void ThenTheResultShouldReturnBadRequest()
         {
             _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Then(@"the result should be return accepted")]
-        public void ThenTheResultShouldBeReturnAccepted()
+        [Then(@"the result should return accepted")]
+        public void ThenTheResultShouldReturnAccepted()
         {
             _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         }

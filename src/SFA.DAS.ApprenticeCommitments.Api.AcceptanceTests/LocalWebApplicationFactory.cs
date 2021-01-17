@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SFA.DAS.ApprenticeCommitments.Configuration;
+using SFA.DAS.UnitOfWork.Managers;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
 {
@@ -20,6 +20,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
             builder.ConfigureServices(s =>
             {
                 s.AddEntityFrameworkSqlite();
+                s.AddTransient<IUnitOfWorkManager, FakeUnitOfWorkManager>();
             });
 
             builder.ConfigureAppConfiguration(a =>
@@ -27,7 +28,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
                 a.Sources.Clear();
                 a.AddInMemoryCollection(_config);
             });
-            builder.UseEnvironment("AcceptanceTests");
+            builder.UseEnvironment("LOCAL");
         }
     }
 }

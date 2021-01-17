@@ -26,7 +26,6 @@ using SFA.DAS.NServiceBus.SqlServer.Configuration;
 using SFA.DAS.NServiceBus.SqlServer.Data;
 using SFA.DAS.UnitOfWork.Context;
 using SFA.DAS.UnitOfWork.NServiceBus.Configuration;
-using SFA.DAS.ApprenticeCommitments.Extensions;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 {

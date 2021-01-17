@@ -9,22 +9,22 @@ namespace SFA.DAS.ApprenticeCommitments.Extensions
     {
         public static DbContextOptionsBuilder<TContext> UseDataStorage<TContext>(this DbContextOptionsBuilder<TContext> builder, IConfiguration config, string connection) where TContext : DbContext
         {
-            if (!config.IsAcceptanceTest())
+            if (config.IsAcceptanceTest())
             {
-                return builder.UseSqlServer(connection);
+                return builder.UseSqlite(connection);
             }
 
-            return builder.UseSqlite(connection);
+            return builder.UseSqlServer(connection);
         }
 
         public static DbContextOptionsBuilder<TContext> UseDataStorage<TContext>(this DbContextOptionsBuilder<TContext> builder, IConfiguration config, DbConnection connection) where TContext : DbContext
         {
-            if (!config.IsAcceptanceTest())
+            if (config.IsAcceptanceTest())
             {
-                return builder.UseSqlServer(connection);
+                return builder.UseSqlite(connection);
             }
 
-            return builder.UseSqlite(connection);
+            return builder.UseSqlServer(connection);
         }
     }
 }

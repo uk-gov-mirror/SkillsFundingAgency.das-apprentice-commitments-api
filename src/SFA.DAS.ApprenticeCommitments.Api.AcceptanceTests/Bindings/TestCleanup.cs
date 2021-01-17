@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
 {
@@ -12,10 +11,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
             _context = context;
         }
 
-        [AfterScenario()]
-        public void CleanUp()
+        [AfterFeature()]
+        public static void CleanUpFeature()
         {
-            _context?.Dispose();
+            Api.Client?.Dispose();
+            Api.Client = null;
         }
     }
 }

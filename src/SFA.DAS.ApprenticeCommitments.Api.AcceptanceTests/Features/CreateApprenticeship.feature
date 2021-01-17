@@ -1,5 +1,4 @@
-﻿@database
-@api
+﻿@api
 
 Feature: CreateApprenticeship
 	As a application user
@@ -8,9 +7,9 @@ Feature: CreateApprenticeship
 Scenario: Trying to create an apprenticeship with invalid values
 	Given we have an invalid apprenticeship request
 	When the apprenticeship is posted
-	Then the result should be return bad request
+	Then the result should return bad request
 
 Scenario: Trying to create an apprenticeship with valid values
 	Given we have a valid apprenticeship request
 	When the apprenticeship is posted
-	Then the result should be return accepted
+	Then the result should return accepted

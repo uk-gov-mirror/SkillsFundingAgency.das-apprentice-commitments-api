@@ -75,27 +75,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             services.AddOptions();
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-            if (Configuration.IsAcceptanceTest())
-            {
-                services.AddEntityFrameworkSqlite();
-            }
-
             services.AddEntityFrameworkForApprenticeCommitments(Configuration)
                 .AddEntityFrameworkUnitOfWork<ApprenticeCommitmentsDbContext>()
                 .AddNServiceBusClientUnitOfWork();
-
-            //if (Configuration.IsAcceptanceTest())
-            //{
-            //    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlite(Configuration["ApplicationSettings:DbConnectionString"]);
-            //    var dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
-
-            //    dbContext.Registrations.Add(new Registration
-            //        { ApprenticeshipId = 100, Email = "paul@1222", Id = Guid.NewGuid() });
-            //    dbContext.SaveChanges();
-            //}
-
-
-
 
             services.AddServicesForApprenticeCommitments();
 
