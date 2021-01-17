@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Newtonsoft.Json;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
 {
@@ -39,6 +37,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
             Response = await Client.DeleteAsync(url);
         }
 
+        public async Task Get(string url)
+        {
+            Response = await Client.GetAsync(url);
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -52,7 +55,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
             if (disposing)
             {
                 Response?.Dispose();
-                Client.Dispose();
             }
 
             isDisposed = true;

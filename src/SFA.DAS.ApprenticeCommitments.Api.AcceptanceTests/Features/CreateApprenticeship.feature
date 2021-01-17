@@ -8,6 +8,7 @@ Scenario: Trying to create an apprenticeship with invalid values
 	Given we have an invalid apprenticeship request
 	When the apprenticeship is posted
 	Then the result should return bad request
+	And the content should contain error list
 
 Scenario: Trying to create an apprenticeship with valid values
 	Given we have a valid apprenticeship request

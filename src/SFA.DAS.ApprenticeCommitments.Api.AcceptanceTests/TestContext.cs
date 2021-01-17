@@ -12,7 +12,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
             isDisposed = false;
             DatabaseConnectionString = "Data Source=InMemoryDb;Mode=Memory;Cache=Shared";
         }
-        public HttpClient Api { get; set; }
+        public ApprenticeCommitmentsApi Api { get; set; }
         public string DatabaseConnectionString { get; set; }
 
         public void Dispose()
@@ -27,6 +27,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
 
             if (disposing)
             {
+                Api?.Dispose();
             }
 
             isDisposed = true;

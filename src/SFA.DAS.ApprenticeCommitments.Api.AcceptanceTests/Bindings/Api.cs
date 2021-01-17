@@ -8,7 +8,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
     [Scope(Tag = "api")]
     public class Api
     {
-        public static HttpClient Client { get; set; }
+        public static ApprenticeCommitmentsApi Client { get; set; }
         public static LocalWebApplicationFactory<Startup> Factory { get; set; }
 
         private readonly TestContext _context;
@@ -30,7 +30,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
                 };
 
                 Factory = new LocalWebApplicationFactory<Startup>(config);
-                Client = Factory.CreateClient();
+                Client = new ApprenticeCommitmentsApi(Factory.CreateClient());
             }
 
             _context.Api = Client;

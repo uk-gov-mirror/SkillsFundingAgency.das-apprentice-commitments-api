@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Newtonsoft.Json;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 using TechTalk.SpecFlow;
 
@@ -14,7 +16,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
     {
         private readonly TestContext _context;
         private CreateRegistrationCommand _createApprenticeshipRequest; 
-        private HttpResponseMessage _response;
 
         public CreateApprenticeshipSteps(TestContext context)
         {
@@ -38,23 +39,32 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             };
         }
 
-
         [When(@"the apprenticeship is posted")]
         public async Task WhenTheApprenticeshipIsPosted()
         {
-            _response = await _context.Api.PostValueAsync("apprenticeships", _createApprenticeshipRequest);
+            await _context.Api.Post("apprenticeships", _createApprenticeshipRequest);
         }
 
         [Then(@"the result should return bad request")]
         public void ThenTheResultShouldReturnBadRequest()
         {
-            _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Then(@"the content should contain error list")]
+        public async Task ThenTheContentShouldContainErrorList()
+        {
+            var content = await _context.Api.Response.Content.ReadAsStringAsync();
+
+            var errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+            errors.Count.Should().BeGreaterOrEqualTo(1);
+        }
+
 
         [Then(@"the result should return accepted")]
         public void ThenTheResultShouldReturnAccepted()
         {
-            _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+            _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         }
     }
 }
