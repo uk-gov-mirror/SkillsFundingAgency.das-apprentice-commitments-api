@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SFA.DAS.ApprenticeCommitments.Api.Types;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
