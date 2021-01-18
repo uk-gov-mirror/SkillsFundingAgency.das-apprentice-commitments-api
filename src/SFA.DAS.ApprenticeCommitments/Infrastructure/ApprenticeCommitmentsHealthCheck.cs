@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Threading.Tasks;
 using System.Threading;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 {
-    class ApprenticeCommitmentsHealthCheck : IHealthCheck
+    public class ApprenticeCommitmentsHealthCheck : IHealthCheck
     {
         private const string HealthCheckResultsDescription = "Apprentice Commitments API Health Check";
 
@@ -18,7 +16,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
         public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(HealthCheckResult.Healthy(HealthCheckResultsDescription)); //, new Dictionary<string, object>());
         }
     }
 }
