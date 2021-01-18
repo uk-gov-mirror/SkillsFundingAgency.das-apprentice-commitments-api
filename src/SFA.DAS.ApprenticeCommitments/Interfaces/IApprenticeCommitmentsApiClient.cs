@@ -4,8 +4,8 @@ using System.Text;
 
 namespace SFA.DAS.ApprenticeCommitments.Interfaces
 {
-    public interface IApprenticeCommitmentsApiClient : IInternalApiClient<T>
-    {
+    //public interface IApprenticeCommitmentsApiClient : IInternalApiClient<T>
+    //{
 
-    }
+    //}
 }
