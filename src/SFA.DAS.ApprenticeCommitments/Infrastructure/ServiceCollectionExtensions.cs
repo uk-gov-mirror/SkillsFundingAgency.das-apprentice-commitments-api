@@ -78,12 +78,12 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                 .UseServicesBuilder(serviceProvider)
                 .UseSqlServerPersistence(() =>
                 {
-                    if (!configuration.IsAcceptanceTest())
+                    if (configuration.IsAcceptanceTest())
                     {
-                        return new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]);
+                        return new SqliteConnection(configuration["ApplicationSettings:DbConnectionString"]);
                     }
 
-                    return new SqliteConnection(configuration["ApplicationSettings:DbConnectionString"]);
+                    return new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]);
                 })
                 .UseUnitOfWork();
 

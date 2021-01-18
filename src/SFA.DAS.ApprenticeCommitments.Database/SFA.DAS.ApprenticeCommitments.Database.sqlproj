@@ -60,5 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Registration.sql" />
+    <Build Include="Tables\ClientOutboxData.sql" />
+    <Build Include="Tables\OutboxData.sql" />
   </ItemGroup>
 </Project>
