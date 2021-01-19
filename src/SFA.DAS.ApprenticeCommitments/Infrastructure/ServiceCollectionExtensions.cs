@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +13,7 @@ using NServiceBus.Persistence;
 using SFA.DAS.ApprenticeCommitments.Configuration;
 using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using SFA.DAS.ApprenticeCommitments.Extensions;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
 using SFA.DAS.NServiceBus.Configuration;
 using SFA.DAS.NServiceBus.Configuration.AzureServiceBus;
@@ -37,28 +37,32 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
 
             services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+            services.AddTransient<IConnectionFactory, SqlServerConnectionFactory>();
 
             return services;
         }
 
-        public static IServiceCollection AddEntityFrameworkForApprenticeCommitments(this IServiceCollection services)
+        public static IServiceCollection AddEntityFrameworkForApprenticeCommitments(this IServiceCollection services, IConfiguration config)
         {
+
             return services.AddScoped(p =>
             {
                 var unitOfWorkContext = p.GetService<IUnitOfWorkContext>();
+                var connectionFactory = p.GetService<IConnectionFactory>();
+
                 ApprenticeCommitmentsDbContext dbContext;
                 try
                 {
                     var synchronizedStorageSession = unitOfWorkContext.Get<SynchronizedStorageSession>();
                     var sqlStorageSession = synchronizedStorageSession.GetSqlStorageSession();
-                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlServer(sqlStorageSession.Connection);
+                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, sqlStorageSession.Connection);
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                     dbContext.Database.UseTransaction(sqlStorageSession.Transaction);
                 }
                 catch (KeyNotFoundException)
                 {
                     var settings = p.GetService<IOptions<ApplicationSettings>>().Value;
-                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlServer(settings.DbConnectionString);
+                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, settings.DbConnectionString);
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                 }
 
@@ -68,15 +72,18 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
         public static async Task<UpdateableServiceProvider> StartNServiceBus(this UpdateableServiceProvider serviceProvider, IConfiguration configuration)
         {
+
+            var connectionFactory = serviceProvider.GetService<IConnectionFactory>();
+
             var endpointConfiguration = new EndpointConfiguration("SFA.DAS.ApprenticeCommitments.Api")
                 .UseMessageConventions()
                 .UseNewtonsoftJsonSerializer()
                 .UseOutbox(true)
                 .UseServicesBuilder(serviceProvider)
-                .UseSqlServerPersistence(() => new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]))
+                .UseSqlServerPersistence(() => connectionFactory.CreateConnection(configuration["ApplicationSettings:DbConnectionString"]))
                 .UseUnitOfWork();
 
-            if (configuration["ApplicationSettings:NServiceBusConnectionString"].Equals("UseLearningEndpoint=true", StringComparison.CurrentCultureIgnoreCase) || string.IsNullOrEmpty(configuration["ApplicationSettings:NServiceBusConnectionString"]))
+            if (UseLearningTransport(configuration))
             {
                 endpointConfiguration.UseTransport<LearningTransport>();
             }
@@ -98,5 +105,10 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
             return serviceProvider;
         }
+
+        private static bool UseLearningTransport(IConfiguration configuration) =>
+            string.IsNullOrEmpty(configuration["ApplicationSettings:NServiceBusConnectionString"]) ||
+            configuration["ApplicationSettings:NServiceBusConnectionString"].Equals("UseLearningEndpoint=true",
+                StringComparison.CurrentCultureIgnoreCase);
     }
 }
