@@ -18,12 +18,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
         public DbContextOptionsBuilder<TContext> AddConnection<TContext>(DbContextOptionsBuilder<TContext> builder, string connection) where TContext : DbContext
         {
-            var sqlConnection = new SqlConnection(connection)
-            {
-                AccessToken = GetAccessToken(),
-            };
-
-            return builder.UseSqlServer(sqlConnection);
+            return builder.UseSqlServer(CreateConnection(connection));
         }
 
         public DbContextOptionsBuilder<TContext> AddConnection<TContext>(DbContextOptionsBuilder<TContext> builder, DbConnection connection) where TContext : DbContext
