@@ -66,8 +66,5 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
             var result = _sut.AddConnection(_dbContextOptionsBuilder, existingConnection);
             result.Should().Be(_dbContextOptionsBuilder);
         }
-
-
-
     }
 }
