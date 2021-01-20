@@ -31,7 +31,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
         [Test]
         public void Then_CreateConnection_should_accept_a_connection_string()
         {
-            _configurationMock.Setup(x => x[It.IsAny<string>()]).Returns("LIVE");
+            _configurationMock.Setup(x => x[It.IsAny<string>()]).Returns("PROD");
 
             var dbConnection = _sut.CreateConnection(_connectionString);
             dbConnection.Should().NotBeNull();
