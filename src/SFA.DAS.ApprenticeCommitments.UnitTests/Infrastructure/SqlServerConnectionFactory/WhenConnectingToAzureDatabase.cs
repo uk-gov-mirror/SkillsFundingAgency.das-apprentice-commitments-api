@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using SFA.DAS.ApprenticeCommitments.Infrastructure;
 
 namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnectionFactory
 {
@@ -11,6 +12,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
     {
         private ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory _sut;
         private Mock<IConfiguration> _configurationMock;
+        private Mock<IManagedIdentityTokenProvider> _managedIdentityTokenProviderMock;
         private DbContextOptionsBuilder<ApprenticeCommitmentsDbContext> _dbContextOptionsBuilder;
         private string _connectionString;
 
@@ -18,8 +20,11 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
         public void Arrange()
         {
             _configurationMock = new Mock<IConfiguration>();
+            _managedIdentityTokenProviderMock = new Mock<IManagedIdentityTokenProvider>();
+            _managedIdentityTokenProviderMock.Setup(x => x.GetSqlAccessTokenAsync()).ReturnsAsync("TOKEN");
             _dbContextOptionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>();
-            _sut = new ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory(_configurationMock.Object);
+
+            _sut = new ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory(_configurationMock.Object, _managedIdentityTokenProviderMock.Object);
             _connectionString = "Data Source=someserver;Initial Catalog=DummyDatabase;Integrated Security=False";
         }
 
@@ -30,6 +35,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
 
             var dbConnection = _sut.CreateConnection(_connectionString);
             dbConnection.Should().NotBeNull();
+            _managedIdentityTokenProviderMock.Verify(x=>x.GetSqlAccessTokenAsync());
         }
 
         [Test]
@@ -39,6 +45,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
 
             var result = _sut.AddConnection(_dbContextOptionsBuilder, _connectionString);
             result.Should().Be(_dbContextOptionsBuilder);
+            _managedIdentityTokenProviderMock.Verify(x => x.GetSqlAccessTokenAsync());
         }
     }
 }

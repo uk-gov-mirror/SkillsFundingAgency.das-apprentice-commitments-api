@@ -10,10 +10,12 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
     public class SqlServerConnectionFactory : IConnectionFactory
     {
         private readonly IConfiguration _configuration;
+        private readonly IManagedIdentityTokenProvider _managedIdentityTokenProvider;
 
-        public SqlServerConnectionFactory(IConfiguration configuration)
+        public SqlServerConnectionFactory(IConfiguration configuration, IManagedIdentityTokenProvider managedIdentityTokenProvider)
         {
             _configuration = configuration;
+            _managedIdentityTokenProvider = managedIdentityTokenProvider;
         }
 
         public DbContextOptionsBuilder<TContext> AddConnection<TContext>(DbContextOptionsBuilder<TContext> builder, string connection) where TContext : DbContext
@@ -43,8 +45,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                 return null;
             }
 
-            return new AzureServiceTokenProvider()
-                .GetAccessTokenAsync("https://database.windows.net/")
+            return _managedIdentityTokenProvider.GetSqlAccessTokenAsync()
                 .GetAwaiter().GetResult();
         }
     }

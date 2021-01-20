@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data.Common;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using SFA.DAS.ApprenticeCommitments.Infrastructure;
 
 namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnectionFactory
 {
@@ -14,6 +13,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
     {
         private ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory _sut;
         private Mock<IConfiguration> _configurationMock;
+        private Mock<IManagedIdentityTokenProvider> _managedIdentityTokenProviderMock;
         private DbContextOptionsBuilder<ApprenticeCommitmentsDbContext> _dbContextOptionsBuilder;
         private string _connectionString;
 
@@ -21,8 +21,11 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
         public void Arrange()
         {
             _configurationMock = new Mock<IConfiguration>();
+            _managedIdentityTokenProviderMock = new Mock<IManagedIdentityTokenProvider>();
             _dbContextOptionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>();
-            _sut = new ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory(_configurationMock.Object);
+            _managedIdentityTokenProviderMock.Setup(x => x.GetSqlAccessTokenAsync()).ReturnsAsync("TOKEN");
+
+            _sut = new ApprenticeCommitments.Infrastructure.SqlServerConnectionFactory(_configurationMock.Object, _managedIdentityTokenProviderMock.Object);
             _connectionString = "Data Source=(localdb);Initial Catalog=DummyDatabase;Integrated Security=True";
         }
 
@@ -35,17 +38,8 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
 
             var dbConnection = _sut.CreateConnection(_connectionString);
             dbConnection.Should().NotBeNull();
+            _managedIdentityTokenProviderMock.Verify(x=>x.GetSqlAccessTokenAsync(), Times.Never);
         }
-
-        [Test]
-        public void Then_CreateConnection_should_throw_exception_because_connection_string_contains_integrated_security()
-        {
-            _configurationMock.Setup(x => x[It.IsAny<string>()]).Returns("TEST");
-
-            Func<DbConnection> func = () => _sut.CreateConnection(_connectionString);
-            func.Should().Throw<Exception>();
-        }
-
 
         [TestCase("LOCAL")]
         [TestCase("ACCEPTANCE_TESTS")]
@@ -56,6 +50,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
 
             var result = _sut.AddConnection(_dbContextOptionsBuilder, _connectionString);
             result.Should().Be(_dbContextOptionsBuilder);
+            _managedIdentityTokenProviderMock.Verify(x => x.GetSqlAccessTokenAsync(), Times.Never);
         }
 
         [Test]
@@ -65,6 +60,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Infrastructure.SqlServerConnec
 
             var result = _sut.AddConnection(_dbContextOptionsBuilder, existingConnection);
             result.Should().Be(_dbContextOptionsBuilder);
+            _managedIdentityTokenProviderMock.Verify(x => x.GetSqlAccessTokenAsync(), Times.Never);
         }
     }
 }
