@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using MediatR.Extensions.FluentValidation.AspNetCore;
-using Microsoft.Data.SqlClient;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +36,8 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             services.AddFluentValidation(new[] { typeof(UnitOfWorkPipelineBehavior<,>).Assembly });
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnitOfWorkPipelineBehavior<,>));
 
+            services.AddSingleton<IManagedIdentityTokenProvider, ManagedIdentityTokenProvider>();
+            services.AddTransient<IConnectionFactory, SqlServerConnectionFactory>();
             services.AddTransient<IRegistrationRepository, RegistrationRepository>();
 
             return services;
@@ -49,19 +49,21 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             return services.AddScoped(p =>
             {
                 var unitOfWorkContext = p.GetService<IUnitOfWorkContext>();
+                var connectionFactory = p.GetService<IConnectionFactory>();
+
                 ApprenticeCommitmentsDbContext dbContext;
                 try
                 {
                     var synchronizedStorageSession = unitOfWorkContext.Get<SynchronizedStorageSession>();
                     var sqlStorageSession = synchronizedStorageSession.GetSqlStorageSession();
-                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(config, sqlStorageSession.Connection);
+                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, sqlStorageSession.Connection);
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                     dbContext.Database.UseTransaction(sqlStorageSession.Transaction);
                 }
                 catch (KeyNotFoundException)
                 {
                     var settings = p.GetService<IOptions<ApplicationSettings>>().Value;
-                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(config, settings.DbConnectionString);
+                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, settings.DbConnectionString);
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                 }
 
@@ -71,20 +73,15 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 
         public static async Task<UpdateableServiceProvider> StartNServiceBus(this UpdateableServiceProvider serviceProvider, IConfiguration configuration)
         {
+
+            var connectionFactory = serviceProvider.GetService<IConnectionFactory>();
+
             var endpointConfiguration = new EndpointConfiguration("SFA.DAS.ApprenticeCommitments.Api")
                 .UseMessageConventions()
                 .UseNewtonsoftJsonSerializer()
                 .UseOutbox(true)
                 .UseServicesBuilder(serviceProvider)
-                .UseSqlServerPersistence(() =>
-                {
-                    if (configuration.IsAcceptanceTest())
-                    {
-                        return new SqliteConnection(configuration["ApplicationSettings:DbConnectionString"]);
-                    }
-
-                    return new SqlConnection(configuration["ApplicationSettings:DbConnectionString"]);
-                })
+                .UseSqlServerPersistence(() => connectionFactory.CreateConnection(configuration["ApplicationSettings:DbConnectionString"]))
                 .UseUnitOfWork();
 
             if (UseLearningTransport(configuration))
