@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Threading.Tasks;
 using System.Threading;
-using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Data;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure
@@ -16,9 +15,19 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             _registrationRepository = registrationRepository;
         }
 
-        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(HealthCheckResult.Healthy(HealthCheckResultsDescription)); //, new Dictionary<string, object>());
+            var dbGood = true;
+            try
+            {
+                await _registrationRepository.IsGood();
+            }
+            catch
+            {
+                dbGood = false;
+            }
+
+            return dbGood ? HealthCheckResult.Healthy(HealthCheckResultsDescription) : HealthCheckResult.Unhealthy(HealthCheckResultsDescription) ;
         }
     }
 }
