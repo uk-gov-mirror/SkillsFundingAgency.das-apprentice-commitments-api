@@ -1,10 +1,10 @@
-using System;
 using System.IO;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -57,7 +57,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api
         {
             services.AddControllers();
             services.AddApplicationInsightsTelemetry();
-            services.AddHealthChecks();
             services.AddSwaggerGen();
 
             services.Configure<AzureActiveDirectoryConfiguration>(Configuration.GetSection("AzureAd"));
@@ -80,6 +79,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 .AddNServiceBusClientUnitOfWork();
 
             services.AddServicesForApprenticeCommitments();
+
+            services.AddHealthChecks()
+                .AddCheck<ApprenticeCommitmentsHealthCheck>(nameof(ApprenticeCommitmentsHealthCheck));
 
             services
                 .AddMvc(o =>
@@ -111,6 +113,25 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UseHealthChecks("/health", new HealthCheckOptions
+            {
+                ResponseWriter = (c, r) => c.Response.WriteJsonAsync(new
+                {
+                    r.Status,
+                    r.TotalDuration,
+                    Results = r.Entries.ToDictionary(
+                        e => e.Key,
+                        e => new
+                        {
+                            e.Value.Status,
+                            e.Value.Duration,
+                            e.Value.Description,
+                            e.Value.Data
+                        })
+                })
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
