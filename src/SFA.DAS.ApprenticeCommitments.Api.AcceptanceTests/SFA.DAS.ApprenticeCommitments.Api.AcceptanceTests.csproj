@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SpecFlowObsoleteCodeBehindFiles Remove="Features\CreateApprenticeship - Copy.feature.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
@@ -25,5 +30,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SFA.DAS.ApprenticeCommitments.Api\SFA.DAS.ApprenticeCommitments.Api.csproj" />
   </ItemGroup>
-
 </Project>

@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeCommitmen
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SFA.DAS.ApprenticeCommitments.Database", "SFA.DAS.ApprenticeCommitments.Database\SFA.DAS.ApprenticeCommitments.Database.sqlproj", "{B6B93323-3C9F-49A6-AC88-3E8349AC6CC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ApprenticeCommitments.UnitTests", "SFA.DAS.ApprenticeCommitments.UnitTests\SFA.DAS.ApprenticeCommitments.UnitTests.csproj", "{FE038EE1-0BD0-4656-B99F-A6521592E93A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeCommitments.UnitTests", "SFA.DAS.ApprenticeCommitments.UnitTests\SFA.DAS.ApprenticeCommitments.UnitTests.csproj", "{FE038EE1-0BD0-4656-B99F-A6521592E93A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests", "SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests\SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.csproj", "{BF3987A0-6CD3-488F-975D-C2A19EFC7566}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests", "SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests\SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.csproj", "{BF3987A0-6CD3-488F-975D-C2A19EFC7566}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A2B47042-B11E-4BF3-B35D-6615A7705174}"
 EndProject
