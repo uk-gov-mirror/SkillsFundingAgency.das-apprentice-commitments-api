@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using SFA.DAS.ApprenticeCommitments.Models;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
@@ -7,5 +8,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data
     {
         public Task Add(RegistrationModel model);
         public Task<bool> RegistrationsExist();
+        public Task<RegistrationModel> Get(Guid registrationId);
     }
 }

@@ -14,5 +14,15 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 Email = registrationModel.Email
             };
         }
+
+        public static RegistrationModel MapToRegistrationModel(this Registration registration)
+        {
+            return new RegistrationModel
+            {
+                Id = registration.Id,
+                ApprenticeshipId = registration.ApprenticeshipId,
+                Email = registration.Email
+            };
+        }
     }
 }
