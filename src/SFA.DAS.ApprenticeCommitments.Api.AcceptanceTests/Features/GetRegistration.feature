@@ -24,3 +24,4 @@ Scenario: Trying to get a registration with an empty Id
 	Given there is an empty registration
 	When we try to retrieve the registration
 	Then the result should return bad request
+	And the error must be say registration must be valid

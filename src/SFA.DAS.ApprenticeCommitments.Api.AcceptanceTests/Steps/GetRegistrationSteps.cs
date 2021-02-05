@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -81,6 +82,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheResultShouldReturnBadRequest()
         {
             _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Then(@"the error must be say registration must be valid")]
+        public async Task ThenTheErrorMustBeSayRegistrationMustBeValid()
+        {
+            var content = await _context.Api.Response.Content.ReadAsStringAsync();
+            content.Should().NotBeNull();
+            var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+            response.Count.Should().Be(1);
+            response["RegistrationId"].Should().Be("The Registration Id must be valid");
         }
     }
 }
