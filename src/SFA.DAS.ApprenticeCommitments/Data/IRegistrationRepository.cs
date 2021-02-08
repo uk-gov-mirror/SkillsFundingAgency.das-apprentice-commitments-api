@@ -9,5 +9,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         public Task Add(RegistrationModel model);
         public Task<bool> RegistrationsExist();
         public Task<RegistrationModel> Get(Guid registrationId);
+        public Task CompleteRegistration(Guid registrationId, long apprenticeId, Guid userId);
     }
 }

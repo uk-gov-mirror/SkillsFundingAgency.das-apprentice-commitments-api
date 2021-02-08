@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Exceptions;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
 {
@@ -26,6 +27,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
                     {
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         await context.Response.WriteAsync(CreateErrorResponse(ex.Errors));
+                    }
+                    else if (contextFeature.Error is DomainException domainException)
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        await context.Response.WriteAsync(CreateErrorResponse(domainException.Message));
                     }
                     else
                     {
@@ -46,5 +52,12 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
             var errorList = errors.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
             return JsonConvert.SerializeObject(errorList, Formatting.Indented);
         }
+
+        private static string CreateErrorResponse(string error)
+        {
+            var errorList = new Dictionary<string, string> {{"", error}};
+            return JsonConvert.SerializeObject(errorList, Formatting.Indented);
+        }
+
     }
 }

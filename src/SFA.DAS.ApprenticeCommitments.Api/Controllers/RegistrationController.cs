@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
@@ -26,6 +27,14 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
                 return NotFound();
             }
             return new OkObjectResult(response);
+        }
+
+        [HttpPost("registrations")]
+        public async Task<IActionResult> VerifiedRegistration(VerifyRegistrationCommand command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
         }
     }
 }

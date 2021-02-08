@@ -14,6 +14,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         }
 
         public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<Apprentice> Apprentices { get; set; }
+        public virtual DbSet<Apprenticeship> Apprenticeships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
