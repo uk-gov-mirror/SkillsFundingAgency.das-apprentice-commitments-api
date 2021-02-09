@@ -12,7 +12,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 Id = apprenticeModel.Id ?? 0,
                 FirstName = apprenticeModel.FirstName,
                 LastName = apprenticeModel.LastName,
-                UserId = apprenticeModel.UserId,
+                UserIdentityId = apprenticeModel.UserIdentityId,
                 Email = apprenticeModel.Email,
                 DateOfBirth = apprenticeModel.DateOfBirth
             };
@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 Id = apprentice.Id,
                 FirstName = apprentice.FirstName,
                 LastName = apprentice.LastName,
-                UserId = apprentice.UserId,
+                UserIdentityId = apprentice.UserIdentityId,
                 Email = apprentice.Email,
                 DateOfBirth = apprentice.DateOfBirth
             };

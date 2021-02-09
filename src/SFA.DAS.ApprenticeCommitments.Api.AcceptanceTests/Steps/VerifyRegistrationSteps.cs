@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using AutoFixture;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
@@ -37,7 +35,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _registration = _f.Build<Registration>()
                 .Without(p => p.ApprenticeId)
-                .Without(p => p.UserId)
+                .Without(p => p.UserIdentityId)
                 .With(p => p.Email, _email).Create();
 
             _context.DbContext.Registrations.Add(_registration);
@@ -95,13 +93,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the apprentice record is created")]
         public void ThenTheApprenticeRecordIsCreated()
         {
-            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x=>x.UserId == _command.UserId);
+            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x=>x.UserIdentityId == _command.UserIdentityId);
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
             apprentice.Email.Should().Be(_email);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
-            apprentice.UserId.Should().Be(_command.UserId);
+            apprentice.UserIdentityId.Should().Be(_command.UserIdentityId);
             _apprenticeId = apprentice.Id;
         }
 
@@ -116,8 +114,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheRegistrationHasBeenMarkedAsCompleted()
         {
             var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.Id == _registration.Id);
-            registration.UserId.Should().NotBeNull();
-            registration.UserId.Should().Be(_command.UserId);
+            registration.UserIdentityId.Should().NotBeNull();
+            registration.UserIdentityId.Should().Be(_command.UserIdentityId);
             registration.ApprenticeId.Should().Be(_apprenticeId);
         }
 
@@ -153,7 +151,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
             errors.Count(x => x.PropertyName == "RegistrationId").Should().Be(1);
-            errors.Count(x => x.PropertyName == "UserId").Should().Be(1);
+            errors.Count(x => x.PropertyName == "UserIdentityId").Should().Be(1);
             errors.Count(x => x.PropertyName == "FirstName").Should().Be(1);
             errors.Count(x => x.PropertyName == "LastName").Should().Be(1);
             errors.Count(x => x.PropertyName == "DateOfBirth").Should().Be(1);

@@ -39,7 +39,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             var apprentice = await AddApprentice(command);
             await AddApprenticeship(apprentice.Id.Value, registration);
 
-            await _registrationRepository.CompleteRegistration(registration.Id, apprentice.Id.Value, command.UserId);
+            await _registrationRepository.CompleteRegistration(registration.Id, apprentice.Id.Value, command.UserIdentityId);
 
             return Unit.Value;
         }
@@ -60,7 +60,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = command.Email,
-                UserId = command.UserId,
+                UserIdentityId = command.UserIdentityId,
                 DateOfBirth = command.DateOfBirth
             };
 

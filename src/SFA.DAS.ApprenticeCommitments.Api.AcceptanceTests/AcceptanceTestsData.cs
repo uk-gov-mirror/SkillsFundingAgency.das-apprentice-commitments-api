@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
                         Id uniqueidentifier NOT NULL PRIMARY KEY, 
                         ApprenticeshipId INTEGER NOT NULL,
                         Email nvarchar(255) NOT NULL,
-                        UserId uniqueidentifier NULL, 
+                        UserIdentityId uniqueidentifier NULL, 
                         ApprenticeId INTEGER NULL, 
                         CreatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
@@ -37,7 +37,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
                         Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
                         FirstName nvarchar(100) NOT NULL,
                         LastName nvarchar(100) NOT NULL,
-                        UserId uniqueidentifier NOT NULL, 
+                        UserIdentityId uniqueidentifier NOT NULL, 
                         Email nvarchar(255) NOT NULL,
                         DateOfBirth TIMESTAMP NOT NULL
                 );
