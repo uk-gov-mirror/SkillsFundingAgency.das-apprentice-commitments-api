@@ -37,14 +37,16 @@ namespace SFA.DAS.ApprenticeCommitments.Data
 
         public async Task CompleteRegistration(Guid registrationId, long apprenticeId, Guid userId)
         {
-            
             var db = _dbContext.Value;
             var entity = await db.Registrations.FirstOrDefaultAsync(x => x.Id == registrationId);
 
             entity.ApprenticeId = apprenticeId;
             entity.UserId = userId;
 
-            _dbContext.Value.Update(entity);
+            db.Attach(entity);
+            db.Entry(entity).Property(x => x.ApprenticeId).IsModified = true;
+            db.Entry(entity).Property(x => x.UserId).IsModified = true;
+            db.Update(entity);
         }
     }
 }

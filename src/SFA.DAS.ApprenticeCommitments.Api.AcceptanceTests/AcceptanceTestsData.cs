@@ -24,10 +24,36 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
                         Id uniqueidentifier NOT NULL PRIMARY KEY, 
                         ApprenticeshipId INTEGER NOT NULL,
                         Email nvarchar(255) NOT NULL,
+                        UserId uniqueidentifier NULL, 
+                        ApprenticeId INTEGER NULL, 
                         CreatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             ", connection);
             registrationCommand.ExecuteNonQuery();
+
+            using SqliteCommand apprenticeCommand = new SqliteCommand(
+                @"
+                    CREATE TABLE Apprentice(
+                        Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                        FirstName nvarchar(100) NOT NULL,
+                        LastName nvarchar(100) NOT NULL,
+                        UserId uniqueidentifier NOT NULL, 
+                        Email nvarchar(255) NOT NULL,
+                        DateOfBirth TIMESTAMP NOT NULL
+                );
+            ", connection);
+            apprenticeCommand.ExecuteNonQuery();
+
+            using SqliteCommand apprenticeshipCommand = new SqliteCommand(
+                @"
+                    CREATE TABLE Apprenticeship(
+                        Id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+                        ApprenticeId INTEGER NOT NULL,
+                        [CommitmentsApprenticeshipId] INTEGER NOT NULL
+                );
+            ", connection);
+            apprenticeshipCommand.ExecuteNonQuery();
+
 
             using SqliteCommand clientOutBoxDataCommand = new SqliteCommand(
                 @"

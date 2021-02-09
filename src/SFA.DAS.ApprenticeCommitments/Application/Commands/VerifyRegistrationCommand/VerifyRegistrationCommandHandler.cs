@@ -11,10 +11,10 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
     public class VerifyRegistrationCommandHandler : IRequestHandler<VerifyRegistrationCommand>
     {
         private readonly IRegistrationRepository _registrationRepository;
-        private readonly ApprenticeRepository _apprenticeRepository;
-        private readonly ApprenticeshipRepository _apprenticeshipRepository;
+        private readonly IApprenticeRepository _apprenticeRepository;
+        private readonly IApprenticeshipRepository _apprenticeshipRepository;
 
-        public VerifyRegistrationCommandHandler(IRegistrationRepository registrationRepository, ApprenticeRepository apprenticeRepository, ApprenticeshipRepository apprenticeshipRepository)
+        public VerifyRegistrationCommandHandler(IRegistrationRepository registrationRepository, IApprenticeRepository apprenticeRepository, IApprenticeshipRepository apprenticeshipRepository)
         {
             _registrationRepository = registrationRepository;
             _apprenticeRepository = apprenticeRepository;

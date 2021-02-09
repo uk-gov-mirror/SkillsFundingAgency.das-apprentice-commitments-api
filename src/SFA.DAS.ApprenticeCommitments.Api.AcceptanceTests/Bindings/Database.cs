@@ -23,6 +23,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
 
             var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlite(_context.DatabaseConnectionString);
             _context.DbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
+            _context.DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
 
         [AfterScenario()]
