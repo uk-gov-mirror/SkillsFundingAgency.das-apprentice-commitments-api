@@ -38,3 +38,10 @@ Scenario: A registration is submitted with invalid email
 	When we verify that registration
 	Then a bad request is returned
 	And response contains the expected email error message
+
+Scenario: A registration is submitted which does not exist
+	Given we do NOT have an existing registration
+	And a valid registration request is submitted
+	When we verify that registration
+	Then a bad request is returned
+	And response contains the not found error message

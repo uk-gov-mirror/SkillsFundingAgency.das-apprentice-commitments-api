@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using AutoFixture;
@@ -76,6 +77,20 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _command = new VerifyRegistrationCommand();
         }
 
+        [Given(@"we do NOT have an existing registration")]
+        public void GivenWeDoNOTHaveAnExistingRegistration()
+        {
+        }
+
+        [Given(@"a valid registration request is submitted")]
+        public void GivenAValidRegistrationRequestIsSubmitted()
+        {
+            _command = _f.Build<VerifyRegistrationCommand>()
+                .With(p => p.Email, "another@email.com")
+                .With(p => p.RegistrationId, Guid.NewGuid)
+                .Create();
+        }
+
         [Given(@"the verify registration request is valid except email address")]
         public void GivenTheVerifyRegistrationRequestIsValidExceptEmailAddress()
         {
@@ -131,7 +146,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().Be(1);
-            errors[0].PropertyName.Should().BeNull();
+                        errors[0].PropertyName.Should().BeNull();
             errors[0].ErrorMessage.Should().Be("Email from Verifying user doesn't match registered user");
         }
 
@@ -165,6 +180,17 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
             errors.Count(x => x.PropertyName == "Email").Should().Be(1);
+        }
+
+        [Then(@"response contains the not found error message")]
+        public async Task ThenResponseContainsTheNotFoundErrorMessage()
+        {
+            var content = await _context.Api.Response.Content.ReadAsStringAsync();
+            var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
+
+            errors.Count().Should().Be(1);
+            errors[0].ErrorMessage.Should().Contain("not found");
+            errors[0].ErrorMessage.Should().Contain("Registration");
         }
     }
 }

@@ -25,6 +25,11 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             
             var registration = await _registrationRepository.Get(command.RegistrationId);
 
+            if (registration == null)
+            {
+                throw new DomainException($"Registration {command.RegistrationId} not found");
+            }
+
             if (registration.HasBeenCompleted)
             {
                 throw new DomainException("Already verified");
