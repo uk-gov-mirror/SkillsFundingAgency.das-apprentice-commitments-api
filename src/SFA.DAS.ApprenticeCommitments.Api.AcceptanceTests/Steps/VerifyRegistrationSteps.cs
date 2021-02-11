@@ -28,7 +28,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context = context;
             _f = new Fixture();
-            _email = "abnc@test.com";
+            _validEmail = _f.Create<MailAddress>().Address;
         }
 
         [Given(@"we have an existing registration")]
@@ -146,17 +146,20 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().Be(1);
-                        errors[0].PropertyName.Should().BeNull();
+            errors[0].PropertyName.Should().BeNull();
             errors[0].ErrorMessage.Should().Be("Email from Verifying user doesn't match registered user");
         }
 
         [Then(@"an 'already verified' domain error is returned")]
-        public async Task ThenAaAlreadyVerifiedDomainErrorIsReturned()
+        public async Task ThenAnAlreadyVerifiedDomainErrorIsReturned()
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
-            errors[0].PropertyName.Should().BeNull();
-            errors[0].ErrorMessage.Should().Be("Already verified");
+            errors.Should().ContainEquivalentOf(new ErrorItem
+            {
+                PropertyName = null,
+                ErrorMessage = "Already verified",
+            });
         }
 
         [Then(@"response contains the expected error messages")]
