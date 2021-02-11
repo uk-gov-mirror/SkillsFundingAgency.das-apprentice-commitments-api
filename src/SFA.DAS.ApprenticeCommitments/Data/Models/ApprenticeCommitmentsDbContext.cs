@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
@@ -19,6 +20,16 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Apprentice>()
+                .ToTable("Apprentice")
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Apprenticeship>()
+                .ToTable("Apprenticeship")
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Registration>(entity =>
             {
                 entity.Property(e =>e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);

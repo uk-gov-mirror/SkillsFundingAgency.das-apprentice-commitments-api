@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using AutoFixture;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
@@ -21,7 +22,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private VerifyRegistrationCommand _command;
         private Fixture _f;
         private Registration _registration;
-        private string _email;
+        private string _validEmail;
         private long _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
@@ -37,7 +38,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _registration = _f.Build<Registration>()
                 .Without(p => p.ApprenticeId)
                 .Without(p => p.UserIdentityId)
-                .With(p => p.Email, _email).Create();
+                .With(p => p.Email, _validEmail).Create();
 
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
@@ -47,7 +48,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenTheRequestMatchesRegistrationDetails()
         {
             _command = _f.Build<VerifyRegistrationCommand>()
-                .With(p => p.Email, _email)
+                .With(p => p.Email, _validEmail)
                 .With(p => p.RegistrationId, _registration.Id)
                 .Create();
         }
@@ -65,7 +66,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
             _registration = _f.Build<Registration>()
-                .With(p => p.Email, _email).Create();
+                .With(p => p.Email, _validEmail).Create();
 
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
@@ -112,7 +113,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
-            apprentice.Email.Should().Be(_email);
+            apprentice.Email.Should().Be(_validEmail);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
             apprentice.UserIdentityId.Should().Be(_command.UserIdentityId);
             _apprenticeId = apprentice.Id;
@@ -168,12 +169,12 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
-            errors.Count(x => x.PropertyName == "RegistrationId").Should().Be(1);
-            errors.Count(x => x.PropertyName == "UserIdentityId").Should().Be(1);
-            errors.Count(x => x.PropertyName == "FirstName").Should().Be(1);
-            errors.Count(x => x.PropertyName == "LastName").Should().Be(1);
-            errors.Count(x => x.PropertyName == "DateOfBirth").Should().Be(1);
-            errors.Count(x => x.PropertyName == "Email").Should().Be(1);
+            errors.Should().ContainEquivalentOf(new { PropertyName = "RegistrationId" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "UserIdentityId" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "FirstName" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "LastName" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "DateOfBirth" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "Email" });
         }
 
         [Then(@"response contains the expected email error message")]

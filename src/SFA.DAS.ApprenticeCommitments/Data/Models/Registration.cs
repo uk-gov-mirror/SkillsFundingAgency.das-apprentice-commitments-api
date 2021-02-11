@@ -11,8 +11,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public string Email { get; set; }
         public Guid? UserIdentityId { get; set; }
         public long? ApprenticeId { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedOn { get; set; }
     }
 }

@@ -6,7 +6,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     [Table("Apprentice")]
     public class Apprentice
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
