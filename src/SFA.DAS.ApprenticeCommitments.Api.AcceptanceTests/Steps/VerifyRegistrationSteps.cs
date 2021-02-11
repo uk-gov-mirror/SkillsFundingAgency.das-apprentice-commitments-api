@@ -22,6 +22,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private VerifyRegistrationCommand _command;
         private Fixture _f;
         private Registration _registration;
+        private Guid _missingRegistrationId;
         private string _validEmail;
         private long _apprenticeId;
 
@@ -30,6 +31,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context = context;
             _f = new Fixture();
             _validEmail = _f.Create<MailAddress>().Address;
+            _missingRegistrationId = _f.Create<Guid>();
         }
 
         [Given(@"we have an existing registration")]
@@ -65,6 +67,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"we have an existing already verified registration")]
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
+
             _registration = _f.Build<Registration>()
                 .With(p => p.Email, _validEmail).Create();
 
@@ -88,7 +91,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _command = _f.Build<VerifyRegistrationCommand>()
                 .With(p => p.Email, "another@email.com")
-                .With(p => p.RegistrationId, Guid.NewGuid)
+                .With(p => p.RegistrationId, _missingRegistrationId)
                 .Create();
         }
 
@@ -193,8 +196,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
             errors.Count().Should().Be(1);
-            errors[0].ErrorMessage.Should().Contain("not found");
-            errors[0].ErrorMessage.Should().Contain("Registration");
+            errors[0].ErrorMessage.Should().Be($"Registration {_missingRegistrationId} not found");
         }
     }
 }
