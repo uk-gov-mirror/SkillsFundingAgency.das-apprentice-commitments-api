@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using TechTalk.SpecFlow;
@@ -89,9 +90,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
-            var response = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+            var response = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             response.Count.Should().Be(1);
-            response["RegistrationId"].Should().Be("The Registration Id must be valid");
+            response[0].PropertyName.Should().Be("RegistrationId");
+            response[0].ErrorMessage.Should().Be("The Registration Id must be valid");
         }
     }
 }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 using TechTalk.SpecFlow;
 
@@ -57,7 +57,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
 
-            var errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(content);
+            var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().BeGreaterOrEqualTo(1);
         }
 

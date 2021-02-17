@@ -11,7 +11,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = registrationModel.Id,
                 ApprenticeshipId = registrationModel.ApprenticeshipId,
-                Email = registrationModel.Email
+                Email = registrationModel.Email,
+                UserIdentityId = registrationModel.UserIdentityId,
+                ApprenticeId = registrationModel.ApprenticeId
             };
         }
 
@@ -21,7 +23,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = registration.Id,
                 ApprenticeshipId = registration.ApprenticeshipId,
-                Email = registration.Email
+                Email = registration.Email,
+                UserIdentityId = registration.UserIdentityId,
+                ApprenticeId = registration.ApprenticeId
             };
         }
     }

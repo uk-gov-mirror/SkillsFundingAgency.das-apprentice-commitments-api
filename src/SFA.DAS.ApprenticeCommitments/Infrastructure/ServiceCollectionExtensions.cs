@@ -39,6 +39,8 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             services.AddSingleton<IManagedIdentityTokenProvider, ManagedIdentityTokenProvider>();
             services.AddTransient<IConnectionFactory, SqlServerConnectionFactory>();
             services.AddTransient<IRegistrationRepository, RegistrationRepository>();
+            services.AddTransient<IApprenticeRepository, ApprenticeRepository>();
+            services.AddTransient<IApprenticeshipRepository, ApprenticeshipRepository>();
 
             return services;
         }
