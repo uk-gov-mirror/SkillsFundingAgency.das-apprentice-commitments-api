@@ -6,7 +6,8 @@
 	[UserIdentityId] UNIQUEIDENTIFIER NOT NULL,
 	[Email] NVARCHAR(200) NOT NULL, 
     [DateOfBirth] DATETIME2 NOT NULL,
-	CONSTRAINT PK_Apprentice_Id PRIMARY KEY CLUSTERED ([Id])
+	[CreatedOn] DATETIME2 NOT NULL DEFAULT current_timestamp, 
+    CONSTRAINT PK_Apprentice_Id PRIMARY KEY CLUSTERED ([Id])
 )
 
 GO

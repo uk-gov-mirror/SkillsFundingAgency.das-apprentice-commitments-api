@@ -12,5 +12,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public Guid UserIdentityId { get; set; }
         public string Email { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public DateTime CreatedOn { get; private set; }
     }
 }
