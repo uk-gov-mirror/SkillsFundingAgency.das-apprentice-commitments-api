@@ -6,6 +6,7 @@ using MediatR.Extensions.FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NServiceBus;
 using NServiceBus.ObjectBuilder.MSDependencyInjection;
@@ -52,6 +53,7 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
             {
                 var unitOfWorkContext = p.GetService<IUnitOfWorkContext>();
                 var connectionFactory = p.GetService<IConnectionFactory>();
+                var loggerFactory = p.GetService<ILoggerFactory>();
 
                 ApprenticeCommitmentsDbContext dbContext;
                 try
@@ -59,13 +61,21 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
                     var synchronizedStorageSession = unitOfWorkContext.Get<SynchronizedStorageSession>();
                     var sqlStorageSession = synchronizedStorageSession.GetSqlStorageSession();
                     var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, sqlStorageSession.Connection);
+                    if (config.IsLocalAcceptanceOrDev())
+                    {
+                        optionsBuilder.EnableSensitiveDataLogging().UseLoggerFactory(loggerFactory);
+                    }
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                     dbContext.Database.UseTransaction(sqlStorageSession.Transaction);
                 }
                 catch (KeyNotFoundException)
                 {
                     var settings = p.GetService<IOptions<ApplicationSettings>>().Value;
-                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, settings.DbConnectionString);
+                    var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseDataStorage(connectionFactory, settings.DbConnectionString).EnableSensitiveDataLogging().UseLoggerFactory(loggerFactory);
+                    if (config.IsLocalAcceptanceOrDev())
+                    {
+                        optionsBuilder.EnableSensitiveDataLogging().UseLoggerFactory(loggerFactory);
+                    }
                     dbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
                 }
 
