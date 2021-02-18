@@ -39,7 +39,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
                         LastName nvarchar(100) NOT NULL,
                         UserIdentityId uniqueidentifier NOT NULL, 
                         Email nvarchar(255) NOT NULL,
-                        DateOfBirth TIMESTAMP NOT NULL
+                        DateOfBirth TIMESTAMP NOT NULL,
+                        CreatedOn TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             ", connection);
             apprenticeCommand.ExecuteNonQuery();
