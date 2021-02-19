@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Exceptions;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
 {
@@ -27,6 +28,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         await context.Response.WriteAsync(CreateErrorResponse(ex.Errors));
                     }
+                    else if (contextFeature.Error is DomainException domainException)
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        await context.Response.WriteAsync(CreateErrorResponse(domainException.Message));
+                    }
                     else
                     {
                         //Do nothing (will result in a 500 error)
@@ -43,8 +49,23 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Extensions
 
         private static string CreateErrorResponse(IEnumerable<ValidationFailure> errors)
         {
-            var errorList = errors.ToDictionary(x => x.PropertyName, x => x.ErrorMessage);
+            var errorList = errors.Select(x => new ErrorItem { PropertyName =x.PropertyName, ErrorMessage = x.ErrorMessage });
             return JsonConvert.SerializeObject(errorList, Formatting.Indented);
+
+        }
+
+        private static string CreateErrorResponse(string error)
+        {
+            var errs = new List<ErrorItem>();
+            errs.Add(new ErrorItem { ErrorMessage = error});
+            return JsonConvert.SerializeObject(errs, Formatting.Indented);
         }
     }
+
+    public class ErrorItem
+    {
+        public string PropertyName { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
 }

@@ -34,5 +34,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
 
             _context.Api = Client;
         }
+
+        [AfterFeature()]
+        public static void CleanUpFeature()
+        {
+            Client?.Dispose();
+            Client = null;
+            Factory?.Dispose();
+        }
     }
 }

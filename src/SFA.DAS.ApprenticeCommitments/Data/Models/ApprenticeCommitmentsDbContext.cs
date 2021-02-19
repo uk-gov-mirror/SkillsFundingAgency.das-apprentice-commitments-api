@@ -14,11 +14,25 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         }
 
         public virtual DbSet<Registration> Registrations { get; set; }
+        public virtual DbSet<Apprentice> Apprentices { get; set; }
+        public virtual DbSet<Apprenticeship> Apprenticeships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Apprentice>(a =>
+                {
+                    a.Property(e => e.Id).ValueGeneratedOnAdd();
+                    a.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
+                    a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                });
+
+            modelBuilder.Entity<Apprenticeship>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Registration>(entity =>
             {
+                entity.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
                 entity.Property(e =>e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
 
