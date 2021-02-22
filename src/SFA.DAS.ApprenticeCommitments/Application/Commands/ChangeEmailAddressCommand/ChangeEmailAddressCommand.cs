@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
-using System;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand
 {

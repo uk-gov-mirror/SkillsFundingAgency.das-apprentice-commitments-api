@@ -1,9 +1,8 @@
 ﻿using AutoFixture;
-using AutoFixture.Dsl;
 using FluentAssertions;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -32,18 +31,30 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context.DbContext.SaveChanges();
         }
 
-        [When(@"we change the apprentice's email address")]
-        public async Task WhenWeChangeTheApprenticesEmailAddress()
+        [Given(@"a ChangeEmailCommand with a valid email address")]
+        public void GivenAChangeEmailCommandWithAValidEmailAddress()
         {
             _command = _fixture
                 .Build<ChangeEmailAddressCommand>()
                 .With(p => p.ApprenticeId, _apprentice.Id)
+                .With(p => p.Email, (MailAddress adr) => adr.ToString())
                 .Create();
+        }
 
+        [Given(@"a ChangeEmailCommand with an invalid email address")]
+        public void GivenAChangeEmailCommandWithAnInvalidEmailAddress()
+        {
+            GivenAChangeEmailCommandWithAValidEmailAddress();
+            _command.Email = _fixture.Create<long>().ToString();
+        }
+
+        [When(@"we change the apprentice's email address")]
+        public async Task WhenWeChangeTheApprenticesEmailAddress()
+        {
             await _context.Api.Post("apprentices", _command);
         }
 
-        [Then(@"the apprentice record is created")]
+        [Then(@"the apprentice record is updated")]
         public void ThenTheApprenticeRecordIsCreated()
         {
             _context.DbContext.Apprentices.Should().ContainEquivalentOf(new
@@ -51,8 +62,12 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 Id = _command.ApprenticeId,
                 _command.Email,
             });
+        }
 
-            _context.DbContext.Apprentices.Should().NotContain(_apprentice);
+        [Then(@"the apprentice record is not updated")]
+        public void ThenTheApprenticeRecordIsNotUpdated()
+        {
+            _context.DbContext.Apprentices.Should().ContainEquivalentOf(_apprentice);
         }
     }
 }
