@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using SFA.DAS.ApprenticeCommitments.Data.Models;
+﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
@@ -23,6 +23,13 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             await dbContext.SaveChangesAsync();
 
             return apprentice.MapToApprenticeModel();
+        }
+
+        public async Task ChangeEmailAddress(long apprenticeId, string email)
+        {
+            var apprentice = await _dbContext.Value.Apprentices.FindAsync(apprenticeId);
+            apprentice.Email = email;
+            await _dbContext.Value.SaveChangesAsync();
         }
     }
 }
