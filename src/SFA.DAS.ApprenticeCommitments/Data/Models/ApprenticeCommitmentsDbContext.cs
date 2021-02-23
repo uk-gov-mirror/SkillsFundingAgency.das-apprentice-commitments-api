@@ -21,6 +21,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         {
             modelBuilder.Entity<Apprentice>(a =>
             {
+                a.ToTable("Apprentice");
                 a.OwnsMany(
                     e => e.PreviousEmails,
                     c =>

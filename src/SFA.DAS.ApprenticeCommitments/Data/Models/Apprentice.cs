@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
-    [Table("Apprentice")]
     public class Apprentice
     {
         private Apprentice()
