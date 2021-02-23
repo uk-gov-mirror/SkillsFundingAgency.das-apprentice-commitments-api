@@ -19,8 +19,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
         public void Initialise()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlite(_context.DatabaseConnectionString);
-            _context.DbContext = new ApprenticeCommitmentsDbContext(optionsBuilder.Options);
-            _context.DbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
+            _context.DbContext = new UntrackedApprenticeCommitmentsDbContext(optionsBuilder.Options);
 
             _context.DbContext.Database.EnsureDeleted();
             _context.DbContext.Database.EnsureCreated();
