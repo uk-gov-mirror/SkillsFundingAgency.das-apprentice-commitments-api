@@ -1,15 +1,16 @@
-﻿using System;
+﻿using AutoFixture;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Api.Extensions;
+using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
+using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using AutoFixture;
-using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
-using SFA.DAS.ApprenticeCommitments.Data.Models;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Newtonsoft.Json;
-using SFA.DAS.ApprenticeCommitments.Api.Extensions;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
@@ -67,7 +68,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"we have an existing already verified registration")]
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
-
             _registration = _f.Build<Registration>()
                 .With(p => p.Email, _validEmail).Create();
 
@@ -112,7 +112,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the apprentice record is created")]
         public void ThenTheApprenticeRecordIsCreated()
         {
-            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x=>x.UserIdentityId == _command.UserIdentityId);
+            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.UserIdentityId == _command.UserIdentityId);
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
@@ -125,7 +125,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"an apprenticeship record is created")]
         public void ThenAnApprenticeshipRecordIsCreated()
         {
-            var apprenticeship = _context.DbContext.Apprenticeships.FirstOrDefault(a=>a.ApprenticeId == _apprenticeId);
+            var apprenticeship = _context.DbContext.Apprenticeships.FirstOrDefault(a => a.ApprenticeId == _apprenticeId);
             apprenticeship.CommitmentsApprenticeshipId.Should().Be(_registration.ApprenticeshipId);
         }
 
@@ -147,7 +147,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 _registration.CreatedOn
             });
         }
-
 
         [Then(@"a bad request is returned")]
         public void ThenABadRequestIsReturned()
@@ -208,6 +207,19 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
 
             errors.Count().Should().Be(1);
             errors[0].ErrorMessage.Should().Be($"Registration {_missingRegistrationId} not found");
+        }
+
+        [Then("a record of the apprentice email address is kept")]
+        public void ThenTheChangeHistoryIsRecorded()
+        {
+            var modified = _context.DbContext
+                .Apprentices.Include(x => x.PreviousEmails)
+                .Single(x => x.Id == _apprenticeId);
+
+            modified.PreviousEmails.Should().ContainEquivalentOf(new
+            {
+                EmailAddress = _validEmail,
+            });
         }
     }
 }

@@ -7,13 +7,27 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     [Table("Apprentice")]
     public class Apprentice
     {
-        public long Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Guid UserIdentityId { get; set; }
-        public string Email { get; set; }
-        public ICollection<ApprenticeEmailHistory> PreviousEmails { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        private Apprentice()
+        {
+        }
+
+        public Apprentice(string firstName, string lastName, Guid userIdentityId, string email, DateTime dateOfBirth)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            UserIdentityId = userIdentityId;
+            Email = email;
+            DateOfBirth = dateOfBirth;
+            PreviousEmails = new[] { new ApprenticeEmailHistory(email) };
+        }
+
+        public long Id { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public Guid UserIdentityId { get; private set; }
+        public string Email { get; private set; }
+        public ICollection<ApprenticeEmailHistory> PreviousEmails { get; private set; }
+        public DateTime DateOfBirth { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
         internal void UpdateEmail(string email)

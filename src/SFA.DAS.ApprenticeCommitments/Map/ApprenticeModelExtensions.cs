@@ -7,15 +7,13 @@ namespace SFA.DAS.ApprenticeCommitments.Map
     {
         public static Apprentice MapToApprentice(this ApprenticeModel apprenticeModel)
         {
-            return new Apprentice
-            {
-                Id = apprenticeModel.Id ?? 0,
-                FirstName = apprenticeModel.FirstName,
-                LastName = apprenticeModel.LastName,
-                UserIdentityId = apprenticeModel.UserIdentityId,
-                Email = apprenticeModel.Email,
-                DateOfBirth = apprenticeModel.DateOfBirth
-            };
+            return new Apprentice(
+                apprenticeModel.FirstName,
+                apprenticeModel.LastName,
+                apprenticeModel.UserIdentityId,
+                apprenticeModel.Email,
+                apprenticeModel.DateOfBirth
+                );
         }
 
         public static ApprenticeModel MapToApprenticeModel(this Apprentice apprentice)
