@@ -38,7 +38,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _command = _fixture
                 .Build<ChangeEmailAddressCommand>()
-                .With(p => p.ApprenticeId, _apprentice.Id)
+                .Without(p => p.ApprenticeId)
                 .With(p => p.Email, (MailAddress adr) => adr.ToString())
                 .Create();
         }
@@ -53,7 +53,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [When(@"we change the apprentice's email address")]
         public async Task WhenWeChangeTheApprenticesEmailAddress()
         {
-            await _context.Api.Post("apprentices", _command);
+            await _context.Api.Post($"apprentices/{_apprentice.Id}/email", _command);
         }
 
         [Then(@"the apprentice record is updated")]
@@ -61,7 +61,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context.DbContext.Apprentices.Should().ContainEquivalentOf(new
             {
-                Id = _command.ApprenticeId,
+                Id = _apprentice.Id,
                 Email = new MailAddress(_command.Email),
             });
         }

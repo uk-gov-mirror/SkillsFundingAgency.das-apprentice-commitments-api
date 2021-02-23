@@ -15,9 +15,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("apprentices")]
-        public async Task<IActionResult> CreateRegistration([FromBody] ChangeEmailAddressCommand request)
+        [HttpPost("apprentices/{id}/email")]
+        public async Task<IActionResult> CreateRegistration(long id, ChangeEmailAddressCommand request)
         {
+            request.ApprenticeId = id;
             await _mediator.Send(request);
             return Accepted();
         }
