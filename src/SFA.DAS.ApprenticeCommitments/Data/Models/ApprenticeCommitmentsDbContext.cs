@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
@@ -20,10 +20,17 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Apprentice>(a =>
-                {
-                    a.HasKey(e => e.Id);
-                    a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
-                });
+            {
+                a.OwnsMany(
+                    e => e.PreviousEmails,
+                    c =>
+                    {
+                        c.HasKey("Id");
+                        c.HasIndex("ApprenticeId");
+                    });
+                a.HasKey(e => e.Id);
+                a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            });
 
             modelBuilder.Entity<Apprenticeship>()
                 .HasKey(a => a.Id);

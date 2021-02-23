@@ -10,6 +10,7 @@ Scenario: Change to a valid email address
 	And a ChangeEmailCommand with a valid email address
 	When we change the apprentice's email address
 	Then the apprentice record is updated
+	And the change history is recorded
 
 Scenario: Reject change to an invalid email address
 	Given we have an existing apprentice

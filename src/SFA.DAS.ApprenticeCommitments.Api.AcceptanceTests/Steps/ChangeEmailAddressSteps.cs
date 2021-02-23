@@ -1,7 +1,9 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -68,6 +70,19 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheApprenticeRecordIsNotUpdated()
         {
             _context.DbContext.Apprentices.Should().ContainEquivalentOf(_apprentice);
+        }
+
+        [Then(@"the change history is recorded")]
+        public void ThenTheChangeHistoryIsRecorded()
+        {
+            var modified = _context.DbContext
+                .Apprentices.Include(x => x.PreviousEmails)
+                .Single(x => x.Id == _apprentice.Id);
+
+            modified.PreviousEmails.Should().ContainEquivalentOf(new
+            {
+                EmailAddress = _command.Email,
+            });
         }
     }
 }
