@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
@@ -22,14 +23,22 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             modelBuilder.Entity<Apprentice>(a =>
             {
                 a.ToTable("Apprentice");
+                a.HasKey(e => e.Id);
+                a.Property(e => e.Email)
+                 .HasConversion(
+                    v => v.ToString(),
+                    v => new MailAddress(v));
                 a.OwnsMany(
                     e => e.PreviousEmails,
                     c =>
                     {
                         c.HasKey("Id");
                         c.HasIndex("ApprenticeId");
+                        c.Property(e => e.EmailAddress)
+                            .HasConversion(
+                                v => v.ToString(),
+                                v => new MailAddress(v));
                     });
-                a.HasKey(e => e.Id);
                 a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
 

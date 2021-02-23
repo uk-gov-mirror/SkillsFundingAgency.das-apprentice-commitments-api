@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Models
 {
@@ -9,7 +9,7 @@ namespace SFA.DAS.ApprenticeCommitments.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Guid UserIdentityId { get; set; }
-        public string Email { get; set; }
+        public MailAddress Email { get; set; }
         public DateTime DateOfBirth { get; set; }
     }
 }

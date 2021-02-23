@@ -62,7 +62,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context.DbContext.Apprentices.Should().ContainEquivalentOf(new
             {
                 Id = _command.ApprenticeId,
-                _command.Email,
+                Email = new MailAddress(_command.Email),
             });
         }
 
@@ -81,7 +81,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
 
             modified.PreviousEmails.Should().ContainEquivalentOf(new
             {
-                EmailAddress = _command.Email,
+                EmailAddress = new MailAddress(_command.Email),
             });
         }
     }

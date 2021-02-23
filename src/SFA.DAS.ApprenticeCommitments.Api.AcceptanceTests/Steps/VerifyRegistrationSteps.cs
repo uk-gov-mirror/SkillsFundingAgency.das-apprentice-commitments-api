@@ -218,7 +218,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
 
             modified.PreviousEmails.Should().ContainEquivalentOf(new
             {
-                EmailAddress = _validEmail,
+                EmailAddress = new MailAddress(_command.Email),
             });
         }
     }

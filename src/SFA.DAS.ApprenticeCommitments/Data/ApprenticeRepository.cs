@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return apprentice.MapToApprenticeModel();
         }
 
-        public async Task ChangeEmailAddress(long apprenticeId, string email)
+        public async Task ChangeEmailAddress(long apprenticeId, MailAddress email)
         {
             var apprentice = await _db.Apprentices
                 .Include(a => a.PreviousEmails)
