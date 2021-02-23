@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
@@ -9,6 +8,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     {
         private Apprentice()
         {
+            // for Entity Framework
         }
 
         public Apprentice(string firstName, string lastName, Guid userIdentityId, MailAddress email, DateTime dateOfBirth)
@@ -18,7 +18,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             UserIdentityId = userIdentityId;
             Email = email;
             DateOfBirth = dateOfBirth;
-            PreviousEmails = new[] { new ApprenticeEmailHistory(email) };
+            PreviousEmailAddresses = new[] { new ApprenticeEmailAddressHistory(email) };
         }
 
         public long Id { get; private set; }
@@ -26,24 +26,24 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public string LastName { get; private set; }
         public Guid UserIdentityId { get; private set; }
         public MailAddress Email { get; private set; }
-        public ICollection<ApprenticeEmailHistory> PreviousEmails { get; private set; }
+        public ICollection<ApprenticeEmailAddressHistory> PreviousEmailAddresses { get; private set; }
         public DateTime DateOfBirth { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
         internal void UpdateEmail(MailAddress email)
         {
             Email = email;
-            PreviousEmails.Add(new ApprenticeEmailHistory(Email));
+            PreviousEmailAddresses.Add(new ApprenticeEmailAddressHistory(Email));
         }
     }
 
-    public class ApprenticeEmailHistory
+    public class ApprenticeEmailAddressHistory
     {
-        private ApprenticeEmailHistory()
+        private ApprenticeEmailAddressHistory()
         {
         }
 
-        public ApprenticeEmailHistory(MailAddress emailAddress)
+        public ApprenticeEmailAddressHistory(MailAddress emailAddress)
             => EmailAddress = emailAddress;
 
         public MailAddress EmailAddress { get; private set; }

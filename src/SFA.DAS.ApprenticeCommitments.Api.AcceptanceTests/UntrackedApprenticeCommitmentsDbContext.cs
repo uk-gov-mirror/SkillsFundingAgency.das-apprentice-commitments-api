@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
 {
@@ -10,9 +12,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTrackingWithIdentityResolution;
         }
 
-        public override int SaveChanges()
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            var r = base.SaveChanges();
+            var r = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            ChangeTracker.Clear();
+            return r;
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            var r = base.SaveChanges(acceptAllChangesOnSuccess);
             ChangeTracker.Clear();
             return r;
         }

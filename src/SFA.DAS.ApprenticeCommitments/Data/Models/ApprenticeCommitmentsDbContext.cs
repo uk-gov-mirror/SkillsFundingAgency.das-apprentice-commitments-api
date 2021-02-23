@@ -29,7 +29,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                     v => v.ToString(),
                     v => new MailAddress(v));
                 a.OwnsMany(
-                    e => e.PreviousEmails,
+                    e => e.PreviousEmailAddresses,
                     c =>
                     {
                         c.HasKey("Id");

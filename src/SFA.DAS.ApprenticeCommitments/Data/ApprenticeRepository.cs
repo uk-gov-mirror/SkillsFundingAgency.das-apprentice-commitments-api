@@ -27,7 +27,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         public async Task ChangeEmailAddress(long apprenticeId, MailAddress email)
         {
             var apprentice = await _db.Apprentices
-                .Include(a => a.PreviousEmails)
+                .Include(a => a.PreviousEmailAddresses)
                 .SingleAsync(a => a.Id == apprenticeId);
             apprentice.UpdateEmail(email);
             await _db.SaveChangesAsync();

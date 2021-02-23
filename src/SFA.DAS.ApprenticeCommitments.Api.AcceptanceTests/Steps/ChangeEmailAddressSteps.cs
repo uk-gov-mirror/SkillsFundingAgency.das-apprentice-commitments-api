@@ -76,10 +76,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheChangeHistoryIsRecorded()
         {
             var modified = _context.DbContext
-                .Apprentices.Include(x => x.PreviousEmails)
+                .Apprentices.Include(x => x.PreviousEmailAddresses)
                 .Single(x => x.Id == _apprentice.Id);
 
-            modified.PreviousEmails.Should().ContainEquivalentOf(new
+            modified.PreviousEmailAddresses.Should().ContainEquivalentOf(new
             {
                 EmailAddress = new MailAddress(_command.Email),
             });
