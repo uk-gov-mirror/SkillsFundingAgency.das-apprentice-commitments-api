@@ -12,6 +12,7 @@ Scenario: A registration is successfully completed
 	Then the apprentice record is created
 	And an apprenticeship record is created
 	And the registration has been marked as completed
+	And the registration CreatedOn field is unchanged
 
 Scenario: A registration is submitted with a different email
 	Given we have an existing registration

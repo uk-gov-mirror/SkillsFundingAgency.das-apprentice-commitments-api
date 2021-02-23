@@ -138,6 +138,17 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             registration.ApprenticeId.Should().Be(_apprenticeId);
         }
 
+        [Then(@"the registration CreatedOn field is unchanged")]
+        public void ThenTheRegistrationCreatedOnFieldIsUnchanged()
+        {
+            _context.DbContext.Registrations.Should().ContainEquivalentOf(new
+            {
+                _registration.Id,
+                _registration.CreatedOn
+            });
+        }
+
+
         [Then(@"a bad request is returned")]
         public void ThenABadRequestIsReturned()
         {

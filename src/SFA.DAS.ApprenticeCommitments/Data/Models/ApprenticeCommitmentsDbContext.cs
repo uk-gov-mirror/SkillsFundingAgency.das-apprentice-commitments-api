@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
@@ -21,19 +21,17 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         {
             modelBuilder.Entity<Apprentice>(a =>
                 {
-                    a.Property(e => e.Id).ValueGeneratedOnAdd();
-                    a.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
+                    a.HasKey(e => e.Id);
                     a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
                 });
 
             modelBuilder.Entity<Apprenticeship>()
-                .Property(a => a.Id)
-                .ValueGeneratedOnAdd();
+                .HasKey(a => a.Id);
 
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
-                entity.Property(e =>e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
 
             base.OnModelCreating(modelBuilder);

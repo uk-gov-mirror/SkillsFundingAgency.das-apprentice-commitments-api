@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
@@ -12,6 +12,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public Guid UserIdentityId { get; set; }
         public string Email { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public DateTime CreatedOn { get; private set; }
+        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
     }
 }
