@@ -17,3 +17,9 @@ Scenario: Reject change to an invalid email address
 	And a ChangeEmailCommand with an invalid email address
 	When we change the apprentice's email address
 	Then the apprentice record is not updated
+
+Scenario: Ignore change to an existing email address
+	Given we have an existing apprentice
+	And a ChangeEmailCommand with the current email address
+	When we change the apprentice's email address
+	Then the apprentice record is not updated

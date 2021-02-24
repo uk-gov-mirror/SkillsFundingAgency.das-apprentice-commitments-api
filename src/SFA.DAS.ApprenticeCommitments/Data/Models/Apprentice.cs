@@ -30,9 +30,10 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public DateTime DateOfBirth { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        internal void UpdateEmail(MailAddress email)
+        internal void UpdateEmail(MailAddress newEmail)
         {
-            Email = email;
+            if (newEmail.Address == Email.Address) return;
+            Email = newEmail;
             PreviousEmailAddresses.Add(new ApprenticeEmailAddressHistory(Email));
         }
     }

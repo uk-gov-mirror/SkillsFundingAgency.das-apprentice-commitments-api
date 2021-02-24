@@ -50,6 +50,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _command.Email = _fixture.Create<long>().ToString();
         }
 
+        [Given("a ChangeEmailCommand with the current email address")]
+        public void GivenAChangeEmailCommandWithTheCurrentEmailAddress()
+        {
+            GivenAChangeEmailCommandWithAValidEmailAddress();
+            _command.Email = _apprentice.Email.ToString();
+        }
+
         [When(@"we change the apprentice's email address")]
         public async Task WhenWeChangeTheApprenticesEmailAddress()
         {
