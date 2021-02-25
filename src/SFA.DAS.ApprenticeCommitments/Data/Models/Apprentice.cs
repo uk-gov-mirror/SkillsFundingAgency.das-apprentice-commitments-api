@@ -1,17 +1,53 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
-    [Table("Apprentice")]
     public class Apprentice
     {
-        public long Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public Guid UserIdentityId { get; set; }
-        public string Email { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public DateTime CreatedOn { get; private set; }
+        private Apprentice()
+        {
+            // for Entity Framework
+        }
+
+        public Apprentice(string firstName, string lastName, Guid userIdentityId, MailAddress email, DateTime dateOfBirth)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            UserIdentityId = userIdentityId;
+            Email = email;
+            DateOfBirth = dateOfBirth;
+            PreviousEmailAddresses = new[] { new ApprenticeEmailAddressHistory(email) };
+        }
+
+        public long Id { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public Guid UserIdentityId { get; private set; }
+        public MailAddress Email { get; private set; }
+        public ICollection<ApprenticeEmailAddressHistory> PreviousEmailAddresses { get; private set; }
+        public DateTime DateOfBirth { get; private set; }
+        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
+
+        internal void UpdateEmail(MailAddress newEmail)
+        {
+            if (newEmail.Address == Email.Address) return;
+            Email = newEmail;
+            PreviousEmailAddresses.Add(new ApprenticeEmailAddressHistory(Email));
+        }
+    }
+
+    public class ApprenticeEmailAddressHistory
+    {
+        private ApprenticeEmailAddressHistory()
+        {
+        }
+
+        public ApprenticeEmailAddressHistory(MailAddress emailAddress)
+            => EmailAddress = emailAddress;
+
+        public MailAddress EmailAddress { get; private set; }
+        public DateTime ChangedOn { get; private set; } = DateTime.UtcNow;
     }
 }

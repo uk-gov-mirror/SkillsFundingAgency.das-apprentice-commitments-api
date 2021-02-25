@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
@@ -20,20 +21,34 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Apprentice>(a =>
-                {
-                    a.Property(e => e.Id).ValueGeneratedOnAdd();
-                    a.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
-                    a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
-                });
+            {
+                a.ToTable("Apprentice");
+                a.HasKey(e => e.Id);
+                a.Property(e => e.Email)
+                 .HasConversion(
+                    v => v.ToString(),
+                    v => new MailAddress(v));
+                a.OwnsMany(
+                    e => e.PreviousEmailAddresses,
+                    c =>
+                    {
+                        c.HasKey("Id");
+                        c.HasIndex("ApprenticeId");
+                        c.Property(e => e.EmailAddress)
+                            .HasConversion(
+                                v => v.ToString(),
+                                v => new MailAddress(v));
+                    });
+                a.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            });
 
             modelBuilder.Entity<Apprenticeship>()
-                .Property(a => a.Id)
-                .ValueGeneratedOnAdd();
+                .HasKey(a => a.Id);
 
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.Property(e => e.CreatedOn).ValueGeneratedOnAdd();
-                entity.Property(e =>e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
 
             base.OnModelCreating(modelBuilder);

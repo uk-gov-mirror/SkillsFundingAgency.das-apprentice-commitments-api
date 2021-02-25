@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -64,7 +65,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             {
                 FirstName = command.FirstName,
                 LastName = command.LastName,
-                Email = command.Email,
+                Email = new MailAddress(command.Email),
                 UserIdentityId = command.UserIdentityId,
                 DateOfBirth = command.DateOfBirth
             };

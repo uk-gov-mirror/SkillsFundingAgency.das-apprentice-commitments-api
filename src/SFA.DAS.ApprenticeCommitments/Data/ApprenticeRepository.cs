@@ -1,28 +1,36 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.Models;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
     public class ApprenticeRepository : IApprenticeRepository
     {
-        private readonly Lazy<ApprenticeCommitmentsDbContext> _dbContext;
+        private readonly ApprenticeCommitmentsDbContext _db;
 
-        public ApprenticeRepository(Lazy<ApprenticeCommitmentsDbContext> dbContext)
+        public ApprenticeRepository(ApprenticeCommitmentsDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _db = dbContext;
         }
 
         public async Task<ApprenticeModel> Add(ApprenticeModel model)
         {
             var apprentice = model.MapToApprentice();
-            var dbContext = _dbContext.Value;
-            await dbContext.AddAsync(apprentice);
-            await dbContext.SaveChangesAsync();
-
+            await _db.AddAsync(apprentice);
+            await _db.SaveChangesAsync();
             return apprentice.MapToApprenticeModel();
+        }
+
+        public async Task ChangeEmailAddress(long apprenticeId, MailAddress email)
+        {
+            var apprentice = await _db.Apprentices
+                .Include(a => a.PreviousEmailAddresses)
+                .SingleAsync(a => a.Id == apprenticeId);
+            apprentice.UpdateEmail(email);
+            await _db.SaveChangesAsync();
         }
     }
 }
