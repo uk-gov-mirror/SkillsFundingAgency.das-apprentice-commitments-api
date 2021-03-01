@@ -10,10 +10,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
         public TestContext()
         {
             isDisposed = false;
-            DatabaseConnectionString = $"Data Source={AcceptanceTestsData.AcceptanceTestsDatabaseName}";
         }
         public ApprenticeCommitmentsApi Api { get; set; }
-        public string DatabaseConnectionString { get; set; }
         public ApprenticeCommitmentsDbContext DbContext { get; set; }
 
         public void Dispose()

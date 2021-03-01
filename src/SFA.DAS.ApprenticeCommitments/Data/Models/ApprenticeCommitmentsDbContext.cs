@@ -33,6 +33,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                     c =>
                     {
                         c.HasKey("Id");
+                        c.Property(typeof(long), "Id");
                         c.HasIndex("ApprenticeId");
                         c.Property(e => e.EmailAddress)
                             .HasConversion(

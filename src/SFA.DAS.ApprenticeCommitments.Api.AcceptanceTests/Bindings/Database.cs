@@ -18,8 +18,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
         [BeforeScenario()]
         public void Initialise()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>().UseSqlite(_context.DatabaseConnectionString);
-            _context.DbContext = new UntrackedApprenticeCommitmentsDbContext(optionsBuilder.Options);
+            var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>();
+            var options = new TestsDbConnectionFactory()
+                .AddConnection(optionsBuilder)
+                .Options;
+            _context.DbContext = new UntrackedApprenticeCommitmentsDbContext(options);
 
             _context.DbContext.Database.EnsureDeleted();
             _context.DbContext.Database.EnsureCreated();

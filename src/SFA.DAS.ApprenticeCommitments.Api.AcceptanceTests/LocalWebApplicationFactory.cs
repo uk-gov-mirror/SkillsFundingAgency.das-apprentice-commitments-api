@@ -20,9 +20,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests
         {
             builder.ConfigureServices(s =>
             {
-                s.AddEntityFrameworkSqlite();
                 s.AddTransient<IUnitOfWorkManager, FakeUnitOfWorkManager>();
-                s.AddTransient<IConnectionFactory, SqLiteConnectionFactory>();
+                s.AddTransient<IConnectionFactory, TestsDbConnectionFactory>();
             });
 
             builder.ConfigureAppConfiguration(a =>

@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
                 var config = new Dictionary<string, string>
                 {
                     { "EnvironmentName", "ACCEPTANCE_TESTS" },
-                    { "ApplicationSettings:DbConnectionString", _context.DatabaseConnectionString }
+                    { "ApplicationSettings:DbConnectionString", TestsDbConnectionFactory.ConnectionString }
                 };
 
                 Factory = new LocalWebApplicationFactory<Startup>(config);
