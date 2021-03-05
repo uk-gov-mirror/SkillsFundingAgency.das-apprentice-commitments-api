@@ -6,7 +6,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data
 {
     public interface IApprenticeRepository
     {
-        Task<ApprenticeModel> Add(ApprenticeModel model);
+        Task<ApprenticeModel> AddApprentice(
+            ApprenticeModel apprentice, ApprenticeshipModel firstApprenticeship);
 
         Task ChangeEmailAddress(long apprenticeId, MailAddress email);
     }

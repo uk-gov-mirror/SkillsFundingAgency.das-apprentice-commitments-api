@@ -126,8 +126,14 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"an apprenticeship record is created")]
         public void ThenAnApprenticeshipRecordIsCreated()
         {
-            var apprenticeship = _context.DbContext.Apprenticeships.FirstOrDefault(a => a.ApprenticeId == _apprenticeId);
-            apprenticeship.CommitmentsApprenticeshipId.Should().Be(_registration.ApprenticeshipId);
+            var apprentice = _context.DbContext
+                .Apprentices.Include(x => x.Apprenticeships)
+                .FirstOrDefault(x => x.UserIdentityId == _command.UserIdentityId);
+
+            apprentice.Apprenticeships.Should().ContainEquivalentOf(new
+            {
+                CommitmentsApprenticeshipId = _registration.ApprenticeshipId,
+            });
         }
 
         [Then(@"the registration has been marked as completed")]
