@@ -70,7 +70,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the registration exists in database")]
         public void ThenTheRegistrationExistsInDatabase()
         {
-            var registration = _context.DbContext.Registrations.FirstOrDefault();
+            var registration = _context.DbContext.Registrations
+                .FirstOrDefault(x => x.Id == _createApprenticeshipRequest.RegistrationId);
             registration.Should().NotBeNull();
             registration.Email.Should().Be(_createApprenticeshipRequest.Email);
             registration.ApprenticeshipId.Should().Be(_createApprenticeshipRequest.ApprenticeshipId);

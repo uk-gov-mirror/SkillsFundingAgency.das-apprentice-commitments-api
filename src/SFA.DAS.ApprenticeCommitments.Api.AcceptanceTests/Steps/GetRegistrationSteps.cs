@@ -23,7 +23,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public GetRegistrationSteps(TestContext context)
         {
             _fixture = new Fixture();
-            _registration = _fixture.Create<Registration>();
+            _registration = _fixture.Build<Registration>()
+                .Without(p => p.ApprenticeId) // There is no proper relationship yet
+                .Create();
             _context = context;
         }
 

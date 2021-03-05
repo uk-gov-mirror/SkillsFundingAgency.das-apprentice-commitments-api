@@ -69,6 +69,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
             _registration = _f.Build<Registration>()
+                .Without(p => p.ApprenticeId) // There is no proper relationship yet
                 .With(p => p.Email, _validEmail).Create();
 
             _context.DbContext.Registrations.Add(_registration);
