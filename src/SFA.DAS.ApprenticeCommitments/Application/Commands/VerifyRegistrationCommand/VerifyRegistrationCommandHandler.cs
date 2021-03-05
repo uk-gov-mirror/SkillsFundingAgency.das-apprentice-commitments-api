@@ -53,10 +53,10 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
         {
             var apprentice = new ApprenticeModel
             {
+                UserIdentityId = command.RegistrationId,
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = new MailAddress(command.Email),
-                UserIdentityId = command.UserIdentityId,
                 DateOfBirth = command.DateOfBirth
             };
 

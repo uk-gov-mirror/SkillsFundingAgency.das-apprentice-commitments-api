@@ -113,13 +113,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the apprentice record is created")]
         public void ThenTheApprenticeRecordIsCreated()
         {
-            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.UserIdentityId == _command.UserIdentityId);
+            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.UserIdentityId == _command.RegistrationId);
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
             apprentice.Email.Should().Be(_validEmail);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
-            apprentice.UserIdentityId.Should().Be(_command.UserIdentityId);
+            apprentice.UserIdentityId.Should().Be(_command.RegistrationId);
             _apprenticeId = apprentice.Id;
         }
 
@@ -128,7 +128,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var apprentice = _context.DbContext
                 .Apprentices.Include(x => x.Apprenticeships)
-                .FirstOrDefault(x => x.UserIdentityId == _command.UserIdentityId);
+                .FirstOrDefault(x => x.UserIdentityId == _command.RegistrationId);
 
             apprentice.Apprenticeships.Should().ContainEquivalentOf(new
             {
