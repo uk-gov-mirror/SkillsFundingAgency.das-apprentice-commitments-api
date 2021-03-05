@@ -44,7 +44,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 
             var apprentice = await AddApprentice(command, registration);
 
-            await _registrationRepository.CompleteRegistration(registration.Id, apprentice.Id.Value, command.UserIdentityId);
+            await _registrationRepository.CompleteRegistration(registration.Id, command.UserIdentityId);
 
             return Unit.Value;
         }

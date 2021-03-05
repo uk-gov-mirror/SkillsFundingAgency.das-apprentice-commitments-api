@@ -20,7 +20,6 @@ namespace SFA.DAS.ApprenticeCommitments.Map
         {
             return new ApprenticeModel
             {
-                Id = apprentice.Id,
                 UserIdentityId = apprentice.UserIdentityId,
                 FirstName = apprentice.FirstName,
                 LastName = apprentice.LastName,

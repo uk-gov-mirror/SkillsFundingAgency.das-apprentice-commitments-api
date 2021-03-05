@@ -35,7 +35,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return entity?.MapToRegistrationModel();
         }
 
-        public async Task CompleteRegistration(Guid registrationId, long apprenticeId, Guid userIdentityId)
+        public async Task CompleteRegistration(Guid registrationId, Guid userIdentityId)
         {
             var db = _dbContext.Value;
             var entity = await db.Registrations.FirstOrDefaultAsync(x => x.Id == registrationId);
