@@ -2,6 +2,7 @@
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.Models;
+using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -26,11 +27,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return entity.MapToApprenticeModel();
         }
 
-        public async Task ChangeEmailAddress(long apprenticeId, MailAddress email)
+        public async Task ChangeEmailAddress(Guid apprenticeId, MailAddress email)
         {
             var apprentice = await _db.Apprentices
                 .Include(a => a.PreviousEmailAddresses)
-                .SingleAsync(a => a.Id == apprenticeId);
+                .SingleAsync(a => a.UserIdentityId == apprenticeId);
             apprentice.UpdateEmail(email);
             await _db.SaveChangesAsync();
         }

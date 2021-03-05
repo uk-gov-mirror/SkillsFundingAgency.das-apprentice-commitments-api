@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
@@ -16,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         }
 
         [HttpPost("apprentices/{id}/email")]
-        public async Task<IActionResult> CreateRegistration(long id, ChangeEmailAddressCommand request)
+        public async Task<IActionResult> CreateRegistration(Guid id, ChangeEmailAddressCommand request)
         {
             request.ApprenticeId = id;
             await _mediator.Send(request);
