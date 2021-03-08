@@ -31,7 +31,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         {
             var apprentice = await _db.Apprentices
                 .Include(a => a.PreviousEmailAddresses)
-                .SingleAsync(a => a.UserIdentityId == apprenticeId);
+                .SingleAsync(a => a.Id == apprenticeId);
             apprentice.UpdateEmail(email);
             await _db.SaveChangesAsync();
         }

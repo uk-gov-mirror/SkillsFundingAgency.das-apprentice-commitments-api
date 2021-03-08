@@ -13,7 +13,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         public Apprentice(Guid Id, string firstName, string lastName, MailAddress email, DateTime dateOfBirth)
         {
-            UserIdentityId = Id;
+            this.Id = Id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
@@ -21,9 +21,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             PreviousEmailAddresses = new[] { new ApprenticeEmailAddressHistory(email) };
         }
 
-        public long Id { get; private set; }
-
-        public Guid UserIdentityId { get; private set; }
+        public Guid Id { get; private set; }
 
         internal void AddApprenticeship(Apprenticeship apprenticeship)
         {
