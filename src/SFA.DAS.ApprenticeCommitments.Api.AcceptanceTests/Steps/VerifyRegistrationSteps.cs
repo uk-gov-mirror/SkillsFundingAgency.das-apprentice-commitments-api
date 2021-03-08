@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private Registration _registration;
         private Guid _missingRegistrationId;
         private string _validEmail;
-        private long _apprenticeId;
+        private Guid _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
         {
@@ -120,7 +120,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             apprentice.Email.Should().Be(_validEmail);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
             apprentice.UserIdentityId.Should().Be(_command.RegistrationId);
-            _apprenticeId = apprentice.Id;
+            _apprenticeId = apprentice.UserIdentityId;
         }
 
         [Then(@"an apprenticeship record is created")]
@@ -221,7 +221,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var modified = _context.DbContext
                 .Apprentices.Include(x => x.PreviousEmailAddresses)
-                .Single(x => x.Id == _apprenticeId);
+                .Single(x => x.UserIdentityId == _apprenticeId);
 
             modified.PreviousEmailAddresses.Should().ContainEquivalentOf(new
             {

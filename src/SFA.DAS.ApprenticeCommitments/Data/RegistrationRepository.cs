@@ -40,13 +40,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             var db = _dbContext.Value;
             var entity = await db.Registrations.FirstOrDefaultAsync(x => x.Id == registrationId);
 
-            entity.ApprenticeId = apprenticeId;
+            entity.ApprenticeId = registrationId;
             entity.UserIdentityId = userIdentityId;
-
-            db.Attach(entity);
-            db.Entry(entity).Property(x => x.ApprenticeId).IsModified = true;
-            db.Entry(entity).Property(x => x.UserIdentityId).IsModified = true;
-            db.Update(entity);
         }
     }
 }
