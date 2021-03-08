@@ -8,9 +8,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
         public static Apprentice MapToApprentice(this ApprenticeModel apprenticeModel)
         {
             return new Apprentice(
+                apprenticeModel.UserIdentityId,
                 apprenticeModel.FirstName,
                 apprenticeModel.LastName,
-                apprenticeModel.UserIdentityId,
                 apprenticeModel.Email,
                 apprenticeModel.DateOfBirth
                 );
@@ -20,10 +20,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
         {
             return new ApprenticeModel
             {
-                Id = apprentice.Id,
+                UserIdentityId = apprentice.Id,
                 FirstName = apprentice.FirstName,
                 LastName = apprentice.LastName,
-                UserIdentityId = apprentice.UserIdentityId,
                 Email = apprentice.Email,
                 DateOfBirth = apprentice.DateOfBirth
             };

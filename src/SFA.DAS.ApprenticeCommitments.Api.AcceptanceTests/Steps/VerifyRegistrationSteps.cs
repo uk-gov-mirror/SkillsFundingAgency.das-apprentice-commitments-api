@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private Registration _registration;
         private Guid _missingRegistrationId;
         private string _validEmail;
-        private long _apprenticeId;
+        private Guid _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
         {
@@ -69,6 +69,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
             _registration = _f.Build<Registration>()
+                .Without(p => p.ApprenticeId) // There is no proper relationship yet
                 .With(p => p.Email, _validEmail).Create();
 
             _context.DbContext.Registrations.Add(_registration);
@@ -112,21 +113,27 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the apprentice record is created")]
         public void ThenTheApprenticeRecordIsCreated()
         {
-            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.UserIdentityId == _command.UserIdentityId);
+            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.Id == _command.RegistrationId);
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
             apprentice.Email.Should().Be(_validEmail);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
-            apprentice.UserIdentityId.Should().Be(_command.UserIdentityId);
+            apprentice.Id.Should().Be(_command.RegistrationId);
             _apprenticeId = apprentice.Id;
         }
 
         [Then(@"an apprenticeship record is created")]
         public void ThenAnApprenticeshipRecordIsCreated()
         {
-            var apprenticeship = _context.DbContext.Apprenticeships.FirstOrDefault(a => a.ApprenticeId == _apprenticeId);
-            apprenticeship.CommitmentsApprenticeshipId.Should().Be(_registration.ApprenticeshipId);
+            var apprentice = _context.DbContext
+                .Apprentices.Include(x => x.Apprenticeships)
+                .FirstOrDefault(x => x.Id == _command.RegistrationId);
+
+            apprentice.Apprenticeships.Should().ContainEquivalentOf(new
+            {
+                CommitmentsApprenticeshipId = _registration.ApprenticeshipId,
+            });
         }
 
         [Then(@"the registration has been marked as completed")]

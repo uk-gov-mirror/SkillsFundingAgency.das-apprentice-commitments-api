@@ -9,6 +9,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
     public class Database
     {
         private readonly TestContext _context;
+        private TestsDbConnectionFactory dbFactory = new TestsDbConnectionFactory();
 
         public Database(TestContext context)
         {
@@ -19,19 +20,18 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Bindings
         public void Initialise()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApprenticeCommitmentsDbContext>();
-            var options = new TestsDbConnectionFactory()
+            var options = dbFactory
                 .AddConnection(optionsBuilder)
                 .Options;
             _context.DbContext = new UntrackedApprenticeCommitmentsDbContext(options);
 
-            _context.DbContext.Database.EnsureDeleted();
-            _context.DbContext.Database.EnsureCreated();
+            dbFactory.EnsureCreated(_context.DbContext);
         }
 
         [AfterScenario()]
         public void Cleanup()
         {
-            _context.DbContext.Database.EnsureDeleted();
+            dbFactory.EnsureDeleted(_context.DbContext);
             _context?.DbContext?.Dispose();
         }
     }
