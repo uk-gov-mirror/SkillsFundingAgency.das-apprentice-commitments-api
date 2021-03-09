@@ -10,6 +10,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public Guid? ApprenticeId { get; set; }
         public long ApprenticeshipId { get; set; }
         public string Email { get; set; }
+        public string Organisation { get; set; }
         public Guid? UserIdentityId { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }

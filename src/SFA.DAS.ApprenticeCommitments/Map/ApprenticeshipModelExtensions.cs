@@ -10,7 +10,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             return new Apprenticeship
             {
                 Id = model.Id ?? 0,
-                CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId
+                CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId,
+                Organisation = model.Organisation
             };
         }
 
@@ -19,7 +20,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             return new ApprenticeshipModel
             {
                 Id = apprenticeship.Id,
-                CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId
+                CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId,
+                Organisation = apprenticeship.Organisation
             };
         }
     }

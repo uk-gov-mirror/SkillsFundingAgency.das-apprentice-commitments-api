@@ -26,6 +26,15 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
             AssertValidationResult(request => request.Email, email, expectValid);
         }
 
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase(" ", false)]
+        [TestCase("Employer name", true)]
+        public void When_validating_Organisation(string organisation, bool expectValid)
+        {
+            AssertValidationResult(request => request.Organisation, organisation, expectValid);
+        }
+
         [Test]
         public void When_empty_RegistrationId_it_fails()
         {

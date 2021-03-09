@@ -7,7 +7,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     {
         public long Id { get; set; }
         public long CommitmentsApprenticeshipId { get; set; }
-
+        public string Organisation { get; set; }
         public Apprentice Apprentice { get; private set; }
     }
 }
