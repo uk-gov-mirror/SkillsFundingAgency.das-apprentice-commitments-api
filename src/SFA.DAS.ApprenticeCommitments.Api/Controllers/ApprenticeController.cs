@@ -1,8 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
+using SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeQuery;
+using System;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
 {
@@ -14,6 +15,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         public ApprenticesController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("apprentices/{id}/apprenticeships")]
+        public async Task<IActionResult> GetApprentice(Guid id)
+        {
+            var result = await _mediator.Send(new ApprenticeshipsQuery(id));
+            return Ok(result);
         }
 
         [HttpPost("apprentices/{id}/email")]

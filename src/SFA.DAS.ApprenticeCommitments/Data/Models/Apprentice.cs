@@ -23,7 +23,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         public Guid Id { get; private set; }
 
-        internal void AddApprenticeship(Apprenticeship apprenticeship)
+        public void AddApprenticeship(Apprenticeship apprenticeship)
         {
             Apprenticeships.Add(apprenticeship);
         }
