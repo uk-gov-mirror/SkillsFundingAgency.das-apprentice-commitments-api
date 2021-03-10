@@ -9,5 +9,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data
     {
         Task<ApprenticeshipModel> Add(ApprenticeshipModel model);
         Task<List<ApprenticeshipModel>> FindByApprenticeId(Guid apprenticeId);
+        Task<ApprenticeshipModel> Get(Guid apprenticeId, long apprenticeshipId);
     }
 }

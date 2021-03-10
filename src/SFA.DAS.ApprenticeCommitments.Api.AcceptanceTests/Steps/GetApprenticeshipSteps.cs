@@ -1,7 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
-using SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeQuery;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Models;
 using System.Collections.Generic;

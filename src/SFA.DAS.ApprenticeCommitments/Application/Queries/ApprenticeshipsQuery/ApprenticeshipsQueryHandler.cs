@@ -1,26 +1,18 @@
-﻿using MediatR;
-using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
+using SFA.DAS.ApprenticeCommitments.Data;
+using SFA.DAS.ApprenticeCommitments.Models;
 
-namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeQuery
+namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipsQuery
 {
-    public class ApprenticeshipsQuery : IRequest<List<ApprenticeshipModel>>
-    {
-        public ApprenticeshipsQuery(Guid Id) => ApprenticeId = Id;
-
-        public Guid ApprenticeId { get; set; }
-    }
-
-    public class ApprenticeQueryHandler
+    public class ApprenticeshipsQueryHandler
         : IRequestHandler<ApprenticeshipsQuery, List<ApprenticeshipModel>>
     {
         private IApprenticeshipRepository _apprenticeshipRepository;
 
-        public ApprenticeQueryHandler(IApprenticeshipRepository apprenticeshipRepository)
+        public ApprenticeshipsQueryHandler(IApprenticeshipRepository apprenticeshipRepository)
             => _apprenticeshipRepository = apprenticeshipRepository;
 
         public async Task<List<ApprenticeshipModel>> Handle(
