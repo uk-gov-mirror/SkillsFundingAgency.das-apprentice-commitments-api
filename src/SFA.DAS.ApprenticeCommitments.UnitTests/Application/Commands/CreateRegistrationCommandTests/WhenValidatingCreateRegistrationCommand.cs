@@ -30,9 +30,17 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
         [TestCase("", false)]
         [TestCase(" ", false)]
         [TestCase("Employer name", true)]
-        public void When_validating_Organisation(string organisation, bool expectValid)
+        public void When_validating_EmployerName(string employerName, bool expectValid)
         {
-            AssertValidationResult(request => request.Organisation, organisation, expectValid);
+            AssertValidationResult(request => request.EmployerName, employerName, expectValid);
+        }
+
+        [TestCase(0, false)]
+        [TestCase(-10, false)]
+        [TestCase(10, true)]
+        public void When_validating_AccountLegalEntityId(long id, bool expectValid)
+        {
+            AssertValidationResult(request => request.AccountLegalEntityId, id, expectValid);
         }
 
         [Test]

@@ -6,6 +6,7 @@
     [Email] NVARCHAR(150) NOT NULL, 
     [UserIdentityId] UNIQUEIDENTIFIER NULL,
     [CreatedOn] DATETIME2 NOT NULL DEFAULT current_timestamp,
-    [Organisation] NVARCHAR(100) NOT NULL DEFAULT 'Unknown', 
+    [EmployerName] NVARCHAR(100) NOT NULL , 
+    [AccountLegalEntityId] BIGINT NOT NULL, 
     CONSTRAINT PK_Registration_Id PRIMARY KEY CLUSTERED ([Id]),
 )

@@ -11,7 +11,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = model.Id ?? 0,
                 CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId,
-                Organisation = model.Organisation
+                EmployerName = model.EmployerName,
+                AccountLegalEntityId = model.AccountLegalEntityId
+
             };
         }
 
@@ -21,7 +23,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = apprenticeship.Id,
                 CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId,
-                Organisation = apprenticeship.Organisation
+                EmployerName = apprenticeship.EmployerName,
+                AccountLegalEntityId = apprenticeship.AccountLegalEntityId
             };
         }
     }

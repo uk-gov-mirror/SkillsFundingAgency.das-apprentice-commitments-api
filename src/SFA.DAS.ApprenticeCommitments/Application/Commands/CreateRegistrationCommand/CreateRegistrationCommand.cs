@@ -8,6 +8,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
         public Guid RegistrationId { get; set; }
         public long ApprenticeshipId { get; set; }
         public string Email { get; set; }
-        public string Organisation { get; set; }
+        public string EmployerName { get; set; }
+        public long AccountLegalEntityId { get; set; }
     }
 }

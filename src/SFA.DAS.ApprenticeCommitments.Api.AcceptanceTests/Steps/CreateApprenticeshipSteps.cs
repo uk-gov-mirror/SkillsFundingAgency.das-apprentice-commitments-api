@@ -37,7 +37,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 RegistrationId = Guid.NewGuid(),
                 ApprenticeshipId = 1233,
                 Email = "paul@fff.com",
-                Organisation = "My Company"
+                EmployerName = "My Company",
+                AccountLegalEntityId = 61234
             };
         }
 
@@ -75,7 +76,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 .FirstOrDefault(x => x.Id == _createApprenticeshipRequest.RegistrationId);
             registration.Should().NotBeNull();
             registration.Email.Should().Be(_createApprenticeshipRequest.Email);
-            registration.Organisation.Should().Be(_createApprenticeshipRequest.Organisation);
+            registration.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
+            registration.AccountLegalEntityId.Should().Be(_createApprenticeshipRequest.AccountLegalEntityId);
             registration.ApprenticeshipId.Should().Be(_createApprenticeshipRequest.ApprenticeshipId);
         }
     }

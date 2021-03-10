@@ -6,6 +6,7 @@ namespace SFA.DAS.ApprenticeCommitments.Models
     {
         public long? Id { get; set; }
         public long CommitmentsApprenticeshipId { get; set; }
-        public string Organisation { get; set; }
+        public string EmployerName { get; set; }
+        public long AccountLegalEntityId { get; set; }
     }
 }

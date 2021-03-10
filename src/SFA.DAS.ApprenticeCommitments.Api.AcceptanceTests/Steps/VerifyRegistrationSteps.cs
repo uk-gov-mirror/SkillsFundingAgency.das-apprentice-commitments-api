@@ -133,7 +133,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             apprentice.Apprenticeships.Should().ContainEquivalentOf(new
             {
                 CommitmentsApprenticeshipId = _registration.ApprenticeshipId, 
-                _registration.Organisation,
+                _registration.EmployerName,
+                _registration.AccountLegalEntityId
             });
         }
 
