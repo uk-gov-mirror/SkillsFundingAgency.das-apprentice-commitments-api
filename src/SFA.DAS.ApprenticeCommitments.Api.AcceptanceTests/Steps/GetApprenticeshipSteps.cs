@@ -3,8 +3,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Models;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -18,60 +16,66 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private readonly TestContext _context;
         private Fixture _fixture = new Fixture();
         private Apprentice _apprentice;
+        private Apprenticeship _apprenticeship;
 
         public GetApprenticeshipSteps(TestContext context)
         {
             _context = context;
-
-            _apprentice = _fixture.Build<Apprentice>()
-                .Create();
-            _apprentice.AddApprenticeship(_fixture.Create<Apprenticeship>());
+            _apprentice = _fixture.Build<Apprentice>().Create();
+            _apprenticeship = _fixture.Create<Apprenticeship>();
         }
 
-        [Given("there is one apprenticeship")]
-        public async Task GivenThereIsOneApprenticeship()
+        [Given(@"the apprenticeship exists and it's associated with this apprentice")]
+        public async Task GivenTheApprenticeshipExistsAndItSAssociatedWithThisApprentice()
         {
+            _apprentice.AddApprenticeship(_apprenticeship);
             _context.DbContext.Apprentices.Add(_apprentice);
             await _context.DbContext.SaveChangesAsync();
         }
 
-        [Given("there are no apprenticeships")]
-        public async Task GivenThereAreNoApprenticeships()
+        [Given(@"there is no apprenticeship")]
+        public void GivenThereIsNoApprenticeship()
         {
         }
 
-        [When("we try to retrieve the apprenticeships")]
-        public async Task WhenWeTryToRetrieveTheApprenticeships()
+        [Given(@"the apprenticeship exists, but it's associated with another apprentice")]
+        public async Task GivenTheApprenticeshipExistsButItSAssociatedWithAnotherApprentice()
         {
-            await _context.Api.Get($"apprentices/{_apprentice.Id}/apprenticeships");
+            var anotherApprentice = _fixture.Create<Apprentice>();
+            anotherApprentice.AddApprenticeship(_apprenticeship);
+
+            _context.DbContext.Apprentices.Add(anotherApprentice);
+            _context.DbContext.Apprentices.Add(_apprentice);
+            await _context.DbContext.SaveChangesAsync();
         }
 
-        [Then("the result should return ok")]
+        [When(@"we try to retrieve the apprenticeship")]
+        public async Task WhenWeTryToRetrieveTheApprenticeship()
+        {
+            await _context.Api.Get($"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}");
+        }
+
+        [Then(@"the result should return ok")]
         public void ThenTheResultShouldReturnOk()
         {
             _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Then("the response should match the apprenticeship in the database")]
-        public async Task ThenTheResponseShouldMatchTheApprenticeshipInTheDatabase()
+        [Then(@"the response should match the expected apprenticeship values")]
+        public async Task ThenTheResponseShouldMatchTheExpectedApprenticeshipValues()
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
-            content.Should().NotBeNull();
-            var response = JsonConvert.DeserializeObject<List<ApprenticeshipModel>>(content);
-            response.Should().BeEquivalentTo(_apprentice.Apprenticeships.Select(a => new
-            {
-                a.Id,
-                a.CommitmentsApprenticeshipId,
-            }));
+            var a = JsonConvert.DeserializeObject<ApprenticeshipModel>(content);
+            a.Should().NotBeNull();
+            a.Id.Should().Be(_apprenticeship.Id);
+            a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);
+            a.Organisation.Should().Be(_apprenticeship.Organisation);
         }
 
-        [Then("the response be an empty list")]
-        public async Task ThenTheResponseBeAnEmptyList()
+        [Then(@"the result should return NotFound")]
+        public void ThenTheResultShouldReturnNotFound()
         {
-            var content = await _context.Api.Response.Content.ReadAsStringAsync();
-            content.Should().NotBeNull();
-            var response = JsonConvert.DeserializeObject<List<ApprenticeshipModel>>(content);
-            response.Should().BeEmpty();
+            _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
