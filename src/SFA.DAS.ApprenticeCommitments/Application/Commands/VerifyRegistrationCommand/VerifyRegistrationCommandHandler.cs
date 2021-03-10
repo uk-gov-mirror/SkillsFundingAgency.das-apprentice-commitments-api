@@ -42,35 +42,30 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 throw new DomainException("Email from Verifying user doesn't match registered user");
             }
 
-            var apprentice = await AddApprentice(command);
-            await AddApprenticeship(apprentice.Id.Value, registration);
+            var apprentice = await AddApprentice(command, registration);
 
-            await _registrationRepository.CompleteRegistration(registration.Id, apprentice.Id.Value, command.UserIdentityId);
+            await _registrationRepository.CompleteRegistration(registration.Id, command.UserIdentityId);
 
             return Unit.Value;
         }
 
-        private async Task AddApprenticeship(long apprenticeId, RegistrationModel registration)
-        {
-            await _apprenticeshipRepository.Add(new ApprenticeshipModel
-            {
-                ApprenticeId = apprenticeId,
-                CommitmentsApprenticeshipId = registration.ApprenticeshipId
-            });
-        }
-
-        private async Task<ApprenticeModel> AddApprentice(VerifyRegistrationCommand command)
+        private async Task<ApprenticeModel> AddApprentice(VerifyRegistrationCommand command, RegistrationModel registration)
         {
             var apprentice = new ApprenticeModel
             {
+                UserIdentityId = command.RegistrationId,
                 FirstName = command.FirstName,
                 LastName = command.LastName,
                 Email = new MailAddress(command.Email),
-                UserIdentityId = command.UserIdentityId,
                 DateOfBirth = command.DateOfBirth
             };
 
-            return await _apprenticeRepository.Add(apprentice);
+            var apprenticeship = new ApprenticeshipModel
+            {
+                CommitmentsApprenticeshipId = registration.ApprenticeshipId
+            };
+
+            return await _apprenticeRepository.AddApprentice(apprentice, apprenticeship);
         }
     }
 }

@@ -11,23 +11,32 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             // for Entity Framework
         }
 
-        public Apprentice(string firstName, string lastName, Guid userIdentityId, MailAddress email, DateTime dateOfBirth)
+        public Apprentice(Guid Id, string firstName, string lastName, MailAddress email, DateTime dateOfBirth)
         {
+            this.Id = Id;
             FirstName = firstName;
             LastName = lastName;
-            UserIdentityId = userIdentityId;
             Email = email;
             DateOfBirth = dateOfBirth;
             PreviousEmailAddresses = new[] { new ApprenticeEmailAddressHistory(email) };
         }
 
-        public long Id { get; private set; }
+        public Guid Id { get; private set; }
+
+        public void AddApprenticeship(Apprenticeship apprenticeship)
+        {
+            Apprenticeships.Add(apprenticeship);
+        }
+
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public Guid UserIdentityId { get; private set; }
         public MailAddress Email { get; private set; }
         public ICollection<ApprenticeEmailAddressHistory> PreviousEmailAddresses { get; private set; }
         public DateTime DateOfBirth { get; private set; }
+
+        public ICollection<Apprenticeship> Apprenticeships { get; private set; }
+            = new List<Apprenticeship>();
+
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
         internal void UpdateEmail(MailAddress newEmail)
