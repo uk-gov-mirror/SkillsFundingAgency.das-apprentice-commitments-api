@@ -40,7 +40,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
         [TestCase(10, true)]
         public void When_validating_AccountLegalEntityId(long id, bool expectValid)
         {
-            AssertValidationResult(request => request.AccountLegalEntityId, id, expectValid);
+            AssertValidationResult(request => request.EmployerAccountLegalEntityId, id, expectValid);
         }
 
         [Test]

@@ -4,7 +4,7 @@
 	[ApprenticeId] UNIQUEIDENTIFIER NOT NULL, 
     [CommitmentsApprenticeshipId] BIGINT NOT NULL,
 	[EmployerName] NVARCHAR(100) NOT NULL, 
-	[AccountLegalEntityId] BIGINT NOT NULL,
+	[EmployerAccountLegalEntityId] BIGINT NOT NULL,
     CONSTRAINT PK_Apprenticeship_Id PRIMARY KEY CLUSTERED ([Id]),
 	CONSTRAINT FK_Apprenticeship_ApprenticeId FOREIGN KEY ([ApprenticeId]) REFERENCES [dbo].[Apprentice] ([Id])
 )

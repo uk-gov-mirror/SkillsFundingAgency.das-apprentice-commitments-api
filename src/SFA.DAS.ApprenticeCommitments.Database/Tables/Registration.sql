@@ -7,6 +7,6 @@
     [UserIdentityId] UNIQUEIDENTIFIER NULL,
     [CreatedOn] DATETIME2 NOT NULL DEFAULT current_timestamp,
     [EmployerName] NVARCHAR(100) NOT NULL , 
-    [AccountLegalEntityId] BIGINT NOT NULL, 
+    [EmployerAccountLegalEntityId] BIGINT NOT NULL, 
     CONSTRAINT PK_Registration_Id PRIMARY KEY CLUSTERED ([Id]),
 )

@@ -134,7 +134,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             {
                 CommitmentsApprenticeshipId = _registration.ApprenticeshipId, 
                 _registration.EmployerName,
-                _registration.AccountLegalEntityId
+                _registration.EmployerAccountLegalEntityId
             });
         }
 
