@@ -65,6 +65,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 CommitmentsApprenticeshipId = registration.ApprenticeshipId,
                 EmployerName = registration.EmployerName,
                 EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
+                TrainingProviderId = registration.TrainingProviderId,
                 TrainingProviderName = registration.TrainingProviderName,
             };
 

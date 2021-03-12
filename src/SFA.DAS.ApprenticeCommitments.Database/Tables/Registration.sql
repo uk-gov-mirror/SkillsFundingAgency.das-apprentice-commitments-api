@@ -8,6 +8,7 @@
     [CreatedOn] DATETIME2 NOT NULL DEFAULT current_timestamp,
     [EmployerName] NVARCHAR(100) NOT NULL , 
     [EmployerAccountLegalEntityId] BIGINT NOT NULL, 
+    [TrainingProviderId] BIGINT NOT NULL, 
     [TrainingProviderName] NVARCHAR(100) NOT NULL, 
     CONSTRAINT PK_Registration_Id PRIMARY KEY CLUSTERED ([Id]),
 )

@@ -24,6 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
                 Email = command.Email,
                 EmployerName = command.EmployerName,
                 EmployerAccountLegalEntityId = command.EmployerAccountLegalEntityId,
+                TrainingProviderId = command.TrainingProviderId,
                 TrainingProviderName = command.TrainingProviderName,
             });
 

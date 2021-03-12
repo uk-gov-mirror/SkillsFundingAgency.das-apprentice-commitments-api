@@ -39,6 +39,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 Email = "paul@fff.com",
                 EmployerName = "My Company",
                 EmployerAccountLegalEntityId = 61234,
+                TrainingProviderId = 71234,
                 TrainingProviderName = "My Training Provider",
             };
         }
