@@ -64,7 +64,8 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             {
                 CommitmentsApprenticeshipId = registration.ApprenticeshipId,
                 EmployerName = registration.EmployerName,
-                EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId
+                EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
+                TrainingProviderName = registration.TrainingProviderName,
             };
 
             return await _apprenticeRepository.AddApprentice(apprentice, apprenticeship);

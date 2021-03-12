@@ -1,4 +1,4 @@
-using SFA.DAS.ApprenticeCommitments.Data.Models;
+﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Models;
 
 namespace SFA.DAS.ApprenticeCommitments.Map
@@ -30,6 +30,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = registration.EmployerName,
                 EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
                 UserIdentityId = registration.UserIdentityId,
+                TrainingProviderName = registration.TrainingProviderName,
             };
         }
     }
