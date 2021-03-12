@@ -36,5 +36,12 @@ namespace SFA.DAS.ApprenticeCommitments.Data
                 .Where(a => a.Apprentice.Id == apprenticeId).ToListAsync();
             return found.Select(a => a.MapToApprenticeshipModel()).ToList();
         }
+
+        public async Task<ApprenticeshipModel> Get(Guid apprenticeId, long apprenticeshipId)
+        {
+            var db = _dbContext.Value;
+            var match =  await db.Apprenticeships.SingleOrDefaultAsync(a => a.Id == apprenticeshipId && a.Apprentice.Id == apprenticeId);
+            return match?.MapToApprenticeshipModel();
+        }
     }
 }

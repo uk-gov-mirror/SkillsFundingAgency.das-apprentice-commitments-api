@@ -1,7 +1,7 @@
 ﻿@database
 @api
 
-Feature: GetApprenticeship
+Feature: GetApprenticeships
 	As a application user
 	I want to create a valid apprenticeship in the database
 
