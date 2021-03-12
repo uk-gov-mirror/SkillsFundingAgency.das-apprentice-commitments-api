@@ -71,6 +71,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);
             a.EmployerName.Should().Be(_apprenticeship.EmployerName);
             a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.EmployerAccountLegalEntityId);
+            a.TrainingProviderName.Should().Be(_apprenticeship.TrainingProviderName);
         }
 
         [Then(@"the result should return NotFound")]
