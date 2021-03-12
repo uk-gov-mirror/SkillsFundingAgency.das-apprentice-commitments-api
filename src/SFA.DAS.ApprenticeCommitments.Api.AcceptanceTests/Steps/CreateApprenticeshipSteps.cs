@@ -38,7 +38,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 ApprenticeshipId = 1233,
                 Email = "paul@fff.com",
                 EmployerName = "My Company",
-                EmployerAccountLegalEntityId = 61234
+                EmployerAccountLegalEntityId = 61234,
+                TrainingProviderName = "My Training Provider",
             };
         }
 
@@ -79,6 +80,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             registration.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
             registration.EmployerAccountLegalEntityId.Should().Be(_createApprenticeshipRequest.EmployerAccountLegalEntityId);
             registration.ApprenticeshipId.Should().Be(_createApprenticeshipRequest.ApprenticeshipId);
+            registration.TrainingProviderName.Should().Be(_createApprenticeshipRequest.TrainingProviderName);
         }
     }
 }

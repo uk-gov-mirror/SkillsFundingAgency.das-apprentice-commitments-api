@@ -14,5 +14,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long EmployerAccountLegalEntityId { get; set; }
         public Guid? UserIdentityId { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public string TrainingProviderName { get; set; }
     }
 }
