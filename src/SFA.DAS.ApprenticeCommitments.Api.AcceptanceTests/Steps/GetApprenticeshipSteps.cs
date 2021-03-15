@@ -38,20 +38,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
         }
 
-        [Given("the apprenticship exists and it's assodicated with another apprentice")]
-        public async Task GivenThereExistsAnApprenticshipForAnotherApprentice()
-        {
-            _apprentice.AddApprenticeship(_fixture.Create<Apprenticeship>());
-
-            var otherApprentice = _fixture.Create<Apprentice>();
-            otherApprentice.AddApprenticeship(_apprenticeship);
-
-            _context.DbContext.Apprentices.Add(_apprentice);
-            _context.DbContext.Apprentices.Add(otherApprentice);
-
-            await _context.DbContext.SaveChangesAsync();
-        }
-
         [Given(@"the apprenticeship exists, but it's associated with another apprentice")]
         public async Task GivenTheApprenticeshipExistsButItSAssociatedWithAnotherApprentice()
         {

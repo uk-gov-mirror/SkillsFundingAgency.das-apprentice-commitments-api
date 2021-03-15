@@ -15,11 +15,6 @@ Scenario: When the apprenticeship doesn't exist
 	When we try to retrieve the apprenticeship
 	Then the result should return NotFound
 
-Scenario: When the apprenticeship exists but for a different apprentice
-	Given the apprenticship exists and it's assodicated with another apprentice
-	When we try to retrieve the apprenticeship
-	Then the result should return NotFound
-
 Scenario: When the apprenticeship exists, but not for this apprentice
 	Given the apprenticeship exists, but it's associated with another apprentice
 	When we try to retrieve the apprenticeship
