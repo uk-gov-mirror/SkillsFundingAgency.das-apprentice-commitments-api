@@ -43,6 +43,23 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Application.Commands.CreateReg
             AssertValidationResult(request => request.EmployerAccountLegalEntityId, id, expectValid);
         }
 
+        [TestCase(null, false)]
+        [TestCase("", false)]
+        [TestCase(" ", false)]
+        [TestCase("Training Provider name", true)]
+        public void When_validating_TrainingName(string trainingProviderName, bool expectValid)
+        {
+            AssertValidationResult(request => request.TrainingProviderName, trainingProviderName, expectValid);
+        }
+
+        [TestCase(0, false)]
+        [TestCase(-10, false)]
+        [TestCase(10, true)]
+        public void When_validating_TrainingProviderId(long id, bool expectValid)
+        {
+            AssertValidationResult(request => request.TrainingProviderId, id, expectValid);
+        }
+
         [Test]
         public void When_empty_RegistrationId_it_fails()
         {
