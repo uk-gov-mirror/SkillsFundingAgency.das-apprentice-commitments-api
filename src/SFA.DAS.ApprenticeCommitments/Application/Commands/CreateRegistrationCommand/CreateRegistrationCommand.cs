@@ -1,5 +1,5 @@
-﻿using System;
-using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
+﻿using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
+using System;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand
 {
@@ -10,5 +10,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
         public string Email { get; set; }
         public string EmployerName { get; set; }
         public long EmployerAccountLegalEntityId { get; set; }
+        public long TrainingProviderId { get; set; }
+        public string TrainingProviderName { get; set; }
     }
 }

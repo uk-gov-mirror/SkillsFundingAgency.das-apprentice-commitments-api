@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand
 {
@@ -15,10 +14,19 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
         {
             _registrationRepository = registrationRepository;
         }
+
         public async Task<Unit> Handle(CreateRegistrationCommand command, CancellationToken cancellationToken)
         {
-            await _registrationRepository.Add(new RegistrationModel {Id = command.RegistrationId, ApprenticeshipId = command.ApprenticeshipId, 
-                Email = command.Email, EmployerName = command.EmployerName, EmployerAccountLegalEntityId = command.EmployerAccountLegalEntityId });
+            await _registrationRepository.Add(new RegistrationModel
+            {
+                Id = command.RegistrationId,
+                ApprenticeshipId = command.ApprenticeshipId,
+                Email = command.Email,
+                EmployerName = command.EmployerName,
+                EmployerAccountLegalEntityId = command.EmployerAccountLegalEntityId,
+                TrainingProviderId = command.TrainingProviderId,
+                TrainingProviderName = command.TrainingProviderName,
+            });
 
             return Unit.Value;
         }

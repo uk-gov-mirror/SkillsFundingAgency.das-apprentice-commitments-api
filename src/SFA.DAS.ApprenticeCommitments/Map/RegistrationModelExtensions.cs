@@ -15,7 +15,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = registrationModel.EmployerName,
                 EmployerAccountLegalEntityId = registrationModel.EmployerAccountLegalEntityId,
                 UserIdentityId = registrationModel.UserIdentityId,
-                ApprenticeId = registrationModel.Id
+                ApprenticeId = registrationModel.Id,
+                TrainingProviderId = registrationModel.TrainingProviderId,
+                TrainingProviderName = registrationModel.TrainingProviderName,
             };
         }
 
@@ -29,6 +31,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = registration.EmployerName,
                 EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
                 UserIdentityId = registration.UserIdentityId,
+                TrainingProviderId = registration.TrainingProviderId,
+                TrainingProviderName = registration.TrainingProviderName,
             };
         }
     }
