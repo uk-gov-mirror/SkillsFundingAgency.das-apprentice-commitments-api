@@ -15,7 +15,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         private readonly TestContext _context;
         private readonly Apprentice _apprentice;
         private readonly Apprenticeship _apprenticeship;
-        private ConfirmTrainingProviderRequest _command;
+        private bool _trainingProviderCorrectness;
 
         public ConfirmTrainingProviderSteps(TestContext context)
         {
@@ -38,18 +38,26 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         [Given("a ConfirmTrainingProviderRequest stating the training provider is correct")]
         public void GivenAConfirmTrainingProviderRequestStatingTheTrainingProviderIsCorrect()
         {
-            _command = new ConfirmTrainingProviderRequest
-            {
-                TrainingProviderCorrect = true,
-            };
+            _trainingProviderCorrectness = true;
+        }
+
+        [Given(@"a ConfirmTrainingProviderRequest stating the training provider is incorrect")]
+        public void GivenAConfirmTrainingProviderRequestStatingTheTrainingProviderIsIncorrect()
+        {
+            _trainingProviderCorrectness = false;
         }
 
         [When("we send the confirmation")]
         public async Task WhenWeSendTheConfirmation()
         {
+            var command = new ConfirmTrainingProviderRequest
+            {
+                TrainingProviderCorrect = _trainingProviderCorrectness,
+            };
+
             await _context.Api.Post(
                 $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/TrainingProviderConfirmation",
-                _command);
+                command);
         }
 
         [Then("the response is OK")]
@@ -64,7 +72,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             _context.DbContext.Apprenticeships.Should().ContainEquivalentOf(new
             {
                 _apprenticeship.Id,
-                TrainingProviderCorrect = true,
+                TrainingProviderCorrect = _trainingProviderCorrectness,
             });
         }
     }

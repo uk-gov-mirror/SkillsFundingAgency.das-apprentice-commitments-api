@@ -28,7 +28,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = apprenticeship.EmployerName,
                 EmployerAccountLegalEntityId = apprenticeship.EmployerAccountLegalEntityId,
                 TrainingProviderId = apprenticeship.TrainingProviderId,
-                TrainingProviderName = apprenticeship.TrainingProviderName, 
+                TrainingProviderName = apprenticeship.TrainingProviderName,
+                TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
             };
         }
     }

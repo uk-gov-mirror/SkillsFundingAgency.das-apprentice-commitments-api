@@ -9,3 +9,10 @@ Scenario: Positively confirm a training provider
 	When we send the confirmation
 	Then the response is OK
 	And the apprenticeship record is updated
+
+Scenario: Negatively confirm a training provider
+	Given we have an apprenticeship waiting to be confirmed
+	And a ConfirmTrainingProviderRequest stating the training provider is incorrect
+	When we send the confirmation
+	Then the response is OK
+	And the apprenticeship record is updated
