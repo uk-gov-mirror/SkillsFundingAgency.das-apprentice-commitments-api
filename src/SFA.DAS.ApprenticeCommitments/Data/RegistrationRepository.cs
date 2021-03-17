@@ -7,7 +7,7 @@ using SFA.DAS.ApprenticeCommitments.Models;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
-    public class RegistrationRepository : IRegistrationRepository
+    public class RegistrationRepository
     {
         private readonly Lazy<ApprenticeCommitmentsDbContext> _dbContext;
 

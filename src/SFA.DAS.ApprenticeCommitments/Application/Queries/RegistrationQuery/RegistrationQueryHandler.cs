@@ -8,9 +8,9 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 {
     public class RegistrationQueryHandler : IRequestHandler<RegistrationQuery, RegistrationResponse>
     {
-        private readonly IRegistrationRepository _registrationRepository;
+        private readonly RegistrationRepository _registrationRepository;
 
-        public RegistrationQueryHandler(IRegistrationRepository registrationRepository)
+        public RegistrationQueryHandler(RegistrationRepository registrationRepository)
         {
             _registrationRepository = registrationRepository;
         }

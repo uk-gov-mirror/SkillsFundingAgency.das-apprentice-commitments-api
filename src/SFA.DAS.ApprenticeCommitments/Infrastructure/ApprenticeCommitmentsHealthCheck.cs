@@ -1,17 +1,16 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Threading.Tasks;
-using System.Threading;
-using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Data;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Infrastructure
 {
     public class ApprenticeCommitmentsHealthCheck : IHealthCheck
     {
         private const string HealthCheckResultsDescription = "Apprentice Commitments API Health Check";
-        private readonly IRegistrationRepository _registrationRepository;
+        private readonly RegistrationRepository _registrationRepository;
 
-        public ApprenticeCommitmentsHealthCheck(IRegistrationRepository registrationRepository)
+        public ApprenticeCommitmentsHealthCheck(RegistrationRepository registrationRepository)
         {
             _registrationRepository = registrationRepository;
         }

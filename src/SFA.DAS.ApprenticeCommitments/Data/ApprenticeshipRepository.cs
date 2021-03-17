@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
-    public class ApprenticeshipRepository : IApprenticeshipRepository
+    public class ApprenticeshipRepository
     {
         private readonly Lazy<ApprenticeCommitmentsDbContext> _dbContext;
 
