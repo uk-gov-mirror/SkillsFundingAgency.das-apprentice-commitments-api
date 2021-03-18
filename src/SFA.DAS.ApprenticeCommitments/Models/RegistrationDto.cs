@@ -2,7 +2,7 @@ using System;
 
 namespace SFA.DAS.ApprenticeCommitments.Models
 {
-    public class RegistrationModel
+    public class RegistrationDto
     {
         public Guid Id { get; set; }
         public long ApprenticeshipId { get; set; }

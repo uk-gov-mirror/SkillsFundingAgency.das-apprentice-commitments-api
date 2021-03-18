@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Models
 {
-    public class ApprenticeModel
+    public class ApprenticeDto
     {
         public long? Id { get; internal set; }
         public string FirstName { get; set; }

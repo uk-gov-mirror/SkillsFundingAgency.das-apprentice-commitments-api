@@ -9,7 +9,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Map.RegistrationModelExtension
     public class WhenMappingToRegistration
     {
         [Test, AutoData]
-        public void Then_properties_should_be_mapped_to_registration_entity(RegistrationModel sut)
+        public void Then_properties_should_be_mapped_to_registration_entity(RegistrationDto sut)
         {
             var registration = sut.MapToRegistration();
 

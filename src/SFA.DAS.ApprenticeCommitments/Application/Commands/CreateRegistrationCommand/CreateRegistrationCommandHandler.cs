@@ -17,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
 
         public async Task<Unit> Handle(CreateRegistrationCommand command, CancellationToken cancellationToken)
         {
-            await _registrationRepository.Add(new RegistrationModel
+            await _registrationRepository.Add(new RegistrationDto
             {
                 Id = command.RegistrationId,
                 ApprenticeshipId = command.ApprenticeshipId,

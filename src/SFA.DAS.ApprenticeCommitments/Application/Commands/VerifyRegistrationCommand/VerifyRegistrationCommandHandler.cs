@@ -37,7 +37,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             return Unit.Value;
         }
 
-        private async Task AddApprentice(VerifyRegistrationCommand command, RegistrationModel registration)
+        private async Task AddApprentice(VerifyRegistrationCommand command, RegistrationDto registration)
         {
             var apprentice = new Apprentice(
                 command.RegistrationId,

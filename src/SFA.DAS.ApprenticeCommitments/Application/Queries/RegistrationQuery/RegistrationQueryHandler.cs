@@ -22,7 +22,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
             return Map(model); 
         }
 
-        private RegistrationResponse Map(RegistrationModel model)
+        private RegistrationResponse Map(RegistrationDto model)
         {
             if (model == null)
             {

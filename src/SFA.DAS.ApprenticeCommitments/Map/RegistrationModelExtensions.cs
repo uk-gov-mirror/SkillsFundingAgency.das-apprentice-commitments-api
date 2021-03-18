@@ -5,7 +5,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
 {
     public static class RegistrationModelExtensions
     {
-        public static Registration MapToRegistration(this RegistrationModel registrationModel)
+        public static Registration MapToRegistration(this RegistrationDto registrationModel)
         {
             return new Registration
             {
@@ -21,9 +21,9 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             };
         }
 
-        public static RegistrationModel MapToRegistrationModel(this Registration registration)
+        public static RegistrationDto MapToRegistrationModel(this Registration registration)
         {
-            return new RegistrationModel
+            return new RegistrationDto
             {
                 Id = registration.Id,
                 ApprenticeshipId = registration.ApprenticeshipId,

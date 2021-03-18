@@ -26,7 +26,7 @@ namespace SFA.DAS.ApprenticeCommitments.UnitTests.Data.RegistrationRepositoryTes
         }
 
         [Test, AutoData]
-        public async Task Then_registration_should_be_saved_in_dbContext(RegistrationModel registrationModel)
+        public async Task Then_registration_should_be_saved_in_dbContext(RegistrationDto registrationModel)
         {
             await _sut.Add(registrationModel);
 

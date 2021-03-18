@@ -16,7 +16,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             _dbContext = dbContext;
         }
 
-        public async Task Add(RegistrationModel model)
+        public async Task Add(RegistrationDto model)
         {
             await _dbContext.Value.AddAsync(model.MapToRegistration());
         }
@@ -27,7 +27,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return await db.Registrations.AnyAsync();
         }
 
-        public async Task<RegistrationModel> Get(Guid registrationId)
+        public async Task<RegistrationDto> Get(Guid registrationId)
         {
             var db = _dbContext.Value;
             var entity = await db.Registrations.FirstOrDefaultAsync(x=>x.Id == registrationId);
