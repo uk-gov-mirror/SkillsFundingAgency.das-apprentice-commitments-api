@@ -7,19 +7,6 @@ namespace SFA.DAS.ApprenticeCommitments.Map
 {
     public static class ApprenticeshipModelExtensions
     {
-        public static Apprenticeship MapToApprenticeship(this ApprenticeshipDto model)
-            => model.MapToApprenticeship(new Apprenticeship { Id = model.Id ?? 0 });
-
-        public static Apprenticeship MapToApprenticeship(this ApprenticeshipDto model, Apprenticeship apprenticeship)
-        {
-            apprenticeship.CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId;
-            apprenticeship.EmployerName = model.EmployerName;
-            apprenticeship.EmployerAccountLegalEntityId = model.EmployerAccountLegalEntityId;
-            apprenticeship.TrainingProviderId = model.TrainingProviderId;
-            apprenticeship.TrainingProviderName = model.TrainingProviderName;
-            return apprenticeship;
-        }
-
         public static ApprenticeshipDto? MapToApprenticeshipModel(this Apprenticeship? apprenticeship)
         {
             if (apprenticeship == null) return null;
