@@ -3,6 +3,7 @@ using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.Models;
 using System;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -32,6 +33,14 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             await _db.AddAsync(apprentice);
             await _db.SaveChangesAsync(); // to populate the ID
             return apprentice;
+        }
+
+        internal async Task<Apprentice> GetById(Guid apprenticeId,
+            Action<IQueryable<Apprentice>> addIncludes)
+        {
+            var query = _db.Apprentices;
+            addIncludes(query);
+            return await query.SingleOrDefaultAsync(a => a.Id == apprenticeId);
         }
 
         public async Task ChangeEmailAddress(Guid apprenticeId, MailAddress email)

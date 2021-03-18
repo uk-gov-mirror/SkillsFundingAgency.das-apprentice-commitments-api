@@ -30,6 +30,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             Apprenticeships.Add(apprenticeship);
         }
 
+        internal ICollection<ApprenticeEmailAddressHistory> Include(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
+
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public MailAddress Email { get; private set; }
