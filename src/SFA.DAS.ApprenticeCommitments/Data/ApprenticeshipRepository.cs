@@ -20,14 +20,14 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             _dbContext = dbContext;
         }
 
-        public async Task<List<Apprenticeship>> FindByApprenticeIdDb(Guid apprenticeId)
+        public async Task<List<Apprenticeship>> FindByApprenticeId(Guid apprenticeId)
         {
             var found = await _dbContext.Value.Apprenticeships
                 .Where(a => a.Apprentice.Id == apprenticeId).ToListAsync();
             return found;
         }
 
-        public async Task<Apprenticeship?> GetDb(Guid apprenticeId, long apprenticeshipId)
+        public async Task<Apprenticeship?> Get(Guid apprenticeId, long apprenticeshipId)
         {
             var db = _dbContext.Value;
             var match =  await db.Apprenticeships
