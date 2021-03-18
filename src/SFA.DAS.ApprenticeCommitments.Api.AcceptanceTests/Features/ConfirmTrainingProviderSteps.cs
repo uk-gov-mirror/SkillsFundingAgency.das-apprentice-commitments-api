@@ -22,9 +22,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             _context = context;
 
             _apprentice = _fixture.Create<Apprentice>();
-            _apprenticeship = _fixture.Build<Apprenticeship>()
-                .With(a => a.TrainingProviderCorrect, () => null)
-                .Create();
+            _apprenticeship = _fixture.Create<Apprenticeship>();
             _apprentice.AddApprenticeship(_apprenticeship);
         }
 

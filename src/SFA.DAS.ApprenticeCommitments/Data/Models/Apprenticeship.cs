@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using SFA.DAS.ApprenticeCommitments.Exceptions;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
@@ -12,6 +14,17 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
         public Apprentice Apprentice { get; private set; }
-        public bool? TrainingProviderCorrect { get; set; }
+        public bool? TrainingProviderCorrect { get; private set; }
+
+        internal void ConfirmTrainingProvider(bool trainingProviderCorrect)
+        {
+            if (TrainingProviderCorrect != null)
+            {
+                throw new DomainException(
+                    "Cannot update TrainingProviderCorrect state more than once");
+            }
+
+            TrainingProviderCorrect = trainingProviderCorrect;
+        }
     }
 }

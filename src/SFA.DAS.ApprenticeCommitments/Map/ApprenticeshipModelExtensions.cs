@@ -15,7 +15,6 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             apprenticeship.EmployerAccountLegalEntityId = model.EmployerAccountLegalEntityId;
             apprenticeship.TrainingProviderId = model.TrainingProviderId;
             apprenticeship.TrainingProviderName = model.TrainingProviderName;
-            apprenticeship.TrainingProviderCorrect = model.TrainingProviderCorrect;
             return apprenticeship;
         }
 

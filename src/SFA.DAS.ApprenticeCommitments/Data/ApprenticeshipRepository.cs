@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
     public class ApprenticeshipRepository
@@ -42,6 +44,16 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             var db = _dbContext.Value;
             var match =  await db.Apprenticeships.SingleOrDefaultAsync(a => a.Id == apprenticeshipId && a.Apprentice.Id == apprenticeId);
             return match?.MapToApprenticeshipModel();
+        }
+
+        public async Task<Apprenticeship?> GetDb(Guid apprenticeId, long apprenticeshipId)
+        {
+            var db = _dbContext.Value;
+            var match =  await db.Apprenticeships
+                .SingleOrDefaultAsync(
+                    a => a.Id == apprenticeshipId &&
+                    a.Apprentice.Id == apprenticeId);
+            return match;
         }
 
         internal async Task Update(ApprenticeshipModel apprenticeship)

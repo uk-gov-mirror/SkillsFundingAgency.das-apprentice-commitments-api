@@ -40,12 +40,10 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmTrainingProv
             CancellationToken cancellationToken)
         {
             var apprenticeship =
-                await _apprenticeships.Get(request.ApprenticeId, request.ApprenticeshipId)
+                await _apprenticeships.GetDb(request.ApprenticeId, request.ApprenticeshipId)
                 ?? throw new DomainException($"Apprenticeship {request.ApprenticeshipId} for {request.ApprenticeId} not found");
 
             apprenticeship.ConfirmTrainingProvider(request.TrainingProviderCorrect);
-
-            await _apprenticeships.Update(apprenticeship);
 
             return Unit.Value;
         }
