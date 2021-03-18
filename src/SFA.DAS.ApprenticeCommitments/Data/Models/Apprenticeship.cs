@@ -1,5 +1,4 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Exceptions;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models

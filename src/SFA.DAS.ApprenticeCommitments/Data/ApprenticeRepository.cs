@@ -27,6 +27,13 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return entity.MapToApprenticeModel();
         }
 
+        public async Task<Apprentice> AddApprenticeDb(Apprentice apprentice)
+        {
+            await _db.AddAsync(apprentice);
+            await _db.SaveChangesAsync(); // to populate the ID
+            return apprentice;
+        }
+
         public async Task ChangeEmailAddress(Guid apprenticeId, MailAddress email)
         {
             var apprentice = await _db.Apprentices

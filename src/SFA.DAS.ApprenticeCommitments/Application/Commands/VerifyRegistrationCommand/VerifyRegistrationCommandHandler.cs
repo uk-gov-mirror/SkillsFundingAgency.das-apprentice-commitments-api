@@ -1,11 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using SFA.DAS.ApprenticeCommitments.Data;
+using SFA.DAS.ApprenticeCommitments.Data.Models;
+using SFA.DAS.ApprenticeCommitments.Exceptions;
+using SFA.DAS.ApprenticeCommitments.Map;
+using SFA.DAS.ApprenticeCommitments.Models;
+using System;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Exceptions;
-using SFA.DAS.ApprenticeCommitments.Models;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand
 {
@@ -21,9 +23,9 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             _apprenticeRepository = apprenticeRepository;
             _apprenticeshipRepository = apprenticeshipRepository;
         }
+
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
         {
-            
             var registration = await _registrationRepository.Get(command.RegistrationId);
 
             if (registration == null)
@@ -51,25 +53,25 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 
         private async Task<ApprenticeModel> AddApprentice(VerifyRegistrationCommand command, RegistrationModel registration)
         {
-            var apprentice = new ApprenticeModel
-            {
-                UserIdentityId = command.RegistrationId,
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                Email = new MailAddress(command.Email),
-                DateOfBirth = command.DateOfBirth
-            };
+            var apprentice = new Apprentice(
+                command.RegistrationId,
+                command.FirstName,
+                command.LastName,
+                new MailAddress(command.Email),
+                command.DateOfBirth);
 
-            var apprenticeship = new ApprenticeshipDto
+            apprentice.AddApprenticeship(new Apprenticeship
             {
                 CommitmentsApprenticeshipId = registration.ApprenticeshipId,
                 EmployerName = registration.EmployerName,
                 EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
                 TrainingProviderId = registration.TrainingProviderId,
                 TrainingProviderName = registration.TrainingProviderName,
-            };
+            });
 
-            return await _apprenticeRepository.AddApprentice(apprentice, apprenticeship);
+            await _apprenticeRepository.AddApprenticeDb(apprentice);
+
+            return apprentice.MapToApprenticeModel();
         }
     }
 }

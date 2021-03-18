@@ -6,6 +6,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
     public class Apprentice
     {
+        internal Apprenticeship ad;
+
         private Apprentice()
         {
             // for Entity Framework
