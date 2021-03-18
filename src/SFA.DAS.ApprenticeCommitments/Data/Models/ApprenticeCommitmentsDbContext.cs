@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Net.Mail;
 
@@ -52,6 +52,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.TrainingProviderName).IsRequired();
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.HasOne(e => e.Apprentice).WithOne().HasForeignKey<Apprentice>("ApprenticeId");
             });
 
             base.OnModelCreating(modelBuilder);

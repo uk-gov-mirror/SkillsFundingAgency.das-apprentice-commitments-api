@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SFA.DAS.ApprenticeCommitments.Exceptions;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
+
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
@@ -16,5 +19,33 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
+
+        public Apprentice? Apprentice { get; private set; }
+
+        public bool HasBeenCompleted => UserIdentityId != null;
+
+        internal void Verify(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        {
+            if (HasBeenCompleted)
+                throw new DomainException("Already verified");
+
+            // Verify Email matches incoming email
+            if (!mailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
+                throw new DomainException("Email from Verifying user doesn't match registered user");
+
+            UserIdentityId = userIdentityId;
+            AddApprentice(firstName, lastName, mailAddress, dateOfBirth);
+        }
+
+        private void AddApprentice(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth)
+        {
+            Apprentice = new Apprentice(
+                Id, firstName, lastName, mailAddress, dateOfBirth);
+
+            Apprentice.AddApprenticeship(new Apprenticeship(
+                ApprenticeshipId,
+                EmployerAccountLegalEntityId, EmployerName,
+                TrainingProviderId, TrainingProviderName));
+        }
     }
 }

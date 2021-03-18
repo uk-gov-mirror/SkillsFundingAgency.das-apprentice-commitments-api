@@ -3,7 +3,6 @@ using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Exceptions;
 using SFA.DAS.ApprenticeCommitments.Models;
-using System;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,27 +24,15 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
         {
-            var registration = await _registrationRepository.Get(command.RegistrationId);
+            var registration = await _registrationRepository.GetDb(command.RegistrationId);
 
             if (registration == null)
-            {
                 throw new DomainException($"Registration {command.RegistrationId} not found");
-            }
 
-            if (registration.HasBeenCompleted)
-            {
-                throw new DomainException("Already verified");
-            }
-
-            // Verify Email matches incoming email
-            if (!command.Email.Equals(registration.Email, StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new DomainException("Email from Verifying user doesn't match registered user");
-            }
-
-            await AddApprentice(command, registration);
-
-            await _registrationRepository.CompleteRegistration(registration.Id, command.UserIdentityId);
+            registration.Verify(
+                command.FirstName, command.LastName,
+                new MailAddress(command.Email), command.DateOfBirth,
+                command.UserIdentityId);
 
             return Unit.Value;
         }
@@ -65,7 +52,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 registration.EmployerName,
                 registration.TrainingProviderId,
                 registration.TrainingProviderName
-            ));
+                                                           ));
 
             await _apprenticeRepository.AddApprenticeDb(apprentice);
         }

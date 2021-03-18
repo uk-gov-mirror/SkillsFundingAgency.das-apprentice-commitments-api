@@ -13,8 +13,5 @@ namespace SFA.DAS.ApprenticeCommitments.Models
         public string TrainingProviderName { get; internal set; }
         public DateTime? CreatedOn { get; private set; }
         public Guid? UserIdentityId { get; set; }
-        public long? ApprenticeId { get; set; }
-
-        public bool HasBeenCompleted => UserIdentityId != null;
     }
 }
