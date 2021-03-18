@@ -59,14 +59,13 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 new MailAddress(command.Email),
                 command.DateOfBirth);
 
-            apprentice.AddApprenticeship(new Apprenticeship
-            {
-                CommitmentsApprenticeshipId = registration.ApprenticeshipId,
-                EmployerName = registration.EmployerName,
-                EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
-                TrainingProviderId = registration.TrainingProviderId,
-                TrainingProviderName = registration.TrainingProviderName,
-            });
+            apprentice.AddApprenticeship(new Apprenticeship(
+                registration.ApprenticeshipId,
+                registration.EmployerAccountLegalEntityId,
+                registration.EmployerName,
+                registration.TrainingProviderId,
+                registration.TrainingProviderName
+            ));
 
             await _apprenticeRepository.AddApprenticeDb(apprentice);
         }

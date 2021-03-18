@@ -1,12 +1,32 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Exceptions;
 using System.ComponentModel.DataAnnotations.Schema;
 
+#nullable enable
+
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
     [Table("Apprenticeship")]
     public class Apprenticeship
     {
-        public long Id { get; set; }
+        private Apprenticeship()
+        {
+            // for Entity Framework
+        }
+
+        public Apprenticeship(long commitmentsApprenticeshipId,
+            long employerAccountLegalEntityId,
+            string employerName,
+            long trainingProviderId,
+            string trainingProviderName)
+        {
+            CommitmentsApprenticeshipId = commitmentsApprenticeshipId;
+            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
+            EmployerName = employerName;
+            TrainingProviderId = trainingProviderId;
+            TrainingProviderName = trainingProviderName;
+        }
+
+        public long Id { get; private set; }
         public long CommitmentsApprenticeshipId { get; set; }
         public string EmployerName { get; set; }
         public long EmployerAccountLegalEntityId { get; set; }
