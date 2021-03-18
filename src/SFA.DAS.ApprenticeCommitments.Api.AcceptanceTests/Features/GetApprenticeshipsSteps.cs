@@ -57,7 +57,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
-            var response = JsonConvert.DeserializeObject<List<ApprenticeshipModel>>(content);
+            var response = JsonConvert.DeserializeObject<List<ApprenticeshipDto>>(content);
             response.Should().BeEquivalentTo(_apprentice.Apprenticeships.Select(a => new
             {
                 a.Id,
@@ -70,7 +70,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
-            var response = JsonConvert.DeserializeObject<List<ApprenticeshipModel>>(content);
+            var response = JsonConvert.DeserializeObject<List<ApprenticeshipDto>>(content);
             response.Should().BeEmpty();
         }
     }

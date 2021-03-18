@@ -4,7 +4,7 @@ using SFA.DAS.ApprenticeCommitments.Models;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipQuery
 {
-    public class ApprenticeshipQuery : IRequest<ApprenticeshipModel>
+    public class ApprenticeshipQuery : IRequest<ApprenticeshipDto>
     {
         public ApprenticeshipQuery(Guid apprenticeId, long apprenticeshipId)
         {

@@ -1,23 +1,27 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
+using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipQuery
 {
-    public class ApprenticeshipQueryHandler : IRequestHandler<ApprenticeshipQuery, ApprenticeshipModel>
+    public class ApprenticeshipQueryHandler : IRequestHandler<ApprenticeshipQuery, ApprenticeshipDto>
     {
         private readonly ApprenticeshipRepository _apprenticeshipRepository;
 
         public ApprenticeshipQueryHandler(ApprenticeshipRepository apprenticeshipRepository)
             => _apprenticeshipRepository = apprenticeshipRepository;
 
-        public Task<ApprenticeshipModel> Handle(
+        public async Task<ApprenticeshipDto> Handle(
             ApprenticeshipQuery request,
             CancellationToken cancellationToken)
         {
-            return _apprenticeshipRepository.Get(request.ApprenticeId, request.ApprenticeshipId);
+            var entity = await _apprenticeshipRepository
+                .GetDb(request.ApprenticeId, request.ApprenticeshipId);
+
+            return entity.MapToApprenticeshipModel();
         }
     }
 }

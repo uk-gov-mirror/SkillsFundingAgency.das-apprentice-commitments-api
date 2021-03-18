@@ -18,7 +18,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         }
 
         public async Task<ApprenticeModel> AddApprentice(
-            ApprenticeModel apprentice, ApprenticeshipModel firstApprenticeship)
+            ApprenticeModel apprentice, ApprenticeshipDto firstApprenticeship)
         {
             var entity = apprentice.MapToApprentice();
             entity.AddApprenticeship(firstApprenticeship.MapToApprenticeship());

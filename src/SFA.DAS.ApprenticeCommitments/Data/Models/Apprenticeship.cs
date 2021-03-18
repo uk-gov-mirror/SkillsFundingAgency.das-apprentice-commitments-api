@@ -16,7 +16,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public Apprentice Apprentice { get; private set; }
         public bool? TrainingProviderCorrect { get; private set; }
 
-        internal void ConfirmTrainingProvider(bool trainingProviderCorrect)
+        public void ConfirmTrainingProvider(bool trainingProviderCorrect)
         {
             if (TrainingProviderCorrect != null)
             {

@@ -60,7 +60,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 DateOfBirth = command.DateOfBirth
             };
 
-            var apprenticeship = new ApprenticeshipModel
+            var apprenticeship = new ApprenticeshipDto
             {
                 CommitmentsApprenticeshipId = registration.ApprenticeshipId,
                 EmployerName = registration.EmployerName,

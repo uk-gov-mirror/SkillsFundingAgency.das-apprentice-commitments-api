@@ -22,7 +22,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context = context;
             _apprentice = _fixture.Build<Apprentice>().Create();
-            _apprenticeship = _fixture.Create<Apprenticeship>();
+            _apprenticeship = _fixture.Build<Apprenticeship>()
+                .Do(a => a.ConfirmTrainingProvider(true))
+                .Create();
         }
 
         [Given(@"the apprenticeship exists and it's associated with this apprentice")]
@@ -65,7 +67,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public async Task ThenTheResponseShouldMatchTheExpectedApprenticeshipValues()
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
-            var a = JsonConvert.DeserializeObject<ApprenticeshipModel>(content);
+            var a = JsonConvert.DeserializeObject<ApprenticeshipDto>(content);
             a.Should().NotBeNull();
             a.Id.Should().Be(_apprenticeship.Id);
             a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);

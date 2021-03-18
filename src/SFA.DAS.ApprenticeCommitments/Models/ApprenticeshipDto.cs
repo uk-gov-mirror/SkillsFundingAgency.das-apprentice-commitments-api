@@ -1,6 +1,6 @@
 ﻿namespace SFA.DAS.ApprenticeCommitments.Models
 {
-    public class ApprenticeshipModel
+    public class ApprenticeshipDto
     {
         public long? Id { get; set; }
         public long CommitmentsApprenticeshipId { get; set; }
@@ -9,8 +9,5 @@
         public long TrainingProviderId { get; internal set; }
         public string TrainingProviderName { get; set; }
         public bool? TrainingProviderCorrect { get; set; }
-
-        internal void ConfirmTrainingProvider(bool trainingProviderCorrect)
-            => TrainingProviderCorrect = trainingProviderCorrect;
     }
 }

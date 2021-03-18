@@ -20,30 +20,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             _dbContext = dbContext;
         }
 
-        public async Task<ApprenticeshipModel> Add(ApprenticeshipModel model)
-        {
-            var apprenticeship = model.MapToApprenticeship();
-
-            var dbContext = _dbContext.Value;
-
-            await dbContext.AddAsync(apprenticeship);
-            await dbContext.SaveChangesAsync();
-
-            return apprenticeship.MapToApprenticeshipModel();
-        }
-
-        public async Task<List<ApprenticeshipModel>> FindByApprenticeId(Guid apprenticeId)
+        public async Task<List<Apprenticeship>> FindByApprenticeIdDb(Guid apprenticeId)
         {
             var found = await _dbContext.Value.Apprenticeships
                 .Where(a => a.Apprentice.Id == apprenticeId).ToListAsync();
-            return found.Select(a => a.MapToApprenticeshipModel()).ToList();
-        }
-
-        public async Task<ApprenticeshipModel> Get(Guid apprenticeId, long apprenticeshipId)
-        {
-            var db = _dbContext.Value;
-            var match =  await db.Apprenticeships.SingleOrDefaultAsync(a => a.Id == apprenticeshipId && a.Apprentice.Id == apprenticeId);
-            return match?.MapToApprenticeshipModel();
+            return found;
         }
 
         public async Task<Apprenticeship?> GetDb(Guid apprenticeId, long apprenticeshipId)
@@ -54,18 +35,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data
                     a => a.Id == apprenticeshipId &&
                     a.Apprentice.Id == apprenticeId);
             return match;
-        }
-
-        internal async Task Update(ApprenticeshipModel apprenticeship)
-        {
-            var db = _dbContext.Value;
-
-            var match = await db.Apprenticeships
-                .SingleOrDefaultAsync(a => a.Id == apprenticeship.Id);
-
-            apprenticeship.MapToApprenticeship(match);
-
-            db.Update(match);
         }
     }
 }

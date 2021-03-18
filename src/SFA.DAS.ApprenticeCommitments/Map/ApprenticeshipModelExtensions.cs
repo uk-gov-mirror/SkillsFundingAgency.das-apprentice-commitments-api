@@ -1,14 +1,16 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Models;
 
+#nullable enable
+
 namespace SFA.DAS.ApprenticeCommitments.Map
 {
     public static class ApprenticeshipModelExtensions
     {
-        public static Apprenticeship MapToApprenticeship(this ApprenticeshipModel model)
+        public static Apprenticeship MapToApprenticeship(this ApprenticeshipDto model)
             => model.MapToApprenticeship(new Apprenticeship { Id = model.Id ?? 0 });
 
-        public static Apprenticeship MapToApprenticeship(this ApprenticeshipModel model, Apprenticeship apprenticeship)
+        public static Apprenticeship MapToApprenticeship(this ApprenticeshipDto model, Apprenticeship apprenticeship)
         {
             apprenticeship.CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId;
             apprenticeship.EmployerName = model.EmployerName;
@@ -18,9 +20,11 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             return apprenticeship;
         }
 
-        public static ApprenticeshipModel MapToApprenticeshipModel(this Apprenticeship apprenticeship)
+        public static ApprenticeshipDto? MapToApprenticeshipModel(this Apprenticeship? apprenticeship)
         {
-            return new ApprenticeshipModel
+            if (apprenticeship == null) return null;
+
+            return new ApprenticeshipDto
             {
                 Id = apprenticeship.Id,
                 CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId,
