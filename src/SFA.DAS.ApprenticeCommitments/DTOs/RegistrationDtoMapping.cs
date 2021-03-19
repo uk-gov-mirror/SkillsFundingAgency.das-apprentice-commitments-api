@@ -5,7 +5,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
 {
     public static class RegistrationDtoMapping
     {
-        public static RegistrationDto MapToRegistrationModel(this Registration registration)
+        public static RegistrationDto MapToRegistrationDto(this Registration registration)
         {
             return new RegistrationDto
             {

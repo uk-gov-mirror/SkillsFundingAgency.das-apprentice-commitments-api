@@ -4,6 +4,8 @@ using SFA.DAS.ApprenticeCommitments.Exceptions;
 using System;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
     public interface IApprenticeContext : IEntityContext<Apprentice>
@@ -13,7 +15,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
                     ?? throw new DomainException(
                         $"Apprentice {apprenticeId} not found");
 
-        private async Task<Apprentice> Find(Guid apprenticeId)
+        private async Task<Apprentice?> Find(Guid apprenticeId)
             => await Entities.SingleOrDefaultAsync(a => a.Id == apprenticeId);
     }
 }

@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipsQuery
             var apprenticeships = await _apprenticeshipRepository
                 .FindByApprenticeId(request.ApprenticeId);
             return apprenticeships
-                .Select(ApprenticeshipDtoMapping.MapToApprenticeshipModel)
+                .Select(ApprenticeshipDtoMapping.MapToApprenticeshipDto)
                 .ToList();
         }
     }
