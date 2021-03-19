@@ -9,12 +9,12 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
     public class VerifyRegistrationCommandHandler : IRequestHandler<VerifyRegistrationCommand>
     {
         private readonly IRegistrationContext _registrations;
-        private readonly ApprenticeRepository _apprenticeRepository;
+        private readonly IApprenticeContext _apprentices;
 
-        public VerifyRegistrationCommandHandler(IRegistrationContext registrations, ApprenticeRepository apprenticeRepository)
+        public VerifyRegistrationCommandHandler(IRegistrationContext registrations, IApprenticeContext apprenticeRepository)
         {
             _registrations = registrations;
-            _apprenticeRepository = apprenticeRepository;
+            _apprentices = apprenticeRepository;
         }
 
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
@@ -26,7 +26,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 new MailAddress(command.Email), command.DateOfBirth,
                 command.UserIdentityId);
 
-            await _apprenticeRepository.AddApprenticeDb(apprentice);
+            await _apprentices.AddAsync(apprentice);
 
             return Unit.Value;
         }
