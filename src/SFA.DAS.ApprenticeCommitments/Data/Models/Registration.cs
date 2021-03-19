@@ -3,14 +3,23 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 
+#nullable enable
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
     [Table("Registration")]
     public class Registration
     {
+        public Registration()
+        {
+            // Private constructor for entity framework
+            // Non-nullable field must contain a non-null value when exiting constructor
+            Email = "";
+            EmployerName = "";
+            TrainingProviderName = "";
+        }
+
         public Guid Id { get; set; }
-        public Guid? ApprenticeId { get; set; }
         public long ApprenticeshipId { get; set; }
         public string Email { get; set; }
         public string EmployerName { get; set; }
@@ -20,6 +29,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
 
+        public Guid? ApprenticeId { get; set; }
         public Apprentice? Apprentice { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;

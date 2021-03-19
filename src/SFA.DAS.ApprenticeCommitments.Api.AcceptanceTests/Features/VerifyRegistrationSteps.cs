@@ -144,7 +144,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheRegistrationHasBeenMarkedAsCompleted()
         {
             var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.Id == _registration.Id);
-            registration.UserIdentityId.Should().NotBeNull();
             registration.UserIdentityId.Should().Be(_command.UserIdentityId);
             registration.ApprenticeId.Should().Be(_apprenticeId);
         }

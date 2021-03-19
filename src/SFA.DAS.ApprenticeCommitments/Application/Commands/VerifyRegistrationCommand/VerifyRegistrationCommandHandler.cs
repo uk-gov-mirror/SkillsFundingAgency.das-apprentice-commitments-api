@@ -34,6 +34,8 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
                 new MailAddress(command.Email), command.DateOfBirth,
                 command.UserIdentityId);
 
+            await _apprenticeRepository.AddApprenticeDb(registration.Apprentice);
+
             return Unit.Value;
         }
 
