@@ -10,19 +10,16 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     [Table("Registration")]
     public class Registration
     {
-        public Registration()
+#pragma warning disable CS8618 // Private constructor for entity framework
+        private Registration()
+#pragma warning restore CS8618 
         {
-            // Private constructor for entity framework
-            // Non-nullable field must contain a non-null value when exiting constructor
-            Email = "";
-            EmployerName = "";
-            TrainingProviderName = "";
         }
 
         public Registration(
             Guid registrationId,
             long apprenticeshipId,
-            string email,
+            MailAddress email,
             string employerName,
             long employerAccountLegalEntityId,
             long trainingProviderId,
@@ -30,26 +27,26 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         {
             Id = registrationId;
             ApprenticeshipId = apprenticeshipId;
-            Email = email;
+            Email = email.ToString();
             EmployerName = employerName;
             EmployerAccountLegalEntityId = employerAccountLegalEntityId;
             TrainingProviderId = trainingProviderId;
             TrainingProviderName = trainingProviderName;
         }
 
-        public Guid Id { get; set; }
-        public long ApprenticeshipId { get; set; }
-        public string Email { get; set; }
-        public string EmployerName { get; set; }
-        public long EmployerAccountLegalEntityId { get; set; }
-        public Guid? UserIdentityId { get; set; }
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-        public long TrainingProviderId { get; set; }
-        public string TrainingProviderName { get; set; }
+        public Guid Id { get; private set; }
+        public long ApprenticeshipId { get; private set; }
+        public string Email { get; private set; }
+        public string EmployerName { get; private set; }
+        public long EmployerAccountLegalEntityId { get; private set; }
+        public Guid? UserIdentityId { get; private set; }
+        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
+        public long TrainingProviderId { get; private set; }
+        public string TrainingProviderName { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
-        internal Apprentice ConvertToApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        public Apprentice ConvertToApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth, Guid userIdentityId)
         {
             EnsureNotAlreadyCompleted();
             EnsureStatedEmailMatchesApproval(emailAddress);

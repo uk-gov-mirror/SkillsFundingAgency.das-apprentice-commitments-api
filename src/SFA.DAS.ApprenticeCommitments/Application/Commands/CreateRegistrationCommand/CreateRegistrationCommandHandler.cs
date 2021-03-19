@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
             await _registrations.AddAsync(new Registration(
                 command.RegistrationId,
                 command.ApprenticeshipId,
-                command.Email,
+                new MailAddress(command.Email),
                 command.EmployerName,
                 command.EmployerAccountLegalEntityId,
                 command.TrainingProviderId,

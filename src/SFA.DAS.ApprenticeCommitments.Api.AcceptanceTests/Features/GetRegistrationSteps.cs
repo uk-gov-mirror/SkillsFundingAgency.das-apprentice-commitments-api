@@ -48,7 +48,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"there is an empty registration")]
         public void GivenThereIsAnEmptyRegistration()
         {
-            _registration.Id = Guid.Empty;
+            _fixture.Inject(Guid.Empty);
+            _registration = _fixture.Create<Registration>();
         }
 
         [When(@"we try to retrieve the registration using a bad request format")]

@@ -24,24 +24,19 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private Fixture _f;
         private Registration _registration;
         private Guid _missingRegistrationId;
-        private string _validEmail;
         private Guid _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
         {
             _context = context;
             _f = new Fixture();
-            _validEmail = _f.Create<MailAddress>().Address;
             _missingRegistrationId = _f.Create<Guid>();
         }
 
         [Given(@"we have an existing registration")]
         public void GivenWeHaveAnExistingRegistration()
         {
-            _registration = _f.Build<Registration>()
-                .Without(p => p.UserIdentityId)
-                .With(p => p.Email, _validEmail).Create();
-
+            _registration = _f.Create<Registration>();
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
         }
@@ -50,7 +45,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenTheRequestMatchesRegistrationDetails()
         {
             _command = _f.Build<VerifyRegistrationCommand>()
-                .With(p => p.Email, _validEmail)
+                .With(p => p.Email, _registration.Email)
                 .With(p => p.RegistrationId, _registration.Id)
                 .Create();
         }
@@ -67,8 +62,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"we have an existing already verified registration")]
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
-            _registration = _f.Build<Registration>()
-                .With(p => p.Email, _validEmail).Create();
+            _registration = _f.Create<Registration>();
+            _registration.ConvertToApprentice(
+                "", "", new MailAddress(_registration.Email), DateTime.Now, Guid.NewGuid());
 
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
@@ -115,7 +111,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
-            apprentice.Email.Should().Be(_validEmail);
+            apprentice.Email.Should().Be(_registration.Email);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
             apprentice.Id.Should().Be(_command.RegistrationId);
             _apprenticeId = apprentice.Id;

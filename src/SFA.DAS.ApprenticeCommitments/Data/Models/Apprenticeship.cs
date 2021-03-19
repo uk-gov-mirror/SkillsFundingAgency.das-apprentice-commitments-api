@@ -8,9 +8,10 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     [Table("Apprenticeship")]
     public class Apprenticeship
     {
+#pragma warning disable CS8618 // Constructor for Entity Framework
         private Apprenticeship()
+#pragma warning restore CS8618
         {
-            // for Entity Framework
         }
 
         public Apprenticeship(long commitmentsApprenticeshipId,
