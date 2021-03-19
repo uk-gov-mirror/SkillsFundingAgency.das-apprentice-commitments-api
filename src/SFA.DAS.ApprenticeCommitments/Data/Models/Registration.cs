@@ -19,6 +19,24 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             TrainingProviderName = "";
         }
 
+        public Registration(
+            Guid registrationId,
+            long apprenticeshipId,
+            string email,
+            string employerName,
+            long employerAccountLegalEntityId,
+            long trainingProviderId,
+            string trainingProviderName)
+        {
+            Id = registrationId;
+            ApprenticeshipId = apprenticeshipId;
+            Email = email;
+            EmployerName = employerName;
+            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
+            TrainingProviderId = trainingProviderId;
+            TrainingProviderName = trainingProviderName;
+        }
+
         public Guid Id { get; set; }
         public long ApprenticeshipId { get; set; }
         public string Email { get; set; }

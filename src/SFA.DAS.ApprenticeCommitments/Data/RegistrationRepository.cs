@@ -27,6 +27,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return await db.Registrations.AnyAsync();
         }
 
+        internal async Task Add(Registration registration)
+        {
+            await _dbContext.Value.Registrations.AddAsync(registration);
+        }
+
         public async Task<RegistrationDto> Get(Guid registrationId)
         {
             var db = _dbContext.Value;

@@ -1,8 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 {
@@ -17,12 +17,12 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 
         public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken cancellationToken)
         {
-            var model = await _registrationRepository.Get(query.RegistrationId);
+            var model = await _registrationRepository.GetDb(query.RegistrationId);
 
-            return Map(model); 
+            return Map(model);
         }
 
-        private RegistrationResponse Map(RegistrationDto model)
+        private RegistrationResponse Map(Registration model)
         {
             if (model == null)
             {
