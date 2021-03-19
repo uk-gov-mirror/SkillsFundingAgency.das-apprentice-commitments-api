@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Map;
-using SFA.DAS.ApprenticeCommitments.DTOs;
+using SFA.DAS.ApprenticeCommitments.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,14 +26,15 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             return found;
         }
 
-        public async Task<Apprenticeship?> Get(Guid apprenticeId, long apprenticeshipId)
-        {
-            var db = _dbContext.Value;
-            var match =  await db.Apprenticeships
+        internal async Task<Apprenticeship> GetById(Guid apprenticeId, long apprenticeshipId)
+            => (await Find(apprenticeId, apprenticeshipId))
+                ?? throw new DomainException(
+                    $"Apprenticeship {apprenticeshipId} for {apprenticeId} not found");
+
+        public async Task<Apprenticeship?> Find(Guid apprenticeId, long apprenticeshipId)
+            => await _dbContext.Value.Apprenticeships
                 .SingleOrDefaultAsync(
                     a => a.Id == apprenticeshipId &&
                     a.Apprentice.Id == apprenticeId);
-            return match;
-        }
     }
 }

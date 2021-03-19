@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Exceptions;
 using SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator;
 using System;
 using System.Threading;
@@ -31,20 +30,13 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmTrainingProv
     {
         private readonly ApprenticeshipRepository _apprenticeships;
 
-        public ConfirmTrainingProviderCommandHandler(
-            ApprenticeshipRepository apprenticeships)
+        public ConfirmTrainingProviderCommandHandler(ApprenticeshipRepository apprenticeships)
             => _apprenticeships = apprenticeships;
 
-        public async Task<Unit> Handle(
-            ConfirmTrainingProviderCommand request,
-            CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ConfirmTrainingProviderCommand request, CancellationToken _)
         {
-            var apprenticeship =
-                await _apprenticeships.Get(request.ApprenticeId, request.ApprenticeshipId)
-                ?? throw new DomainException($"Apprenticeship {request.ApprenticeshipId} for {request.ApprenticeId} not found");
-
+            var apprenticeship = await _apprenticeships.GetById(request.ApprenticeId, request.ApprenticeshipId);
             apprenticeship.ConfirmTrainingProvider(request.TrainingProviderCorrect);
-
             return Unit.Value;
         }
     }

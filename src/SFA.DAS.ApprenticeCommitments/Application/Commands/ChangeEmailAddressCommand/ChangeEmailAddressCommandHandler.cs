@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data;
 using System.Net.Mail;
 using System.Threading;
@@ -16,12 +15,8 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
 
         public async Task<Unit> Handle(ChangeEmailAddressCommand command, CancellationToken cancellationToken)
         {
-            var apprentice = await _apprenticeRepository.GetById(
-                command.ApprenticeId,
-                query => query.Include(a => a.PreviousEmailAddresses));
-
+            var apprentice = await _apprenticeRepository.GetById(command.ApprenticeId);
             apprentice.UpdateEmail(new MailAddress(command.Email));
-
             return Unit.Value;
         }
     }
