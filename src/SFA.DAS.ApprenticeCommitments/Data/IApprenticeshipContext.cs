@@ -10,21 +10,10 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
-    public class ApprenticeshipRepository
+    public interface IApprenticeshipContext : IEntityContext<Apprenticeship>
     {
-        private readonly Lazy<ApprenticeCommitmentsDbContext> _dbContext;
-
-        public ApprenticeshipRepository(Lazy<ApprenticeCommitmentsDbContext> dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task<List<Apprenticeship>> FindByApprenticeId(Guid apprenticeId)
-        {
-            var found = await _dbContext.Value.Apprenticeships
-                .Where(a => a.Apprentice.Id == apprenticeId).ToListAsync();
-            return found;
-        }
+        internal async Task<List<Apprenticeship>> FindByApprenticeId(Guid apprenticeId)
+            => await Entities.Where(a => a.Apprentice.Id == apprenticeId).ToListAsync();
 
         internal async Task<Apprenticeship> GetById(Guid apprenticeId, long apprenticeshipId)
             => (await Find(apprenticeId, apprenticeshipId))
@@ -32,7 +21,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
                     $"Apprenticeship {apprenticeshipId} for {apprenticeId} not found");
 
         public async Task<Apprenticeship?> Find(Guid apprenticeId, long apprenticeshipId)
-            => await _dbContext.Value.Apprenticeships
+            => await Entities
                 .SingleOrDefaultAsync(
                     a => a.Id == apprenticeshipId &&
                     a.Apprentice.Id == apprenticeId);
