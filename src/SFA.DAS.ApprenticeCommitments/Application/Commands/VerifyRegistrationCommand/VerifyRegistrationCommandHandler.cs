@@ -1,8 +1,5 @@
 ﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Exceptions;
-using SFA.DAS.ApprenticeCommitments.DTOs;
 using System.Net.Mail;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,25 +8,20 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 {
     public class VerifyRegistrationCommandHandler : IRequestHandler<VerifyRegistrationCommand>
     {
-        private readonly RegistrationRepository _registrationRepository;
+        private readonly IRegistrationContext _registrations;
         private readonly ApprenticeRepository _apprenticeRepository;
-        private readonly ApprenticeshipRepository _apprenticeshipRepository;
 
-        public VerifyRegistrationCommandHandler(RegistrationRepository registrationRepository, ApprenticeRepository apprenticeRepository, ApprenticeshipRepository apprenticeshipRepository)
+        public VerifyRegistrationCommandHandler(IRegistrationContext registrations, ApprenticeRepository apprenticeRepository)
         {
-            _registrationRepository = registrationRepository;
+            _registrations = registrations;
             _apprenticeRepository = apprenticeRepository;
-            _apprenticeshipRepository = apprenticeshipRepository;
         }
 
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
         {
-            var registration = await _registrationRepository.Find(command.RegistrationId);
+            var registration = await _registrations.GetById(command.RegistrationId);
 
-            if (registration == null)
-                throw new DomainException($"Registration {command.RegistrationId} not found");
-
-            var apprentice = registration.Verify(
+            var apprentice = registration.ConvertToApprentice(
                 command.FirstName, command.LastName,
                 new MailAddress(command.Email), command.DateOfBirth,
                 command.UserIdentityId);
@@ -37,26 +29,6 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             await _apprenticeRepository.AddApprenticeDb(apprentice);
 
             return Unit.Value;
-        }
-
-        private async Task AddApprentice(VerifyRegistrationCommand command, RegistrationDto registration)
-        {
-            var apprentice = new Apprentice(
-                command.RegistrationId,
-                command.FirstName,
-                command.LastName,
-                new MailAddress(command.Email),
-                command.DateOfBirth);
-
-            apprentice.AddApprenticeship(new Apprenticeship(
-                registration.ApprenticeshipId,
-                registration.EmployerAccountLegalEntityId,
-                registration.EmployerName,
-                registration.TrainingProviderId,
-                registration.TrainingProviderName
-                                                           ));
-
-            await _apprenticeRepository.AddApprenticeDb(apprentice);
         }
     }
 }

@@ -8,17 +8,14 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 {
     public class RegistrationQueryHandler : IRequestHandler<RegistrationQuery, RegistrationResponse>
     {
-        private readonly RegistrationRepository _registrationRepository;
+        private readonly IRegistrationContext _registrations;
 
-        public RegistrationQueryHandler(RegistrationRepository registrationRepository)
+        public RegistrationQueryHandler(IRegistrationContext registrations)
+            => _registrations = registrations;
+
+        public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken _)
         {
-            _registrationRepository = registrationRepository;
-        }
-
-        public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken cancellationToken)
-        {
-            var model = await _registrationRepository.Find(query.RegistrationId);
-
+            var model = await _registrations.Find(query.RegistrationId);
             return Map(model);
         }
 

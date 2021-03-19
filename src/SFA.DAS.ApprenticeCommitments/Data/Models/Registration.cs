@@ -49,7 +49,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
-        internal Apprentice Verify(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        internal Apprentice ConvertToApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth, Guid userIdentityId)
         {
             EnsureNotAlreadyCompleted();
             EnsureStatedEmailMatchesApproval(emailAddress);

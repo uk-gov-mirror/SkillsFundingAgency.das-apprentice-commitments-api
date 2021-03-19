@@ -8,16 +8,14 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
 {
     public class CreateRegistrationCommandHandler : IRequestHandler<CreateRegistrationCommand>
     {
-        private readonly RegistrationRepository _registrationRepository;
+        private readonly IRegistrationContext _registrations;
 
-        public CreateRegistrationCommandHandler(RegistrationRepository registrationRepository)
-        {
-            _registrationRepository = registrationRepository;
-        }
+        public CreateRegistrationCommandHandler(IRegistrationContext registrations)
+            => _registrations = registrations;
 
         public async Task<Unit> Handle(CreateRegistrationCommand command, CancellationToken cancellationToken)
         {
-            await _registrationRepository.Add(new Registration(
+            await _registrations.AddAsync(new Registration(
                 command.RegistrationId,
                 command.ApprenticeshipId,
                 command.Email,

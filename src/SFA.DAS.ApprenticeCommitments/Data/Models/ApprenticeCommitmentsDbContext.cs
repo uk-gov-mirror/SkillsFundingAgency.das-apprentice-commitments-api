@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
-    public class ApprenticeCommitmentsDbContext : DbContext
+    public class ApprenticeCommitmentsDbContext : DbContext, IRegistrationContext
     {
         public ApprenticeCommitmentsDbContext()
         {
@@ -17,6 +17,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<Apprentice> Apprentices { get; set; }
         public virtual DbSet<Apprenticeship> Apprenticeships { get; set; }
+
+        public DbSet<Registration> Entitites => Registrations;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

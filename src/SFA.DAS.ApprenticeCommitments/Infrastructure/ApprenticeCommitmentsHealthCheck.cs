@@ -8,9 +8,9 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure
     public class ApprenticeCommitmentsHealthCheck : IHealthCheck
     {
         private const string HealthCheckResultsDescription = "Apprentice Commitments API Health Check";
-        private readonly RegistrationRepository _registrationRepository;
+        private readonly IRegistrationContext _registrationRepository;
 
-        public ApprenticeCommitmentsHealthCheck(RegistrationRepository registrationRepository)
+        public ApprenticeCommitmentsHealthCheck(IRegistrationContext registrationRepository)
         {
             _registrationRepository = registrationRepository;
         }
