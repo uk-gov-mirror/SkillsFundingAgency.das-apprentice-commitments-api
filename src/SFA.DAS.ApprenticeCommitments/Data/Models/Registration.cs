@@ -31,23 +31,31 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
-        internal Apprentice Verify(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        internal Apprentice Verify(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        {
+            EnsureNotAlreadyCompleted();
+            EnsureStatedEmailMatchesApproval(emailAddress);
+
+            UserIdentityId = userIdentityId;
+            return CreateRegisteredApprentice(firstName, lastName, emailAddress, dateOfBirth);
+        }
+
+        private void EnsureNotAlreadyCompleted()
         {
             if (HasBeenCompleted)
                 throw new DomainException("Already verified");
-
-            // Verify Email matches incoming email
-            if (!mailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
-                throw new DomainException("Email from Verifying user doesn't match registered user");
-
-            UserIdentityId = userIdentityId;
-            return AddApprentice(firstName, lastName, mailAddress, dateOfBirth);
         }
 
-        private Apprentice AddApprentice(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth)
+        private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
+        {
+            if (!emailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
+                throw new DomainException("Email from verifying user doesn't match registered user");
+        }
+
+        private Apprentice CreateRegisteredApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth)
         {
             var apprentice = new Apprentice(
-                Id, firstName, lastName, mailAddress, dateOfBirth);
+                Id, firstName, lastName, emailAddress, dateOfBirth);
 
             apprentice.AddApprenticeship(new Apprenticeship(
                 ApprenticeshipId,
