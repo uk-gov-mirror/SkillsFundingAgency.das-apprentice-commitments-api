@@ -15,7 +15,6 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = registrationModel.EmployerName,
                 EmployerAccountLegalEntityId = registrationModel.EmployerAccountLegalEntityId,
                 UserIdentityId = registrationModel.UserIdentityId,
-                ApprenticeId = registrationModel.Id,
                 TrainingProviderId = registrationModel.TrainingProviderId,
                 TrainingProviderName = registrationModel.TrainingProviderName,
             };

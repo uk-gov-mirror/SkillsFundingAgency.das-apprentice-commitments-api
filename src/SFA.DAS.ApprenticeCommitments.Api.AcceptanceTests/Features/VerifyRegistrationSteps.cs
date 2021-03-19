@@ -39,7 +39,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenWeHaveAnExistingRegistration()
         {
             _registration = _f.Build<Registration>()
-                .Without(p => p.ApprenticeId)
                 .Without(p => p.UserIdentityId)
                 .With(p => p.Email, _validEmail).Create();
 
@@ -69,7 +68,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
             _registration = _f.Build<Registration>()
-                .Without(p => p.ApprenticeId) // There is no proper relationship yet
                 .With(p => p.Email, _validEmail).Create();
 
             _context.DbContext.Registrations.Add(_registration);
@@ -145,7 +143,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.Id == _registration.Id);
             registration.UserIdentityId.Should().Be(_command.UserIdentityId);
-            registration.ApprenticeId.Should().Be(_apprenticeId);
         }
 
         [Then(@"the registration CreatedOn field is unchanged")]

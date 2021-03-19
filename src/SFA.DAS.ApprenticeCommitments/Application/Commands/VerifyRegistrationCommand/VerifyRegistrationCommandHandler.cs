@@ -29,12 +29,12 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
             if (registration == null)
                 throw new DomainException($"Registration {command.RegistrationId} not found");
 
-            registration.Verify(
+            var apprentice = registration.Verify(
                 command.FirstName, command.LastName,
                 new MailAddress(command.Email), command.DateOfBirth,
                 command.UserIdentityId);
 
-            await _apprenticeRepository.AddApprenticeDb(registration.Apprentice);
+            await _apprenticeRepository.AddApprenticeDb(apprentice);
 
             return Unit.Value;
         }

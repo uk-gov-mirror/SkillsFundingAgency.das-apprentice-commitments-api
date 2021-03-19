@@ -29,12 +29,9 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
 
-        public Guid? ApprenticeId { get; set; }
-        public Apprentice? Apprentice { get; private set; }
-
         public bool HasBeenCompleted => UserIdentityId != null;
 
-        internal void Verify(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth, Guid userIdentityId)
+        internal Apprentice Verify(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth, Guid userIdentityId)
         {
             if (HasBeenCompleted)
                 throw new DomainException("Already verified");
@@ -44,18 +41,20 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                 throw new DomainException("Email from Verifying user doesn't match registered user");
 
             UserIdentityId = userIdentityId;
-            AddApprentice(firstName, lastName, mailAddress, dateOfBirth);
+            return AddApprentice(firstName, lastName, mailAddress, dateOfBirth);
         }
 
-        private void AddApprentice(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth)
+        private Apprentice AddApprentice(string firstName, string lastName, MailAddress mailAddress, DateTime dateOfBirth)
         {
-            Apprentice = new Apprentice(
+            var apprentice = new Apprentice(
                 Id, firstName, lastName, mailAddress, dateOfBirth);
 
-            Apprentice.AddApprenticeship(new Apprenticeship(
+            apprentice.AddApprenticeship(new Apprenticeship(
                 ApprenticeshipId,
                 EmployerAccountLegalEntityId, EmployerName,
                 TrainingProviderId, TrainingProviderName));
+
+            return apprentice;
         }
     }
 }
