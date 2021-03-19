@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Map;
-using SFA.DAS.ApprenticeCommitments.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
@@ -14,11 +12,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         public RegistrationRepository(Lazy<ApprenticeCommitmentsDbContext> dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task Add(RegistrationDto model)
-        {
-            await _dbContext.Value.AddAsync(model.MapToRegistration());
         }
 
         public async Task<bool> RegistrationsExist()
@@ -32,15 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             await _dbContext.Value.Registrations.AddAsync(registration);
         }
 
-        public async Task<RegistrationDto> Get(Guid registrationId)
-        {
-            var db = _dbContext.Value;
-            var entity = await db.Registrations.FirstOrDefaultAsync(x=>x.Id == registrationId);
-
-            return entity?.MapToRegistrationModel();
-        }
-
-        public async Task<Registration> GetDb(Guid registrationId)
+        public async Task<Registration> Get(Guid registrationId)
         {
             var db = _dbContext.Value;
             var entity = await db.Registrations.FirstOrDefaultAsync(x => x.Id == registrationId);

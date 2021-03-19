@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
         {
-            var registration = await _registrationRepository.GetDb(command.RegistrationId);
+            var registration = await _registrationRepository.Get(command.RegistrationId);
 
             if (registration == null)
                 throw new DomainException($"Registration {command.RegistrationId} not found");
