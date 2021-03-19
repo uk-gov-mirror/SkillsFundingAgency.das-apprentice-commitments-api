@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Map;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipsQuery
 {
@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipsQuery
             var apprenticeships = await _apprenticeshipRepository
                 .FindByApprenticeId(request.ApprenticeId);
             return apprenticeships
-                .Select(ApprenticeshipModelExtensions.MapToApprenticeshipModel)
+                .Select(ApprenticeshipDtoMapping.MapToApprenticeshipModel)
                 .ToList();
         }
     }

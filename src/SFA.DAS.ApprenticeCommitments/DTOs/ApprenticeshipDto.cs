@@ -1,4 +1,4 @@
-﻿namespace SFA.DAS.ApprenticeCommitments.Models
+﻿namespace SFA.DAS.ApprenticeCommitments.DTOs
 {
     public class ApprenticeshipDto
     {

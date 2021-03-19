@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Map;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

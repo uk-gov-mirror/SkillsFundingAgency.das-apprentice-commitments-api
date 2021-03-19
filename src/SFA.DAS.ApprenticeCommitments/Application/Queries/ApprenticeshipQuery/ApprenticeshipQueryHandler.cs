@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
 using SFA.DAS.ApprenticeCommitments.Map;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 using System.Threading;
 using System.Threading.Tasks;
 

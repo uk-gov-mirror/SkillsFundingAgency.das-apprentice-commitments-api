@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;

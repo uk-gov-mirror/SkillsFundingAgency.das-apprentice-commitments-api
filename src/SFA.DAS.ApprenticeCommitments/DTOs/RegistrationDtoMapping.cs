@@ -1,9 +1,9 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Map
 {
-    public static class RegistrationModelExtensions
+    public static class RegistrationDtoMapping
     {
         public static RegistrationDto MapToRegistrationModel(this Registration registration)
         {

@@ -1,11 +1,11 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 
 #nullable enable
 
 namespace SFA.DAS.ApprenticeCommitments.Map
 {
-    public static class ApprenticeshipModelExtensions
+    public static class ApprenticeshipDtoMapping
     {
         public static ApprenticeshipDto? MapToApprenticeshipModel(this Apprenticeship? apprenticeship)
         {

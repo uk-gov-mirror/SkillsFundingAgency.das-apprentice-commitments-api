@@ -1,6 +1,6 @@
 ﻿using System;
 using MediatR;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipQuery
 {
