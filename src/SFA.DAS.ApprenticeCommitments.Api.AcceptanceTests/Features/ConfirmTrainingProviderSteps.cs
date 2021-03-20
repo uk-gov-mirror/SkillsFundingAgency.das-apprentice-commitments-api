@@ -2,6 +2,7 @@
 using FluentAssertions;
 using SFA.DAS.ApprenticeCommitments.Api.Controllers;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
@@ -15,7 +16,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         private readonly TestContext _context;
         private readonly Apprentice _apprentice;
         private readonly Apprenticeship _apprenticeship;
-        private bool _trainingProviderCorrectness;
+        private bool? TrainingProviderCorrect { get; set; }
+        private bool? EmployerCorrect { get; set; }
+        private string endpoint;
+        private object command;
 
         public ConfirmTrainingProviderSteps(TestContext context)
         {
@@ -33,28 +37,69 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             await _context.DbContext.SaveChangesAsync();
         }
 
+        [Given("we have an apprenticeship that has previously had its training provider positively confirmed")]
+        public async Task GivenWeHaveAnApprenticeshipThatHasPreviouslyHadItsTrainingProviderConfirmed()
+        {
+            _apprenticeship.ConfirmTrainingProvider(true);
+            await GivenWeHaveAnApprenticeshipWaitingToBeConfirmed();
+        }
+
+        [Given("we have an apprenticeship that has previously had its employer positively confirmed")]
+        public async Task GivenWeHaveAnApprenticeshipThatHasPreviouslyHadItsEmployerPositivelyConfirmed()
+        {
+            _apprenticeship.ConfirmEmployer(true);
+            await GivenWeHaveAnApprenticeshipWaitingToBeConfirmed();
+        }
+
         [Given("a ConfirmTrainingProviderRequest stating the training provider is correct")]
         public void GivenAConfirmTrainingProviderRequestStatingTheTrainingProviderIsCorrect()
         {
-            _trainingProviderCorrectness = true;
+            endpoint = "TrainingProviderConfirmation";
+            TrainingProviderCorrect = true;
+            command = new ConfirmTrainingProviderRequest
+            {
+                TrainingProviderCorrect = true,
+            };
         }
 
-        [Given(@"a ConfirmTrainingProviderRequest stating the training provider is incorrect")]
+        [Given("a ConfirmTrainingProviderRequest stating the training provider is incorrect")]
         public void GivenAConfirmTrainingProviderRequestStatingTheTrainingProviderIsIncorrect()
         {
-            _trainingProviderCorrectness = false;
+            endpoint = "TrainingProviderConfirmation";
+            TrainingProviderCorrect = false;
+            command = new ConfirmTrainingProviderRequest
+            {
+                TrainingProviderCorrect = false,
+            };
+        }
+
+        [Given("a ConfirmEmployerRequest stating the employer is correct")]
+        public void GivenAConfirmEmployerRequestStatingTheEmployerIsCorrect()
+        {
+            endpoint = "EmployerConfirmation";
+            EmployerCorrect = true;
+            command = new ConfirmEmployerRequest
+            {
+                EmployerCorrect = true,
+            };
+        }
+
+        [Given("a ConfirmEmployerRequest stating the employer is incorrect")]
+        public void GivenAConfirmEmployerRequestStatingTheEmployerIsIncorrect()
+        {
+            endpoint = "EmployerConfirmation";
+            EmployerCorrect = false;
+            command = new ConfirmEmployerRequest
+            {
+                EmployerCorrect = false,
+            };
         }
 
         [When("we send the confirmation")]
         public async Task WhenWeSendTheConfirmation()
         {
-            var command = new ConfirmTrainingProviderRequest
-            {
-                TrainingProviderCorrect = _trainingProviderCorrectness,
-            };
-
             await _context.Api.Post(
-                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/TrainingProviderConfirmation",
+                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/{endpoint}",
                 command);
         }
 
@@ -64,14 +109,29 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             _context.Api.Response.EnsureSuccessStatusCode();
         }
 
+        [Then("the response is BadRequest")]
+        public void ThenTheResponseIsBadRequest()
+        {
+            _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         [Then("the apprenticeship record is updated")]
         public void ThenTheApprenticeshipRecordIsUpdated()
         {
             _context.DbContext.Apprenticeships.Should().ContainEquivalentOf(new
             {
                 _apprenticeship.Id,
-                TrainingProviderCorrect = _trainingProviderCorrectness,
+                TrainingProviderCorrect,
+                EmployerCorrect,
             });
+        }
+
+        [Then("the apprenticeship record remains unchanged")]
+        public void ThenTheApprenticeshipRecordRemainsUnchanged()
+        {
+            _context.DbContext.Apprenticeships
+                .Should().ContainEquivalentOf(_apprenticeship,
+                    compare => compare.Excluding(x => x.Apprentice));
         }
     }
 }
