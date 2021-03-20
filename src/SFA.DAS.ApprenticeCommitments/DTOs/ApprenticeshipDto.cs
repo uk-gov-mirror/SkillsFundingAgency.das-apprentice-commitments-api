@@ -9,5 +9,6 @@
         public long TrainingProviderId { get; internal set; }
         public string TrainingProviderName { get; set; }
         public bool? TrainingProviderCorrect { get; set; }
+        public bool? EmployerCorrect { get; set; }
     }
 }

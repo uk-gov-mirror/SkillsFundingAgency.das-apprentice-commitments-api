@@ -24,6 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _apprentice = _fixture.Build<Apprentice>().Create();
             _apprenticeship = _fixture.Build<Apprenticeship>()
                 .Do(a => a.ConfirmTrainingProvider(true))
+                .Do(a => a.ConfirmEmployer(true))
                 .Create();
         }
 
@@ -75,6 +76,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.EmployerAccountLegalEntityId);
             a.TrainingProviderName.Should().Be(_apprenticeship.TrainingProviderName);
             a.TrainingProviderCorrect.Should().Be(_apprenticeship.TrainingProviderCorrect);
+            a.EmployerCorrect.Should().Be(_apprenticeship.EmployerCorrect);
         }
 
         [Then(@"the result should return NotFound")]
