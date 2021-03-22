@@ -10,7 +10,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
 {
     [Binding]
     [Scope(Feature = "ConfirmTrainingProvider")]
-    public class ConfirmTrainingProviderSteps
+    [Scope(Feature = "ConfirmEmployer")]
+    public class ConfirmTrainingProviderandOrEmployerSteps
     {
         private readonly Fixture _fixture = new Fixture();
         private readonly TestContext _context;
@@ -21,7 +22,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         private string endpoint;
         private object command;
 
-        public ConfirmTrainingProviderSteps(TestContext context)
+        public ConfirmTrainingProviderandOrEmployerSteps(TestContext context)
         {
             _context = context;
 
