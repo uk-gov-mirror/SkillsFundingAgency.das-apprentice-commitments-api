@@ -30,9 +30,9 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long Id { get; private set; }
         public long CommitmentsApprenticeshipId { get; set; }
         public string EmployerName { get; set; }
-        public long EmployerAccountLegalEntityId { get; set; }
-        public long TrainingProviderId { get; set; }
-        public string TrainingProviderName { get; set; }
+        public long EmployerAccountLegalEntityId { get; private set; }
+        public long TrainingProviderId { get; private set; }
+        public string TrainingProviderName { get; private set; }
         public Apprentice Apprentice { get; private set; }
         public bool? TrainingProviderCorrect { get; private set; }
         public bool? EmployerCorrect { get; private set; }
