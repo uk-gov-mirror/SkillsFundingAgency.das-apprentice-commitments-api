@@ -164,7 +164,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().Be(1);
             errors[0].PropertyName.Should().BeNull();
-            errors[0].ErrorMessage.Should().Be("Email from verifying user doesn't match registered user");
+            errors[0].ErrorMessage.Should().Be($"Email from verifying user doesn't match registered user {_registration.Id}");
         }
 
         [Then(@"an 'already verified' domain error is returned")]
@@ -175,7 +175,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             errors.Should().ContainEquivalentOf(new ErrorItem
             {
                 PropertyName = null,
-                ErrorMessage = "Already verified",
+                ErrorMessage = $"Registration {_registration.Id} id already verified",
             });
         }
 

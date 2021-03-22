@@ -58,13 +58,13 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         private void EnsureNotAlreadyCompleted()
         {
             if (HasBeenCompleted)
-                throw new DomainException("Already verified");
+                throw new DomainException($"Registration {Id} id already verified");
         }
 
         private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
         {
             if (!emailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
-                throw new DomainException("Email from verifying user doesn't match registered user");
+                throw new DomainException($"Email from verifying user doesn't match registered user {Id}");
         }
 
         private Apprentice CreateRegisteredApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth)
