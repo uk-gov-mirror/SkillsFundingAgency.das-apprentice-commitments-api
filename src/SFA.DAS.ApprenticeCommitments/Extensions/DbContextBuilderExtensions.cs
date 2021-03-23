@@ -26,7 +26,7 @@ namespace SFA.DAS.ApprenticeCommitments.Extensions
             this DbContextOptionsBuilder<TContext> builder, ILoggerFactory loggerFactory, IConfiguration config)
             where TContext : DbContext
         {
-            if (config.IsLocalAcceptanceOrDev())
+            //if (config.IsLocalAcceptanceOrDev())
             {
                 builder.EnableSensitiveDataLogging().UseLoggerFactory(loggerFactory);
             }
