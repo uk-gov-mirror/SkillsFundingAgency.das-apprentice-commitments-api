@@ -6,16 +6,17 @@ namespace SFA.DAS.ApprenticeCommitments.Map
     public static class ApprenticeshipModelExtensions
     {
         public static Apprenticeship MapToApprenticeship(this ApprenticeshipModel model)
+            => model.MapToApprenticeship(new Apprenticeship { Id = model.Id ?? 0 });
+
+        public static Apprenticeship MapToApprenticeship(this ApprenticeshipModel model, Apprenticeship apprenticeship)
         {
-            return new Apprenticeship
-            {
-                Id = model.Id ?? 0,
-                CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId,
-                EmployerName = model.EmployerName,
-                EmployerAccountLegalEntityId = model.EmployerAccountLegalEntityId,
-                TrainingProviderId = model.TrainingProviderId,
-                TrainingProviderName = model.TrainingProviderName,
-            };
+            apprenticeship.CommitmentsApprenticeshipId = model.CommitmentsApprenticeshipId;
+            apprenticeship.EmployerName = model.EmployerName;
+            apprenticeship.EmployerAccountLegalEntityId = model.EmployerAccountLegalEntityId;
+            apprenticeship.TrainingProviderId = model.TrainingProviderId;
+            apprenticeship.TrainingProviderName = model.TrainingProviderName;
+            apprenticeship.TrainingProviderCorrect = model.TrainingProviderCorrect;
+            return apprenticeship;
         }
 
         public static ApprenticeshipModel MapToApprenticeshipModel(this Apprenticeship apprenticeship)
@@ -27,7 +28,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 EmployerName = apprenticeship.EmployerName,
                 EmployerAccountLegalEntityId = apprenticeship.EmployerAccountLegalEntityId,
                 TrainingProviderId = apprenticeship.TrainingProviderId,
-                TrainingProviderName = apprenticeship.TrainingProviderName, 
+                TrainingProviderName = apprenticeship.TrainingProviderName,
+                TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
             };
         }
     }

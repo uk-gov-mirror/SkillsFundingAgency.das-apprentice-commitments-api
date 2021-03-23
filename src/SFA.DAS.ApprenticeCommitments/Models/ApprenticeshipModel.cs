@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SFA.DAS.ApprenticeCommitments.Models
+﻿namespace SFA.DAS.ApprenticeCommitments.Models
 {
     public class ApprenticeshipModel
     {
@@ -10,5 +8,9 @@ namespace SFA.DAS.ApprenticeCommitments.Models
         public long EmployerAccountLegalEntityId { get; set; }
         public long TrainingProviderId { get; internal set; }
         public string TrainingProviderName { get; set; }
+        public bool? TrainingProviderCorrect { get; set; }
+
+        internal void ConfirmTrainingProvider(bool trainingProviderCorrect)
+            => TrainingProviderCorrect = trainingProviderCorrect;
     }
 }

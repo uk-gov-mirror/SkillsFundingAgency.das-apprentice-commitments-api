@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
-    public class ApprenticeshipRepository : IApprenticeshipRepository
+    public class ApprenticeshipRepository
     {
         private readonly Lazy<ApprenticeCommitmentsDbContext> _dbContext;
 
@@ -42,6 +42,18 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             var db = _dbContext.Value;
             var match =  await db.Apprenticeships.SingleOrDefaultAsync(a => a.Id == apprenticeshipId && a.Apprentice.Id == apprenticeId);
             return match?.MapToApprenticeshipModel();
+        }
+
+        internal async Task Update(ApprenticeshipModel apprenticeship)
+        {
+            var db = _dbContext.Value;
+
+            var match = await db.Apprenticeships
+                .SingleOrDefaultAsync(a => a.Id == apprenticeship.Id);
+
+            apprenticeship.MapToApprenticeship(match);
+
+            db.Update(match);
         }
     }
 }

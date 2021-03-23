@@ -8,9 +8,9 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
 {
     public class CreateRegistrationCommandHandler : IRequestHandler<CreateRegistrationCommand>
     {
-        private readonly IRegistrationRepository _registrationRepository;
+        private readonly RegistrationRepository _registrationRepository;
 
-        public CreateRegistrationCommandHandler(IRegistrationRepository registrationRepository)
+        public CreateRegistrationCommandHandler(RegistrationRepository registrationRepository)
         {
             _registrationRepository = registrationRepository;
         }

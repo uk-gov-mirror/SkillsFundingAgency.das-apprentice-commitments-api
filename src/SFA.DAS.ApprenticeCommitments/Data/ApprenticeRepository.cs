@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Data
 {
-    public class ApprenticeRepository : IApprenticeRepository
+    public class ApprenticeRepository
     {
         private readonly ApprenticeCommitmentsDbContext _db;
 

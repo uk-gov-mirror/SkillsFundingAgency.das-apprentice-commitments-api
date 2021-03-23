@@ -12,5 +12,6 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
         public Apprentice Apprentice { get; private set; }
+        public bool? TrainingProviderCorrect { get; set; }
     }
 }
