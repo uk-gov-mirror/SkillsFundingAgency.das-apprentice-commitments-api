@@ -19,9 +19,9 @@ namespace SFA.DAS.ApprenticeCommitments.Infrastructure.Mediator
         {
             try
             {
-                _logger.LogInformation($"Start handling '{typeof(TRequest)}'");
+                _logger.LogInformation("Start handling {Name}: {@request}", typeof(TRequest).Name, request);
                 var response = await next();
-                _logger.LogInformation($"End handling '{typeof(TRequest)}'");
+                _logger.LogInformation("End handling {TRequest}", typeof(TRequest).Name);
                 return response;
             }
             catch (Exception e)
