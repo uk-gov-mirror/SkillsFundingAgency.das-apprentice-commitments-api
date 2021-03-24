@@ -20,10 +20,11 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
                 command.RegistrationId,
                 command.ApprenticeshipId,
                 new MailAddress(command.Email),
-                command.EmployerName,
-                command.EmployerAccountLegalEntityId,
-                command.TrainingProviderId,
-                command.TrainingProviderName));
+                new ApprenticeshipDetails(
+                    command.EmployerAccountLegalEntityId,
+                    command.EmployerName,
+                    command.TrainingProviderId,
+                    command.TrainingProviderName)));
 
             return Unit.Value;
         }

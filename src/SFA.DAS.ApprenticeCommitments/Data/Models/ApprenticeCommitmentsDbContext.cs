@@ -59,7 +59,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });
 
-            modelBuilder.Entity<Registration>().OwnsOne(e => e.Details);
+            modelBuilder.Entity<Registration>().OwnsOne(e => e.Apprenticeship);
 
             base.OnModelCreating(modelBuilder);
         }

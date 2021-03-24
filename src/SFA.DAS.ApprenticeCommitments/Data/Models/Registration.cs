@@ -7,25 +7,6 @@ using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
-    public class ApprenticeshipDetails
-    {
-        public ApprenticeshipDetails(
-            long employerAccountLegalEntityId, string employerName,
-            long trainingProviderId, string trainingProviderName)
-        {
-            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
-            EmployerName = employerName;
-            TrainingProviderId = trainingProviderId;
-            TrainingProviderName = trainingProviderName;
-        }
-
-        public long EmployerAccountLegalEntityId { get; private set; }
-        public string EmployerName { get; private set; }
-
-        public long TrainingProviderId { get; private set; }
-        public string TrainingProviderName { get; private set; }
-    }
-
     [Table("Registration")]
     public class Registration
     {
@@ -40,19 +21,12 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             Guid registrationId,
             long apprenticeshipId,
             MailAddress email,
-            string employerName,
-            long employerAccountLegalEntityId,
-            long trainingProviderId,
-            string trainingProviderName)
+            ApprenticeshipDetails apprenticeship)
         {
             Id = registrationId;
             ApprenticeshipId = apprenticeshipId;
             Email = email.ToString();
-            Details = new ApprenticeshipDetails(
-                employerAccountLegalEntityId,
-                employerName,
-                trainingProviderId,
-                trainingProviderName);
+            Apprenticeship = apprenticeship;
         }
 
         public Guid Id { get; private set; }
@@ -61,7 +35,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public Guid? UserIdentityId { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
-        public ApprenticeshipDetails Details { get; private set; }
+        public ApprenticeshipDetails Apprenticeship { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
@@ -91,7 +65,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             var apprentice = new Apprentice(
                 Id, firstName, lastName, emailAddress, dateOfBirth);
 
-            apprentice.AddApprenticeship(new Apprenticeship(ApprenticeshipId, Details));
+            apprentice.AddApprenticeship(new Apprenticeship(ApprenticeshipId, Apprenticeship));
 
             return apprentice;
         }
