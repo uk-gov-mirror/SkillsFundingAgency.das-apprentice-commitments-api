@@ -15,10 +15,10 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = apprenticeship.Id,
                 CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId,
-                EmployerName = apprenticeship.EmployerName,
-                EmployerAccountLegalEntityId = apprenticeship.EmployerAccountLegalEntityId,
-                TrainingProviderId = apprenticeship.TrainingProviderId,
-                TrainingProviderName = apprenticeship.TrainingProviderName,
+                EmployerName = apprenticeship.Details.EmployerName,
+                EmployerAccountLegalEntityId = apprenticeship.Details.EmployerAccountLegalEntityId,
+                TrainingProviderId = apprenticeship.Details.TrainingProviderId,
+                TrainingProviderName = apprenticeship.Details.TrainingProviderName,
                 TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
                 EmployerCorrect = apprenticeship.EmployerCorrect,
             };

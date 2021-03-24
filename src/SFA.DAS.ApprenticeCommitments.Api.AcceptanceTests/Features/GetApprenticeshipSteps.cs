@@ -72,9 +72,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.Should().NotBeNull();
             a.Id.Should().Be(_apprenticeship.Id);
             a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);
-            a.EmployerName.Should().Be(_apprenticeship.EmployerName);
-            a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.EmployerAccountLegalEntityId);
-            a.TrainingProviderName.Should().Be(_apprenticeship.TrainingProviderName);
+            a.EmployerName.Should().Be(_apprenticeship.Details.EmployerName);
+            a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.Details.EmployerAccountLegalEntityId);
+            a.TrainingProviderName.Should().Be(_apprenticeship.Details.TrainingProviderName);
             a.TrainingProviderCorrect.Should().Be(_apprenticeship.TrainingProviderCorrect);
             a.EmployerCorrect.Should().Be(_apprenticeship.EmployerCorrect);
         }

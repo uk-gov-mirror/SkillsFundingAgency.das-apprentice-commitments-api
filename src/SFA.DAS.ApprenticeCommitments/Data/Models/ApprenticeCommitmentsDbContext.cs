@@ -51,6 +51,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             modelBuilder.Entity<Apprenticeship>()
                 .HasKey(a => a.Id);
 
+            modelBuilder.Entity<Apprenticeship>().OwnsOne(e => e.Details);
+
             modelBuilder.Entity<Registration>(entity =>
             {
                 entity.HasKey(e => e.Id);
