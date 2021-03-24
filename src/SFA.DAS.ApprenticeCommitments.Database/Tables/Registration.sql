@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Registration]
 (
-	[Id] UNIQUEIDENTIFIER NOT NULL, 
-    [ApprenticeId] UNIQUEIDENTIFIER NULL,
+    [ApprenticeId] UNIQUEIDENTIFIER NOT NULL,
     [ApprenticeshipId] BIGINT NOT NULL, 
     [Email] NVARCHAR(150) NOT NULL, 
     [UserIdentityId] UNIQUEIDENTIFIER NULL,
@@ -10,5 +9,5 @@
     [EmployerAccountLegalEntityId] BIGINT NOT NULL, 
     [TrainingProviderId] BIGINT NOT NULL, 
     [TrainingProviderName] NVARCHAR(100) NOT NULL, 
-    CONSTRAINT PK_Registration_Id PRIMARY KEY CLUSTERED ([Id]),
+    CONSTRAINT PK_Registration_ApprenticeId PRIMARY KEY CLUSTERED ([ApprenticeId]),
 )

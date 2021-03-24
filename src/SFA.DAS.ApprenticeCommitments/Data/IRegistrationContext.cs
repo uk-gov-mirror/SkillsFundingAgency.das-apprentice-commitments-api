@@ -10,12 +10,12 @@ namespace SFA.DAS.ApprenticeCommitments.Data
 {
     public interface IRegistrationContext : IEntityContext<Registration>
     {
-        internal async Task<Registration> GetById(Guid registrationId)
-            => (await Find(registrationId))
-                ?? throw new DomainException($"Registration {registrationId} not found");
+        internal async Task<Registration> GetById(Guid apprenticeId)
+            => (await Find(apprenticeId))
+                ?? throw new DomainException($"Registration for Apprentice {apprenticeId} not found");
 
-        internal async Task<Registration?> Find(Guid registrationId)
-            => await Entities.FirstOrDefaultAsync(x => x.Id == registrationId);
+        internal async Task<Registration?> Find(Guid apprenticeId)
+            => await Entities.FirstOrDefaultAsync(x => x.ApprenticeId == apprenticeId);
 
         public async Task<bool> RegistrationsExist()
             => await Entities.AnyAsync();

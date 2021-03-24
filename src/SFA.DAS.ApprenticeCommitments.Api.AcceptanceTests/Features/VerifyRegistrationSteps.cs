@@ -23,14 +23,14 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private VerifyRegistrationCommand _command;
         private Fixture _f;
         private Registration _registration;
-        private Guid _missingRegistrationId;
+        private Guid _missingApprenticeId;
         private Guid _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
         {
             _context = context;
             _f = new Fixture();
-            _missingRegistrationId = _f.Create<Guid>();
+            _missingApprenticeId = _f.Create<Guid>();
         }
 
         [Given(@"we have an existing registration")]
@@ -46,7 +46,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _command = _f.Build<VerifyRegistrationCommand>()
                 .With(p => p.Email, _registration.Email)
-                .With(p => p.RegistrationId, _registration.Id)
+                .With(p => p.ApprenticeId, _registration.ApprenticeId)
                 .Create();
         }
 
@@ -55,7 +55,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _command = _f.Build<VerifyRegistrationCommand>()
                 .With(p => p.Email, "another@email.com")
-                .With(p => p.RegistrationId, _registration.Id)
+                .With(p => p.ApprenticeId, _registration.ApprenticeId)
                 .Create();
         }
 
@@ -86,7 +86,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _command = _f.Build<VerifyRegistrationCommand>()
                 .With(p => p.Email, "another@email.com")
-                .With(p => p.RegistrationId, _missingRegistrationId)
+                .With(p => p.ApprenticeId, _missingApprenticeId)
                 .Create();
         }
 
@@ -107,13 +107,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the apprentice record is created")]
         public void ThenTheApprenticeRecordIsCreated()
         {
-            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.Id == _command.RegistrationId);
+            var apprentice = _context.DbContext.Apprentices.FirstOrDefault(x => x.Id == _command.ApprenticeId);
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
             apprentice.Email.Should().Be(_registration.Email);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
-            apprentice.Id.Should().Be(_command.RegistrationId);
+            apprentice.Id.Should().Be(_command.ApprenticeId);
             _apprenticeId = apprentice.Id;
         }
 
@@ -122,7 +122,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             var apprentice = _context.DbContext
                 .Apprentices.Include(x => x.Apprenticeships)
-                .FirstOrDefault(x => x.Id == _command.RegistrationId);
+                .FirstOrDefault(x => x.Id == _command.ApprenticeId);
 
             apprentice.Apprenticeships.Should().ContainEquivalentOf(new
             {
@@ -137,7 +137,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Then(@"the registration has been marked as completed")]
         public void ThenTheRegistrationHasBeenMarkedAsCompleted()
         {
-            var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.Id == _registration.Id);
+            var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.ApprenticeId == _registration.ApprenticeId);
             registration.UserIdentityId.Should().Be(_command.UserIdentityId);
         }
 
@@ -146,7 +146,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context.DbContext.Registrations.Should().ContainEquivalentOf(new
             {
-                _registration.Id,
+                _registration.ApprenticeId,
                 _registration.CreatedOn
             });
         }
@@ -164,7 +164,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().Be(1);
             errors[0].PropertyName.Should().BeNull();
-            errors[0].ErrorMessage.Should().Be($"Email from verifying user doesn't match registered user {_registration.Id}");
+            errors[0].ErrorMessage.Should().Be($"Email from verifying user doesn't match registered user {_registration.ApprenticeId}");
         }
 
         [Then(@"an 'already verified' domain error is returned")]
@@ -175,7 +175,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             errors.Should().ContainEquivalentOf(new ErrorItem
             {
                 PropertyName = null,
-                ErrorMessage = $"Registration {_registration.Id} id already verified",
+                ErrorMessage = $"Registration {_registration.ApprenticeId} id already verified",
             });
         }
 
@@ -185,7 +185,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
-            errors.Should().ContainEquivalentOf(new { PropertyName = "RegistrationId" });
+            errors.Should().ContainEquivalentOf(new { PropertyName = "ApprenticeId" });
             errors.Should().ContainEquivalentOf(new { PropertyName = "UserIdentityId" });
             errors.Should().ContainEquivalentOf(new { PropertyName = "FirstName" });
             errors.Should().ContainEquivalentOf(new { PropertyName = "LastName" });
@@ -209,7 +209,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
             errors.Count().Should().Be(1);
-            errors[0].ErrorMessage.Should().Be($"Registration {_missingRegistrationId} not found");
+            errors[0].ErrorMessage.Should().Be($"Registration {_missingApprenticeId} not found");
         }
 
         [Then("a record of the apprentice email address is kept")]

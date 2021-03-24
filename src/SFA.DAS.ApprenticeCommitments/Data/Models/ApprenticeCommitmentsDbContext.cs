@@ -53,7 +53,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.ApprenticeId);
                 entity.Property(e => e.TrainingProviderName).IsRequired();
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
             });

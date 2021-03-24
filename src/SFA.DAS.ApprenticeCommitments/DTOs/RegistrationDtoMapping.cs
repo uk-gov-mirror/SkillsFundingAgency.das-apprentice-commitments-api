@@ -9,7 +9,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
         {
             return new RegistrationDto
             {
-                Id = registration.Id,
+                Id = registration.ApprenticeId,
                 ApprenticeshipId = registration.ApprenticeshipId,
                 Email = registration.Email,
                 EmployerName = registration.EmployerName,

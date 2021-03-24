@@ -17,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
         public async Task<Unit> Handle(CreateRegistrationCommand command, CancellationToken cancellationToken)
         {
             await _registrations.AddAsync(new Registration(
-                command.RegistrationId,
+                command.ApprenticeId,
                 command.ApprenticeshipId,
                 new MailAddress(command.Email),
                 command.EmployerName,

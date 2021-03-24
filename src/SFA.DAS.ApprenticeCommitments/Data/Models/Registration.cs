@@ -17,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         }
 
         public Registration(
-            Guid registrationId,
+            Guid apprenticeId,
             long apprenticeshipId,
             MailAddress email,
             string employerName,
@@ -25,7 +25,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             long trainingProviderId,
             string trainingProviderName)
         {
-            Id = registrationId;
+            ApprenticeId = apprenticeId;
             ApprenticeshipId = apprenticeshipId;
             Email = email.ToString();
             EmployerName = employerName;
@@ -34,7 +34,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             TrainingProviderName = trainingProviderName;
         }
 
-        public Guid Id { get; private set; }
+        public Guid ApprenticeId { get; private set; }
         public long ApprenticeshipId { get; private set; }
         public string Email { get; private set; }
         public string EmployerName { get; private set; }
@@ -58,19 +58,19 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         private void EnsureNotAlreadyCompleted()
         {
             if (HasBeenCompleted)
-                throw new DomainException($"Registration {Id} id already verified");
+                throw new DomainException($"Registration {ApprenticeId} id already verified");
         }
 
         private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
         {
             if (!emailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
-                throw new DomainException($"Email from verifying user doesn't match registered user {Id}");
+                throw new DomainException($"Email from verifying user doesn't match registered user {ApprenticeId}");
         }
 
         private Apprentice CreateRegisteredApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth)
         {
             var apprentice = new Apprentice(
-                Id, firstName, lastName, emailAddress, dateOfBirth);
+                ApprenticeId, firstName, lastName, emailAddress, dateOfBirth);
 
             apprentice.AddApprenticeship(new Apprenticeship(
                 ApprenticeshipId,

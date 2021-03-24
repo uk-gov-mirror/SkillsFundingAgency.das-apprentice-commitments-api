@@ -42,7 +42,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [When(@"we try to retrieve the registration")]
         public Task WhenWeTryToRetrieveTheRegistration()
         {
-            return _context.Api.Get($"registrations/{_registration.Id}");
+            return _context.Api.Get($"registrations/{_registration.ApprenticeId}");
         }
 
         [Given(@"there is an empty registration")]
@@ -71,7 +71,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             content.Should().NotBeNull();
             var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
             response.Email.Should().Be(_registration.Email);
-            response.RegistrationId.Should().Be(_registration.Id);
+            response.ApprenticeId.Should().Be(_registration.ApprenticeId);
         }
 
         [Then(@"the result should return not found")]
@@ -93,7 +93,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             content.Should().NotBeNull();
             var response = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             response.Count.Should().Be(1);
-            response[0].PropertyName.Should().Be("RegistrationId");
+            response[0].PropertyName.Should().Be("ApprenticeId");
             response[0].ErrorMessage.Should().Be("The Registration Id must be valid");
         }
     }
