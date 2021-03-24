@@ -7,12 +7,32 @@ using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
+    public class ApprenticeshipDetails
+    {
+        public ApprenticeshipDetails(
+            long employerAccountLegalEntityId, string employerName,
+            long trainingProviderId, string trainingProviderName)
+        {
+            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
+            EmployerName = employerName;
+            TrainingProviderId = trainingProviderId;
+            TrainingProviderName = trainingProviderName;
+        }
+
+        public long EmployerAccountLegalEntityId { get; private set; }
+        public string EmployerName { get; private set; }
+
+        public long TrainingProviderId { get; private set; }
+        public string TrainingProviderName { get; private set; }
+    }
+
     [Table("Registration")]
     public class Registration
     {
 #pragma warning disable CS8618 // Private constructor for entity framework
+
         private Registration()
-#pragma warning restore CS8618 
+#pragma warning restore CS8618
         {
         }
 
@@ -28,21 +48,20 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             Id = registrationId;
             ApprenticeshipId = apprenticeshipId;
             Email = email.ToString();
-            EmployerName = employerName;
-            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
-            TrainingProviderId = trainingProviderId;
-            TrainingProviderName = trainingProviderName;
+            Details = new ApprenticeshipDetails(
+                employerAccountLegalEntityId,
+                employerName,
+                trainingProviderId,
+                trainingProviderName);
         }
 
         public Guid Id { get; private set; }
         public long ApprenticeshipId { get; private set; }
         public string Email { get; private set; }
-        public string EmployerName { get; private set; }
-        public long EmployerAccountLegalEntityId { get; private set; }
         public Guid? UserIdentityId { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
-        public long TrainingProviderId { get; private set; }
-        public string TrainingProviderName { get; private set; }
+
+        public ApprenticeshipDetails Details { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
@@ -74,8 +93,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
             apprentice.AddApprenticeship(new Apprenticeship(
                 ApprenticeshipId,
-                EmployerAccountLegalEntityId, EmployerName,
-                TrainingProviderId, TrainingProviderName));
+                Details.EmployerAccountLegalEntityId, Details.EmployerName,
+                Details.TrainingProviderId, Details.TrainingProviderName));
 
             return apprentice;
         }

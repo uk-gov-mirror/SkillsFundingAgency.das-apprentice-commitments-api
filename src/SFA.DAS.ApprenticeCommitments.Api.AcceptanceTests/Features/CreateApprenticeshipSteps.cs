@@ -78,10 +78,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 .FirstOrDefault(x => x.Id == _createApprenticeshipRequest.RegistrationId);
             registration.Should().NotBeNull();
             registration.Email.Should().Be(_createApprenticeshipRequest.Email);
-            registration.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
-            registration.EmployerAccountLegalEntityId.Should().Be(_createApprenticeshipRequest.EmployerAccountLegalEntityId);
+            registration.Details.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
+            registration.Details.EmployerAccountLegalEntityId.Should().Be(_createApprenticeshipRequest.EmployerAccountLegalEntityId);
             registration.ApprenticeshipId.Should().Be(_createApprenticeshipRequest.ApprenticeshipId);
-            registration.TrainingProviderName.Should().Be(_createApprenticeshipRequest.TrainingProviderName);
+            registration.Details.TrainingProviderName.Should().Be(_createApprenticeshipRequest.TrainingProviderName);
         }
     }
 }
