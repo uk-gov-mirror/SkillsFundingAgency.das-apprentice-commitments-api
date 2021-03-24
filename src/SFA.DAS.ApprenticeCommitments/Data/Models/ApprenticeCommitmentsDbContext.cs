@@ -57,6 +57,10 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.Property(e => e.Email)
+                    .HasConversion(
+                        v => v.ToString(),
+                        v => new MailAddress(v));
             });
 
             modelBuilder.Entity<Registration>().OwnsOne(e => e.Apprenticeship);

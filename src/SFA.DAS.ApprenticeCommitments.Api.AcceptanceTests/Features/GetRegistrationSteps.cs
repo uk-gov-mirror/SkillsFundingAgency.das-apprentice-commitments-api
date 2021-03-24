@@ -70,7 +70,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
             var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
-            response.Email.Should().Be(_registration.Email);
+            response.Email.Should().Be(_registration.Email.ToString());
             response.RegistrationId.Should().Be(_registration.Id);
         }
 

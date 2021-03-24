@@ -11,7 +11,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = registration.Id,
                 ApprenticeshipId = registration.ApprenticeshipId,
-                Email = registration.Email,
+                Email = registration.Email.ToString(),
                 EmployerName = registration.Apprenticeship.EmployerName,
                 EmployerAccountLegalEntityId = registration.Apprenticeship.EmployerAccountLegalEntityId,
                 UserIdentityId = registration.UserIdentityId,

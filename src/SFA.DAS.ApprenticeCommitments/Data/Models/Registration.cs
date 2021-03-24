@@ -25,13 +25,13 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         {
             Id = registrationId;
             ApprenticeshipId = apprenticeshipId;
-            Email = email.ToString();
+            Email = email;
             Apprenticeship = apprenticeship;
         }
 
         public Guid Id { get; private set; }
         public long ApprenticeshipId { get; private set; }
-        public string Email { get; private set; }
+        public MailAddress Email { get; private set; }
         public Guid? UserIdentityId { get; private set; }
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
 
@@ -56,7 +56,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
         {
-            if (!emailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
+            if (!emailAddress.ToString().Equals(Email.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 throw new DomainException($"Email from verifying user doesn't match registered user {Id}");
         }
 

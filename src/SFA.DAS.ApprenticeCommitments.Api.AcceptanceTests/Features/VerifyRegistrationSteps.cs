@@ -45,7 +45,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenTheRequestMatchesRegistrationDetails()
         {
             _command = _f.Build<VerifyRegistrationCommand>()
-                .With(p => p.Email, _registration.Email)
+                .With(p => p.Email, _registration.Email.ToString())
                 .With(p => p.RegistrationId, _registration.Id)
                 .Create();
         }
@@ -64,7 +64,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _registration = _f.Create<Registration>();
             _registration.ConvertToApprentice(
-                "", "", new MailAddress(_registration.Email), DateTime.Now, Guid.NewGuid());
+                "", "", _registration.Email, DateTime.Now, Guid.NewGuid());
 
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
