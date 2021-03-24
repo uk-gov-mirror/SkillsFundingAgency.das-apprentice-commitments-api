@@ -209,7 +209,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
 
             errors.Count().Should().Be(1);
-            errors[0].ErrorMessage.Should().Be($"Registration {_missingApprenticeId} not found");
+            errors[0].ErrorMessage.Should().Be($"Registration for Apprentice {_missingApprenticeId} not found");
         }
 
         [Then("a record of the apprentice email address is kept")]

@@ -21,7 +21,7 @@ Scenario: Trying to get a registration with an invalid Id
 	Then the result should return bad request
 
 Scenario: Trying to get a registration with an empty Id
-	Given there is an empty registration
+	Given there is an empty apprentice id
 	When we try to retrieve the registration
 	Then the result should return bad request
-	And the error must be say registration must be valid
+	And the error must be say apprentice id must be valid
