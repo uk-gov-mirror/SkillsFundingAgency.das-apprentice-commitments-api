@@ -8,14 +8,15 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
 {
     public class ChangeEmailAddressCommandHandler : IRequestHandler<ChangeEmailAddressCommand>
     {
-        private readonly ApprenticeRepository _apprenticeRepository;
+        private readonly IApprenticeContext _apprentices;
 
-        public ChangeEmailAddressCommandHandler(ApprenticeRepository apprenticeRepository)
-            => _apprenticeRepository = apprenticeRepository;
+        public ChangeEmailAddressCommandHandler(IApprenticeContext apprentices)
+            => _apprentices = apprentices;
 
         public async Task<Unit> Handle(ChangeEmailAddressCommand command, CancellationToken cancellationToken)
         {
-            await _apprenticeRepository.ChangeEmailAddress(command.ApprenticeId, new MailAddress(command.Email));
+            var apprentice = await _apprentices.GetById(command.ApprenticeId);
+            apprentice.UpdateEmail(new MailAddress(command.Email));
             return Unit.Value;
         }
     }

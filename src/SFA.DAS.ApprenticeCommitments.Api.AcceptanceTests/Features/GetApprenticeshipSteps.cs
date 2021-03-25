@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 using System.Net;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -22,7 +22,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context = context;
             _apprentice = _fixture.Build<Apprentice>().Create();
-            _apprenticeship = _fixture.Create<Apprenticeship>();
+            _apprenticeship = _fixture.Build<Apprenticeship>()
+                .Do(a => a.ConfirmTrainingProvider(true))
+                .Do(a => a.ConfirmEmployer(true))
+                .Create();
         }
 
         [Given(@"the apprenticeship exists and it's associated with this apprentice")]
@@ -65,7 +68,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public async Task ThenTheResponseShouldMatchTheExpectedApprenticeshipValues()
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
-            var a = JsonConvert.DeserializeObject<ApprenticeshipModel>(content);
+            var a = JsonConvert.DeserializeObject<ApprenticeshipDto>(content);
             a.Should().NotBeNull();
             a.Id.Should().Be(_apprenticeship.Id);
             a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);
@@ -73,6 +76,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.EmployerAccountLegalEntityId);
             a.TrainingProviderName.Should().Be(_apprenticeship.TrainingProviderName);
             a.TrainingProviderCorrect.Should().Be(_apprenticeship.TrainingProviderCorrect);
+            a.EmployerCorrect.Should().Be(_apprenticeship.EmployerCorrect);
         }
 
         [Then(@"the result should return NotFound")]

@@ -1,10 +1,10 @@
 ﻿using System;
 using MediatR;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipQuery
 {
-    public class ApprenticeshipQuery : IRequest<ApprenticeshipModel>
+    public class ApprenticeshipQuery : IRequest<ApprenticeshipDto>
     {
         public ApprenticeshipQuery(Guid apprenticeId, long apprenticeshipId)
         {

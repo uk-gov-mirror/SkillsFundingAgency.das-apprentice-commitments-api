@@ -1,8 +1,8 @@
 using System;
 
-namespace SFA.DAS.ApprenticeCommitments.Models
+namespace SFA.DAS.ApprenticeCommitments.DTOs
 {
-    public class RegistrationModel
+    public class RegistrationDto
     {
         public Guid Id { get; set; }
         public long ApprenticeshipId { get; set; }
@@ -13,8 +13,5 @@ namespace SFA.DAS.ApprenticeCommitments.Models
         public string TrainingProviderName { get; internal set; }
         public DateTime? CreatedOn { get; private set; }
         public Guid? UserIdentityId { get; set; }
-        public long? ApprenticeId { get; set; }
-
-        public bool HasBeenCompleted => UserIdentityId != null;
     }
 }

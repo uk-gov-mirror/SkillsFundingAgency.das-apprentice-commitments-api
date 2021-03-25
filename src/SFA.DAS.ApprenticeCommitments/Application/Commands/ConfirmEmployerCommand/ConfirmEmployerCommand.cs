@@ -9,34 +9,34 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmTrainingProviderCommand
 {
-    public class ConfirmTrainingProviderCommand : IUnitOfWorkCommand
+    public class ConfirmEmployerCommand : IUnitOfWorkCommand
     {
-        public ConfirmTrainingProviderCommand(
+        public ConfirmEmployerCommand(
             Guid apprenticeId, long apprenticeshipId,
             bool trainingProviderCorrect)
         {
             ApprenticeId = apprenticeId;
             ApprenticeshipId = apprenticeshipId;
-            TrainingProviderCorrect = trainingProviderCorrect;
+            EmployerCorrect = trainingProviderCorrect;
         }
 
         public Guid ApprenticeId { get; }
         public long ApprenticeshipId { get; }
-        public bool TrainingProviderCorrect { get; }
+        public bool EmployerCorrect { get; }
     }
 
-    public class ConfirmTrainingProviderCommandHandler
-        : IRequestHandler<ConfirmTrainingProviderCommand>
+    public class ConfirmEmployerCommandHandler
+        : IRequestHandler<ConfirmEmployerCommand>
     {
         private readonly IApprenticeshipContext _apprenticeships;
 
-        public ConfirmTrainingProviderCommandHandler(IApprenticeshipContext apprenticeships)
+        public ConfirmEmployerCommandHandler(IApprenticeshipContext apprenticeships)
             => _apprenticeships = apprenticeships;
 
-        public async Task<Unit> Handle(ConfirmTrainingProviderCommand request, CancellationToken _)
+        public async Task<Unit> Handle(ConfirmEmployerCommand request, CancellationToken _)
         {
             var apprenticeship = await _apprenticeships.GetById(request.ApprenticeId, request.ApprenticeshipId);
-            apprenticeship.ConfirmTrainingProvider(request.TrainingProviderCorrect);
+            apprenticeship.ConfirmEmployer(request.EmployerCorrect);
             return Unit.Value;
         }
     }

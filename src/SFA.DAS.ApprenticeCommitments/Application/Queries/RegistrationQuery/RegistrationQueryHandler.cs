@@ -1,28 +1,25 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Models;
+using SFA.DAS.ApprenticeCommitments.Data.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 {
     public class RegistrationQueryHandler : IRequestHandler<RegistrationQuery, RegistrationResponse>
     {
-        private readonly RegistrationRepository _registrationRepository;
+        private readonly IRegistrationContext _registrations;
 
-        public RegistrationQueryHandler(RegistrationRepository registrationRepository)
+        public RegistrationQueryHandler(IRegistrationContext registrations)
+            => _registrations = registrations;
+
+        public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken _)
         {
-            _registrationRepository = registrationRepository;
+            var model = await _registrations.Find(query.RegistrationId);
+            return Map(model);
         }
 
-        public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken cancellationToken)
-        {
-            var model = await _registrationRepository.Get(query.RegistrationId);
-
-            return Map(model); 
-        }
-
-        private RegistrationResponse Map(RegistrationModel model)
+        private RegistrationResponse Map(Registration model)
         {
             if (model == null)
             {

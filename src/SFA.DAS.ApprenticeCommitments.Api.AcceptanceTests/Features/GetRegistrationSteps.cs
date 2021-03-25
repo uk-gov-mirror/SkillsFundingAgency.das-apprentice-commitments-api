@@ -23,9 +23,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public GetRegistrationSteps(TestContext context)
         {
             _fixture = new Fixture();
-            _registration = _fixture.Build<Registration>()
-                .Without(p => p.ApprenticeId) // There is no proper relationship yet
-                .Create();
+            _registration = _fixture.Create<Registration>();
             _context = context;
         }
 
@@ -50,7 +48,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"there is an empty registration")]
         public void GivenThereIsAnEmptyRegistration()
         {
-            _registration.Id = Guid.Empty;
+            _fixture.Inject(Guid.Empty);
+            _registration = _fixture.Create<Registration>();
         }
 
         [When(@"we try to retrieve the registration using a bad request format")]

@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Net.Mail;
 
 namespace SFA.DAS.ApprenticeCommitments.Data.Models
 {
-    public class ApprenticeCommitmentsDbContext : DbContext
+    public class ApprenticeCommitmentsDbContext : DbContext, IRegistrationContext, IApprenticeContext, IApprenticeshipContext
     {
         public ApprenticeCommitmentsDbContext()
         {
@@ -17,6 +17,10 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public virtual DbSet<Registration> Registrations { get; set; }
         public virtual DbSet<Apprentice> Apprentices { get; set; }
         public virtual DbSet<Apprenticeship> Apprenticeships { get; set; }
+
+        DbSet<Registration> IEntityContext<Registration>.Entities => Registrations;
+        DbSet<Apprentice> IEntityContext<Apprentice>.Entities => Apprentices;
+        DbSet<Apprenticeship> IEntityContext<Apprenticeship>.Entities => Apprenticeships;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

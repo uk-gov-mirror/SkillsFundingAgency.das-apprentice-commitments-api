@@ -24,25 +24,19 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         private Fixture _f;
         private Registration _registration;
         private Guid _missingRegistrationId;
-        private string _validEmail;
         private Guid _apprenticeId;
 
         public VerifyRegistrationSteps(TestContext context)
         {
             _context = context;
             _f = new Fixture();
-            _validEmail = _f.Create<MailAddress>().Address;
             _missingRegistrationId = _f.Create<Guid>();
         }
 
         [Given(@"we have an existing registration")]
         public void GivenWeHaveAnExistingRegistration()
         {
-            _registration = _f.Build<Registration>()
-                .Without(p => p.ApprenticeId)
-                .Without(p => p.UserIdentityId)
-                .With(p => p.Email, _validEmail).Create();
-
+            _registration = _f.Create<Registration>();
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
         }
@@ -51,7 +45,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void GivenTheRequestMatchesRegistrationDetails()
         {
             _command = _f.Build<VerifyRegistrationCommand>()
-                .With(p => p.Email, _validEmail)
+                .With(p => p.Email, _registration.Email)
                 .With(p => p.RegistrationId, _registration.Id)
                 .Create();
         }
@@ -68,9 +62,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         [Given(@"we have an existing already verified registration")]
         public void GivenWeHaveAnExistingAlreadyVerifiedRegistration()
         {
-            _registration = _f.Build<Registration>()
-                .Without(p => p.ApprenticeId) // There is no proper relationship yet
-                .With(p => p.Email, _validEmail).Create();
+            _registration = _f.Create<Registration>();
+            _registration.ConvertToApprentice(
+                "", "", new MailAddress(_registration.Email), DateTime.Now, Guid.NewGuid());
 
             _context.DbContext.Registrations.Add(_registration);
             _context.DbContext.SaveChanges();
@@ -117,7 +111,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             apprentice.Should().NotBeNull();
             apprentice.FirstName.Should().Be(_command.FirstName);
             apprentice.LastName.Should().Be(_command.LastName);
-            apprentice.Email.Should().Be(_validEmail);
+            apprentice.Email.Should().Be(_registration.Email);
             apprentice.DateOfBirth.Should().Be(_command.DateOfBirth);
             apprentice.Id.Should().Be(_command.RegistrationId);
             _apprenticeId = apprentice.Id;
@@ -144,9 +138,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheRegistrationHasBeenMarkedAsCompleted()
         {
             var registration = _context.DbContext.Registrations.FirstOrDefault(x => x.Id == _registration.Id);
-            registration.UserIdentityId.Should().NotBeNull();
             registration.UserIdentityId.Should().Be(_command.UserIdentityId);
-            registration.ApprenticeId.Should().Be(_apprenticeId);
         }
 
         [Then(@"the registration CreatedOn field is unchanged")]
@@ -172,7 +164,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var errors = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             errors.Count.Should().Be(1);
             errors[0].PropertyName.Should().BeNull();
-            errors[0].ErrorMessage.Should().Be("Email from Verifying user doesn't match registered user");
+            errors[0].ErrorMessage.Should().Be($"Email from verifying user doesn't match registered user {_registration.Id}");
         }
 
         [Then(@"an 'already verified' domain error is returned")]
@@ -183,7 +175,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             errors.Should().ContainEquivalentOf(new ErrorItem
             {
                 PropertyName = null,
-                ErrorMessage = "Already verified",
+                ErrorMessage = $"Registration {_registration.Id} id already verified",
             });
         }
 
