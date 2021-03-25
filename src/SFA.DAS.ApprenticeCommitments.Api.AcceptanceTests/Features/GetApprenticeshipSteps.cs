@@ -87,7 +87,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.CourseOption.Should().Be(_apprenticeship.Details.Course.Option);
             a.PlannedStartDate.Should().Be(_apprenticeship.Details.Course.PlannedStartDate);
             a.PlannedEndDate.Should().Be(_apprenticeship.Details.Course.PlannedEndDate);
-            a.Duration.Should().Be(32 + 1); // Duration is inclusive of start and end months
+            a.DurationInMonths.Should().Be(32 + 1); // Duration is inclusive of start and end months
         }
 
         [Then(@"the result should return NotFound")]

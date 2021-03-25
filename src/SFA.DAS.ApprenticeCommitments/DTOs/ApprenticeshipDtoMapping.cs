@@ -26,7 +26,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 CourseOption = apprenticeship.Details.Course.Option,
                 PlannedStartDate = apprenticeship.Details.Course.PlannedStartDate,
                 PlannedEndDate = apprenticeship.Details.Course.PlannedEndDate,
-                Duration = apprenticeship.Details.Course.Duration,
+                DurationInMonths = apprenticeship.Details.Course.DurationInMonths,
             };
         }
     }
