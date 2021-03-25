@@ -7,4 +7,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="EmployerName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1828a50d-e7e7-4f34-ab4c-1151deec6bc7" ChangeDateTime="03/25/2021 06:07:16">
+    <Property Name="ElementName" Value="[dbo].[Registration].[EmployerAccountLegalEntityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_EmployerAccountLegalEntityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a1fca5b-985c-4847-8889-74208d311d2c" ChangeDateTime="03/25/2021 06:07:33">
+    <Property Name="ElementName" Value="[dbo].[Registration].[EmployerName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_EmployerName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ec02b8d9-b8f6-41f5-a6ba-41193dce01b8" ChangeDateTime="03/25/2021 06:07:35">
+    <Property Name="ElementName" Value="[dbo].[Registration].[TrainingProviderId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_TrainingProviderId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9106f052-54ce-42ae-98e6-6b26838bca44" ChangeDateTime="03/25/2021 06:07:38">
+    <Property Name="ElementName" Value="[dbo].[Registration].[TrainingProviderName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_TrainingProviderName" />
+  </Operation>
 </Operations>

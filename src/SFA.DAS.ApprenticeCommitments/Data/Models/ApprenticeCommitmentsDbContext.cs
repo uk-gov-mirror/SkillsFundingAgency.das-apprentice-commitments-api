@@ -51,7 +51,20 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             modelBuilder.Entity<Apprenticeship>()
                 .HasKey(a => a.Id);
 
-            modelBuilder.Entity<Apprenticeship>().OwnsOne(e => e.Details).OwnsOne(e => e.Course);
+            modelBuilder.Entity<Apprenticeship>()
+                .OwnsOne(e => e.Details, details =>
+                {
+                    details.Property(p => p.EmployerAccountLegalEntityId).HasColumnName("EmployerAccountLegalEntityId");
+                    details.Property(p => p.EmployerName).HasColumnName("EmployerName");
+                    details.Property(p => p.TrainingProviderId).HasColumnName("TrainingProviderId");
+                    details.Property(p => p.TrainingProviderName).HasColumnName("TrainingProviderName");
+                    details.OwnsOne(e => e.Course, course =>
+                    {
+                        course.Property(p => p.Name).HasColumnName("CourseName");
+                        course.Property(p => p.Level).HasColumnName("CourseLevel");
+                        course.Property(p => p.Option).HasColumnName("CourseOption");
+                    });
+                });
 
             modelBuilder.Entity<Registration>(entity =>
             {
