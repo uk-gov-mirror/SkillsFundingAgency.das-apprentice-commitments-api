@@ -1,4 +1,4 @@
-#nullable enable
+﻿#nullable enable
 
 using System;
 using static SFA.DAS.ApprenticeCommitments.Extensions.DateCalculations;
@@ -26,11 +26,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             PlannedEndDate = plannedEndDate;
         }
 
-        public string Name { get; set; }
-        public int Level { get; set; }
-        public string? Option { get; set; }
-        public DateTime PlannedEndDate { get; set; }
-        public DateTime PlannedStartDate { get; set; }
+        public string Name { get; private set; }
+        public int Level { get; private set; }
+        public string? Option { get; private set; }
+        public DateTime PlannedEndDate { get; private set; }
+        public DateTime PlannedStartDate { get; private set; }
 
         public int DurationInMonths => DifferenceInMonths(PlannedStartDate, PlannedEndDate);
     }
