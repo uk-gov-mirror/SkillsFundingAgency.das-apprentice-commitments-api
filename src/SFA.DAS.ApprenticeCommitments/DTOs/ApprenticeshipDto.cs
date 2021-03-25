@@ -10,5 +10,8 @@
         public string TrainingProviderName { get; set; }
         public bool? TrainingProviderCorrect { get; set; }
         public bool? EmployerCorrect { get; set; }
+        public string CourseName { get; set; }
+        public int CourseLevel { get; set; }
+        public string CourseOption { get; set; }
     }
 }
