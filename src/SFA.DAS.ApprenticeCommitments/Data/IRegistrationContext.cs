@@ -2,6 +2,9 @@
 using SFA.DAS.ApprenticeCommitments.Data.Models;
 using SFA.DAS.ApprenticeCommitments.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 #nullable enable
@@ -17,7 +20,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data
         internal async Task<Registration?> Find(Guid apprenticeId)
             => await Entities.FirstOrDefaultAsync(x => x.ApprenticeId == apprenticeId);
 
-        public async Task<bool> RegistrationsExist()
-            => await Entities.AnyAsync();
+        internal Task<List<Registration>> RegistrationsNeedingSignUpReminders(DateTime cutOffDateTime)
+            => Entities.Where(r => r.FirstViewedOn == null && r.UserIdentityId == null && r.CreatedOn < cutOffDateTime)
+                .ToListAsync(CancellationToken.None);
+
+        public Task<bool> RegistrationsExist()
+            => Entities.AnyAsync();
     }
 }

@@ -43,6 +43,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
         public long TrainingProviderId { get; private set; }
         public string TrainingProviderName { get; private set; }
+        public DateTime? FirstViewedOn { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 

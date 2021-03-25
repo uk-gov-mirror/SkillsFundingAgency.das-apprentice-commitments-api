@@ -9,5 +9,7 @@
     [EmployerAccountLegalEntityId] BIGINT NOT NULL, 
     [TrainingProviderId] BIGINT NOT NULL, 
     [TrainingProviderName] NVARCHAR(100) NOT NULL, 
+    [FirstViewedOn] DATETIME2 NULL, 
+    [SignUpReminderSentOn] DATETIME2 NULL, 
     CONSTRAINT PK_Registration_ApprenticeId PRIMARY KEY CLUSTERED ([ApprenticeId]),
 )

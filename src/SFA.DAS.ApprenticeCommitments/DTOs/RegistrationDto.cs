@@ -4,7 +4,7 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
 {
     public class RegistrationDto
     {
-        public Guid Id { get; set; }
+        public Guid ApprenticeId { get; set; }
         public long ApprenticeshipId { get; set; }
         public string Email { get; set; }
         public string EmployerName { get; set; }

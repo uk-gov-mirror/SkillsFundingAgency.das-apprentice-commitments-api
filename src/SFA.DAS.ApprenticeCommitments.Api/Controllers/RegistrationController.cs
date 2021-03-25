@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery;
+using SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationRemindersQuery;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
 {
@@ -27,6 +28,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
                 return NotFound();
             }
             return new OkObjectResult(response);
+        }
+
+
+        [HttpGet("registrations/reminders")]
+        public async Task<IActionResult> GetRegistrationsNeedingReminders(DateTime cutOffDateTime)
+        {
+            var list = await _mediator.Send(new RegistrationRemindersQuery { CutOffDateTime = cutOffDateTime });
+
+            return new OkObjectResult(new { Registrations = list  });
         }
 
         [HttpPost("registrations")]
