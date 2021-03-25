@@ -133,6 +133,12 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                     _registration.Apprenticeship.EmployerAccountLegalEntityId,
                     _registration.Apprenticeship.TrainingProviderId,
                     _registration.Apprenticeship.TrainingProviderName,
+                    Course = new
+                    {
+                        _registration.Apprenticeship.Course.Name,
+                        _registration.Apprenticeship.Course.Level,
+                        _registration.Apprenticeship.Course.Option,
+                    }
                 },
             });
         }

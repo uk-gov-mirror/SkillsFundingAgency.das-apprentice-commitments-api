@@ -12,5 +12,8 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
         public long EmployerAccountLegalEntityId { get; set; }
         public long TrainingProviderId { get; set; }
         public string TrainingProviderName { get; set; }
+        public string CourseName { get; set; }
+        public int CourseLevel { get; set; }
+        public string CourseOption { get; set; }
     }
 }

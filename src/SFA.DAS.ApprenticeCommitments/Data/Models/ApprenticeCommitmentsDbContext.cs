@@ -51,7 +51,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             modelBuilder.Entity<Apprenticeship>()
                 .HasKey(a => a.Id);
 
-            modelBuilder.Entity<Apprenticeship>().OwnsOne(e => e.Details);
+            modelBuilder.Entity<Apprenticeship>().OwnsOne(e => e.Details).OwnsOne(e => e.Course);
 
             modelBuilder.Entity<Registration>(entity =>
             {
@@ -63,7 +63,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                         v => new MailAddress(v));
             });
 
-            modelBuilder.Entity<Registration>().OwnsOne(e => e.Apprenticeship);
+            modelBuilder.Entity<Registration>().OwnsOne(e => e.Apprenticeship).OwnsOne(e => e.Course);
 
             base.OnModelCreating(modelBuilder);
         }

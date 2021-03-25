@@ -24,7 +24,11 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
                     command.EmployerAccountLegalEntityId,
                     command.EmployerName,
                     command.TrainingProviderId,
-                    command.TrainingProviderName)));
+                    command.TrainingProviderName,
+                    new CourseDetails(
+                        command.CourseName,
+                        command.CourseLevel,
+                        command.CourseOption))));
 
             return Unit.Value;
         }
