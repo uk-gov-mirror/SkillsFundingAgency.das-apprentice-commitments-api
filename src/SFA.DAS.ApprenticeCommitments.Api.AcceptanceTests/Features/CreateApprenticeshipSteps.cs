@@ -44,6 +44,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 CourseName = "My course",
                 CourseLevel = 5,
                 CourseOption = "",
+                PlannedStartDate = new DateTime(2001, 03, 20),
+                PlannedEndDate = new DateTime(2003, 07, 15),
             };
         }
 
@@ -88,6 +90,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             registration.Apprenticeship.Course.Name.Should().Be(_createApprenticeshipRequest.CourseName);
             registration.Apprenticeship.Course.Level.Should().Be(_createApprenticeshipRequest.CourseLevel);
             registration.Apprenticeship.Course.Option.Should().Be(_createApprenticeshipRequest.CourseOption);
+            registration.Apprenticeship.Course.PlannedStartDate.Should().Be(_createApprenticeshipRequest.PlannedStartDate);
+            registration.Apprenticeship.Course.PlannedEndDate.Should().Be(_createApprenticeshipRequest.PlannedEndDate);
         }
     }
 }

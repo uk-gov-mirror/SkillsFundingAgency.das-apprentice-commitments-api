@@ -22,6 +22,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context = context;
             _apprentice = _fixture.Build<Apprentice>().Create();
+
+            var startDate = new System.DateTime(2000, 01, 01);
+            _fixture.Inject(new CourseDetails("", 1, null,
+                startDate, startDate.AddMonths(32)));
+
             _apprenticeship = _fixture.Build<Apprenticeship>()
                 .Do(a => a.ConfirmTrainingProvider(true))
                 .Do(a => a.ConfirmEmployer(true))
@@ -80,6 +85,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.CourseName.Should().Be(_apprenticeship.Details.Course.Name);
             a.CourseLevel.Should().Be(_apprenticeship.Details.Course.Level);
             a.CourseOption.Should().Be(_apprenticeship.Details.Course.Option);
+            a.PlannedStartDate.Should().Be(_apprenticeship.Details.Course.PlannedStartDate);
+            a.PlannedEndDate.Should().Be(_apprenticeship.Details.Course.PlannedEndDate);
+            a.Duration.Should().Be(32 + 1); // Duration is inclusive of start and end months
         }
 
         [Then(@"the result should return NotFound")]

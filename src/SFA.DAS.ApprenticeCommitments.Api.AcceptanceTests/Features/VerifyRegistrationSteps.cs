@@ -138,6 +138,8 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                         _registration.Apprenticeship.Course.Name,
                         _registration.Apprenticeship.Course.Level,
                         _registration.Apprenticeship.Course.Option,
+                        _registration.Apprenticeship.Course.PlannedStartDate,
+                        _registration.Apprenticeship.Course.PlannedEndDate,
                     }
                 },
             });

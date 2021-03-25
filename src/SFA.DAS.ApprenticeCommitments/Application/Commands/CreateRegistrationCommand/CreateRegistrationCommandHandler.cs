@@ -28,7 +28,9 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationC
                     new CourseDetails(
                         command.CourseName,
                         command.CourseLevel,
-                        command.CourseOption))));
+                        command.CourseOption,
+                        command.PlannedStartDate,
+                        command.PlannedEndDate))));
 
             return Unit.Value;
         }
