@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.ApprenticeCommitments.Api.Types;
+using SFA.DAS.ApprenticeCommitments.Application.Commands.RegistrationFirstSeenCommand;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.RegistrationReminderSentCommand;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationCommand;
 using SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery;
@@ -54,5 +55,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
             await _mediator.Send(new RegistrationReminderSentCommand( apprenticeId, request.SentOn));
             return Accepted();
         }
+
+        [HttpPost("registrations/{apprenticeId}/firstseen")]
+        public async Task<IActionResult> RegistrationFirstSeen(Guid apprenticeId, [FromBody] RegistrationFirstSeenRequest request)
+        {
+            await _mediator.Send(new RegistrationFirstSeenCommand(apprenticeId, request.SeenOn));
+            return Accepted();
+        }
+
     }
 }

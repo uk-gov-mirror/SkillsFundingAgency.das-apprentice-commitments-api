@@ -6,10 +6,15 @@ Feature: GetRegistration
 	I want to retrieve registration details
 
 Scenario: Getting a registration which does exist
-	Given there is a registration
+	Given there is a registration with a First View on <FirstViewedOn>
 	When we try to retrieve the registration
 	Then the result should return ok
 	And the response should match the registration in the database
+
+Examples:
+	| FirstViewedOn |
+	| 2021-01-01    |
+	|               |
 
 Scenario: Trying to get a registration which does NOT exist
 	Given there is no registration

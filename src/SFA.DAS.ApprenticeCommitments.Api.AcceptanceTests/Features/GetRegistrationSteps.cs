@@ -32,12 +32,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
         }
 
-        [Given(@"there is a registration")]
-        public Task GivenThereIsARegistration()
+        [Given(@"there is a registration with a First View on (.*)")]
+        public Task GivenThereIsARegistrationWithAFirstViewOn(DateTime? viewedOn)
         {
+            _registration.SetProperty(x=>x.FirstViewedOn, viewedOn);
             _context.DbContext.Registrations.Add(_registration);
             return _context.DbContext.SaveChangesAsync();
         }
+
+
 
         [When(@"we try to retrieve the registration")]
         public Task WhenWeTryToRetrieveTheRegistration()
@@ -72,6 +75,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
             response.Email.Should().Be(_registration.Email);
             response.ApprenticeId.Should().Be(_registration.ApprenticeId);
+            response.HasViewedVerification.Should().Be(_registration.FirstViewedOn.HasValue);
         }
 
         [Then(@"the result should return not found")]
