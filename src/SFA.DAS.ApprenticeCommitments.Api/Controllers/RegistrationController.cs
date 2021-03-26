@@ -34,9 +34,9 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         [HttpGet("registrations/reminders")]
         public async Task<IActionResult> GetRegistrationsNeedingReminders(DateTime cutOffDateTime)
         {
-            var list = await _mediator.Send(new RegistrationRemindersQuery { CutOffDateTime = cutOffDateTime });
+            var response = await _mediator.Send(new RegistrationRemindersQuery { CutOffDateTime = cutOffDateTime });
 
-            return new OkObjectResult(new { Registrations = list  });
+            return new OkObjectResult(response);
         }
 
         [HttpPost("registrations")]

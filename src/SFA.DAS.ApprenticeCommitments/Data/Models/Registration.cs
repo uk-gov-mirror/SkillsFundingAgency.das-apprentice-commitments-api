@@ -32,6 +32,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             EmployerAccountLegalEntityId = employerAccountLegalEntityId;
             TrainingProviderId = trainingProviderId;
             TrainingProviderName = trainingProviderName;
+            CreatedOn = DateTime.UtcNow;
         }
 
         public Guid ApprenticeId { get; private set; }
@@ -40,10 +41,11 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public string EmployerName { get; private set; }
         public long EmployerAccountLegalEntityId { get; private set; }
         public Guid? UserIdentityId { get; private set; }
-        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
+        public DateTime? CreatedOn { get; private set; }
         public long TrainingProviderId { get; private set; }
         public string TrainingProviderName { get; private set; }
         public DateTime? FirstViewedOn { get; private set; }
+        public DateTime? SignUpReminderSentOn { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 

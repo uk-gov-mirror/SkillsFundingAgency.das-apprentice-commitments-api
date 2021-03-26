@@ -9,6 +9,7 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
             return new RegistrationDto
             {
                 ApprenticeId = registration.ApprenticeId,
+                CreatedOn = registration.CreatedOn,
                 ApprenticeshipId = registration.ApprenticeshipId,
                 Email = registration.Email,
                 EmployerName = registration.EmployerName,

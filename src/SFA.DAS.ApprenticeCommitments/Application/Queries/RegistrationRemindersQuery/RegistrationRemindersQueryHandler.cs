@@ -8,17 +8,17 @@ using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationRemindersQuery
 {
-    public class RegistrationRemindersQueryHandler : IRequestHandler<RegistrationRemindersQuery, List<RegistrationDto>>
+    public class RegistrationRemindersQueryHandler : IRequestHandler<RegistrationRemindersQuery, RegistrationRemindersResponse>
     {
         private readonly IRegistrationContext _registrations;
 
         public RegistrationRemindersQueryHandler(IRegistrationContext registrations)
             => _registrations = registrations;
 
-        public async Task<List<RegistrationDto>> Handle(RegistrationRemindersQuery query, CancellationToken _)
+        public async Task<RegistrationRemindersResponse> Handle(RegistrationRemindersQuery query, CancellationToken _)
         {
             var reminders = await _registrations.RegistrationsNeedingSignUpReminders(query.CutOffDateTime);
-            return reminders.Select(x=>x.MapToRegistrationDto()).ToList();
+            return new RegistrationRemindersResponse(reminders.Select(x=>x.MapToRegistrationDto()));
         }
     }
 }

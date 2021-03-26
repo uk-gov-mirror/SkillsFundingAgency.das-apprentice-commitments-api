@@ -21,7 +21,9 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             => await Entities.FirstOrDefaultAsync(x => x.ApprenticeId == apprenticeId);
 
         internal Task<List<Registration>> RegistrationsNeedingSignUpReminders(DateTime cutOffDateTime)
-            => Entities.Where(r => r.FirstViewedOn == null && r.UserIdentityId == null && r.CreatedOn < cutOffDateTime)
+            => Entities.Where(r =>
+                    r.FirstViewedOn == null && r.SignUpReminderSentOn == null && r.UserIdentityId == null &&
+                    r.CreatedOn < cutOffDateTime)
                 .ToListAsync(CancellationToken.None);
 
         public Task<bool> RegistrationsExist()

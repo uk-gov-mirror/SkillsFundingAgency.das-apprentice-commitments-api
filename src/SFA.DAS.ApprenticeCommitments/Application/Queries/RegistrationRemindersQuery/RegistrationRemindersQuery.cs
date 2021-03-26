@@ -5,7 +5,7 @@ using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationRemindersQuery
 {
-    public class RegistrationRemindersQuery : IRequest<List<RegistrationDto>>
+    public class RegistrationRemindersQuery : IRequest<RegistrationRemindersResponse>
     {
         public DateTime CutOffDateTime { get; set; }
     }

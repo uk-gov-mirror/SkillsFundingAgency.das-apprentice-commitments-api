@@ -11,7 +11,7 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
         public long EmployerAccountLegalEntityId { get; set; }
         public long TrainingProviderId { get; internal set; }
         public string TrainingProviderName { get; internal set; }
-        public DateTime? CreatedOn { get; private set; }
+        public DateTime? CreatedOn { get; set; }
         public Guid? UserIdentityId { get; set; }
     }
 }
