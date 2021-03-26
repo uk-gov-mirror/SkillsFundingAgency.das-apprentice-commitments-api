@@ -16,18 +16,17 @@ Background:
 	| Bill@Peterson   | 2021-01-16 |                 |                          |                                      |
 	| Micheal@Pain    | 2021-01-01 | 2021-01-03      |                          | 17341578-F7C9-4D65-8208-DE630E31C2C3 |
 
-
 Scenario: When query is run on 2021-01-02
-	When we get reminders before cut off date 2021-01-02
+	When we want reminders before cut off date 2021-01-02
 	Then the result should return 1 matching registration
-	And that should be has a registration with the email Neil@Armstrong and it's expected values 
+	And there should be a registration with the email Neil@Armstrong and it's expected values 
 
 Scenario: When query is run on 2021-01-17
-	When we get reminders before cut off date 2021-01-17
+	When we want reminders before cut off date 2021-01-17
 	Then the result should return 2 matching registration
-	And that should be has a registration with the email Neil@Armstrong and it's expected values 
-	And that should be has a registration with the email Bill@Peterson and it's expected values 
+	And there should be a registration with the email Neil@Armstrong and it's expected values 
+	And there should be a registration with the email Bill@Peterson and it's expected values 
 
 Scenario: When query is run on 2020-12-30
-	When we get reminders before cut off date 2020-12-30
+	When we want reminders before cut off date 2020-12-30
 	Then the result should return 0 matching registration

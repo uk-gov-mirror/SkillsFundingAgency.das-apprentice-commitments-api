@@ -58,6 +58,27 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             return CreateRegisteredApprentice(firstName, lastName, emailAddress, dateOfBirth);
         }
 
+        public void SetFirstViewedOn(DateTime viewedOn)
+        {
+            if (FirstViewedOn.HasValue)
+            {
+                return;
+            }
+
+            FirstViewedOn = viewedOn;
+        }
+
+        public void SignUpReminderSent(DateTime sentOn)
+        {
+            if (SignUpReminderSentOn.HasValue)
+            {
+                return;
+            }
+
+            SignUpReminderSentOn = sentOn;
+        }
+
+
         private void EnsureNotAlreadyCompleted()
         {
             if (HasBeenCompleted)

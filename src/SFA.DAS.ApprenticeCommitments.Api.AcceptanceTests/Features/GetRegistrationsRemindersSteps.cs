@@ -54,7 +54,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         }
 
 
-        [When(@"we get reminders before cut off date (.*)")]
+        [When(@"we want reminders before cut off date (.*)")]
         public async Task WhenWeGetRemindersBeforeCutOffDate(DateTime cutOffTime)
         {
             await _context.Api.Get($"registrations/reminders/?cutOffDateTime={cutOffTime.ToString("yyy-MM-dd")}");
@@ -69,7 +69,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             response.Registrations.Count.Should().Be(count);
         }
 
-        [Then(@"that should be has a registration with the email (.*) and it's expected values")]
+        [Then(@"there should be a registration with the email (.*) and it's expected values")]
         public async Task ThenThatShouldBeHasARegistrationWithTheEmailAndItSExpectedValues(string email)
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
@@ -91,75 +91,5 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             public DateTime? SignUpReminderSentOn;
             public Guid? UserIdentityId;
         }
-
-        //[Given(@"there is no registration")]
-        //public void GivenThereIsNoRegistration()
-        //{
-        //}
-
-        //[Given(@"there is a registration")]
-        //public Task GivenThereIsARegistration()
-        //{
-        //    _context.DbContext.Registrations.Add(_registration);
-        //    return _context.DbContext.SaveChangesAsync();
-        //}
-
-        //[When(@"we try to retrieve the registration")]
-        //public Task WhenWeTryToRetrieveTheRegistration()
-        //{
-        //    return _context.Api.Get($"registrations/{_registration.ApprenticeId}");
-        //}
-
-        //[Given(@"there is an empty apprentice id")]
-        //public void GivenThereIsAnEmptyRegistration()
-        //{
-        //    _fixture.Inject(Guid.Empty);
-        //    _registration = _fixture.Create<Registration>();
-        //}
-
-        //[When(@"we try to retrieve the registration using a bad request format")]
-        //public Task WhenWeTryToRetrieveTheRegistrationUsingABadRequestFormat()
-        //{
-        //    return _context.Api.Get($"registrations/1234-1234");
-        //}
-
-        //[Then(@"the result should return ok")]
-        //public void ThenTheResultShouldReturnOk()
-        //{
-        //    _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
-
-        //[Then(@"the response should match the registration in the database")]
-        //public async Task ThenTheResponseShouldMatchTheRegistrationInTheDatabase()
-        //{
-        //    var content = await _context.Api.Response.Content.ReadAsStringAsync();
-        //    content.Should().NotBeNull();
-        //    var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
-        //    response.Email.Should().Be(_registration.Email);
-        //    response.ApprenticeId.Should().Be(_registration.ApprenticeId);
-        //}
-
-        //[Then(@"the result should return not found")]
-        //public void ThenTheResultShouldReturnNotFound()
-        //{
-        //    _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        //}
-
-        //[Then(@"the result should return bad request")]
-        //public void ThenTheResultShouldReturnBadRequest()
-        //{
-        //    _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        //}
-
-        //[Then(@"the error must be say apprentice id must be valid")]
-        //public async Task ThenTheErrorMustBeSayRegistrationMustBeValid()
-        //{
-        //    var content = await _context.Api.Response.Content.ReadAsStringAsync();
-        //    content.Should().NotBeNull();
-        //    var response = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
-        //    response.Count.Should().Be(1);
-        //    response[0].PropertyName.Should().Be("ApprenticeId");
-        //    response[0].ErrorMessage.Should().Be("The Apprentice Id must be valid");
-        //}
     }
 }
