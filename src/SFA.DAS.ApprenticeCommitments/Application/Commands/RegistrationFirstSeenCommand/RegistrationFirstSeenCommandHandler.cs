@@ -17,7 +17,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.RegistrationFirstSe
         public async Task<Unit> Handle(Commands.RegistrationFirstSeenCommand.RegistrationFirstSeenCommand command, CancellationToken _)
         {
             var registration = await _registrations.GetById(command.ApprenticeId);
-            registration.SetFirstViewedOn(command.SeenOn);
+            registration.ViewedByUser(command.SeenOn);
             return Unit.Value;
         }
     }
