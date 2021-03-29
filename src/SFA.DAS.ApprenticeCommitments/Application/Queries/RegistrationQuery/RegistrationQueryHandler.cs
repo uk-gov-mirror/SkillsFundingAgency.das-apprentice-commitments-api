@@ -30,7 +30,8 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
             {
                 ApprenticeId = model.ApprenticeId,
                 Email = model.Email,
-                HasViewedVerification = model.FirstViewedOn.HasValue
+                HasViewedVerification = model.FirstViewedOn.HasValue,
+                HasCompletedVerification = model.HasBeenCompleted
             };
         }
     }

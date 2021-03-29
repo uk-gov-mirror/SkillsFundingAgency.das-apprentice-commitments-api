@@ -32,14 +32,14 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
         }
 
-        [Given(@"there is a registration with a First View on (.*)")]
-        public Task GivenThereIsARegistrationWithAFirstViewOn(DateTime? viewedOn)
+        [Given(@"there is a registration with a First Viewed on (.*) and has the (.*) assigned to it")]
+        public Task GivenThereIsARegistrationWithAFirstViewedOnAndHasTheAssignedToIt(DateTime? viewedOn, Guid? userIdentityId)
         {
-            _registration.SetProperty(x=>x.FirstViewedOn, viewedOn);
+            _registration.SetProperty(x => x.FirstViewedOn, viewedOn);
+            _registration.SetProperty(x => x.UserIdentityId, userIdentityId);
             _context.DbContext.Registrations.Add(_registration);
             return _context.DbContext.SaveChangesAsync();
         }
-
 
 
         [When(@"we try to retrieve the registration")]
@@ -67,15 +67,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Then(@"the response should match the registration in the database")]
-        public async Task ThenTheResponseShouldMatchTheRegistrationInTheDatabase()
+        [Then(@"the response should match the registration in the database with (.*) and (.*)")]
+        public async Task ThenTheResponseShouldMatchTheRegistrationInTheDatabaseWithAnd(bool hasViewed, bool hasCompleted)
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
-            var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
+            var response = JsonConvert.DeserializeObject<RegistrationResponse>(content);
             response.Email.Should().Be(_registration.Email);
             response.ApprenticeId.Should().Be(_registration.ApprenticeId);
-            response.HasViewedVerification.Should().Be(_registration.FirstViewedOn.HasValue);
+            response.HasViewedVerification.Should().Be(hasViewed);
+            response.HasCompletedVerification.Should().Be(hasCompleted);
         }
 
         [Then(@"the result should return not found")]
