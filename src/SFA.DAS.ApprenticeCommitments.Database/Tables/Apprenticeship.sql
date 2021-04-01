@@ -10,6 +10,8 @@
     [CourseName] NVARCHAR(MAX) NOT NULL, 
     [CourseLevel] int NOT NULL, 
     [CourseOption] NVARCHAR(MAX) NOT NULL, 
+    [Details_Course_PlannedStartDate] datetime2 NOT NULL,
+    [Details_Course_PlannedEndDate] datetime2 NOT NULL,
     [TrainingProviderCorrect] BIT NULL, 
     [EmployerCorrect] BIT NULL, 
     CONSTRAINT PK_Apprenticeship_Id PRIMARY KEY CLUSTERED ([Id]),
