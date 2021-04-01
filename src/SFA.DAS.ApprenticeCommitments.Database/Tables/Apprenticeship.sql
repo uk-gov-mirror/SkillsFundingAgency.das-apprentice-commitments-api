@@ -13,7 +13,8 @@
     [Details_Course_PlannedStartDate] datetime2 NOT NULL,
     [Details_Course_PlannedEndDate] datetime2 NOT NULL,
     [TrainingProviderCorrect] BIT NULL, 
-    [EmployerCorrect] BIT NULL, 
+    [EmployerCorrect] BIT NULL,
+    [ApprenticeshipDetailsCorrect] bit NULL,
     CONSTRAINT PK_Apprenticeship_Id PRIMARY KEY CLUSTERED ([Id]),
 	CONSTRAINT FK_Apprenticeship_ApprenticeId FOREIGN KEY ([ApprenticeId]) REFERENCES [dbo].[Apprentice] ([Id])
 )
