@@ -30,6 +30,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _apprenticeship = _fixture.Build<Apprenticeship>()
                 .Do(a => a.ConfirmTrainingProvider(true))
                 .Do(a => a.ConfirmEmployer(true))
+                .Do(a => a.ConfirmApprenticeshipDetails(true))
                 .Create();
         }
 
@@ -82,6 +83,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.TrainingProviderName.Should().Be(_apprenticeship.Details.TrainingProviderName);
             a.TrainingProviderCorrect.Should().Be(_apprenticeship.TrainingProviderCorrect);
             a.EmployerCorrect.Should().Be(_apprenticeship.EmployerCorrect);
+            a.ApprenticeshipDetailsCorrect.Should().Be(_apprenticeship.ApprenticeshipDetailsCorrect);
             a.CourseName.Should().Be(_apprenticeship.Details.Course.Name);
             a.CourseLevel.Should().Be(_apprenticeship.Details.Course.Level);
             a.CourseOption.Should().Be(_apprenticeship.Details.Course.Option);

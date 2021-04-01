@@ -20,6 +20,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 TrainingProviderId = apprenticeship.Details.TrainingProviderId,
                 TrainingProviderName = apprenticeship.Details.TrainingProviderName,
                 TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
+                ApprenticeshipDetailsCorrect = apprenticeship.ApprenticeshipDetailsCorrect,
                 EmployerCorrect = apprenticeship.EmployerCorrect,
                 CourseName = apprenticeship.Details.Course.Name,
                 CourseLevel = apprenticeship.Details.Course.Level,
