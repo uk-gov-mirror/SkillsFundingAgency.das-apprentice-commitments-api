@@ -11,6 +11,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
     [Binding]
     [Scope(Feature = "ConfirmTrainingProvider")]
     [Scope(Feature = "ConfirmEmployer")]
+    [Scope(Feature = "ConfirmApprenticeshipDetails")]
     public class ConfirmTrainingProviderandOrEmployerSteps
     {
         private readonly Fixture _fixture = new Fixture();
@@ -19,6 +20,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         private readonly Apprenticeship _apprenticeship;
         private bool? TrainingProviderCorrect { get; set; }
         private bool? EmployerCorrect { get; set; }
+        private bool? ApprenticeshipDetailsCorrect { get; set; }
         private string endpoint;
         private object command;
 
@@ -49,6 +51,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         public async Task GivenWeHaveAnApprenticeshipThatHasPreviouslyHadItsEmployerPositivelyConfirmed()
         {
             _apprenticeship.ConfirmEmployer(true);
+            await GivenWeHaveAnApprenticeshipWaitingToBeConfirmed();
+        }
+
+        [Given("we have an apprenticeship that has previously had its apprenticeship details positively confirmed")]
+        public async Task GivenWeHaveAnApprenticeshipThatHasPreviouslyHadItsApprenticeshipDetailsPositivelyConfirmed()
+        {
+            _apprenticeship.ConfirmApprenticeshipDetails(true);
             await GivenWeHaveAnApprenticeshipWaitingToBeConfirmed();
         }
 
@@ -96,6 +105,28 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             };
         }
 
+        [Given("a ConfirmApprenticeshipDetailsRequest stating the training provider is correct")]
+        public void GivenAConfirmApprenticeshipDetailsRequestStatingTheTrainingProviderIsCorrect()
+        {
+            endpoint = "ApprenticeshipDetailsConfirmation";
+            ApprenticeshipDetailsCorrect = true;
+            command = new ConfirmApprenticeshipDetailsRequest
+            {
+                ApprenticeshipDetailsCorrect = true,
+            };
+        }
+
+        [Given("a ConfirmApprenticeshipDetailsRequest stating the training provider is incorrect")]
+        public void GivenAConfirmApprenticeshipDetailsRequestStatingTheTrainingProviderIsIncorrect()
+        {
+            endpoint = "ApprenticeshipDetailsConfirmation";
+            ApprenticeshipDetailsCorrect = false;
+            command = new ConfirmApprenticeshipDetailsRequest
+            {
+                ApprenticeshipDetailsCorrect = false,
+            };
+        }
+
         [When("we send the confirmation")]
         public async Task WhenWeSendTheConfirmation()
         {
@@ -124,6 +155,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
                 _apprenticeship.Id,
                 TrainingProviderCorrect,
                 EmployerCorrect,
+                ApprenticeshipDetailsCorrect,
             });
         }
 

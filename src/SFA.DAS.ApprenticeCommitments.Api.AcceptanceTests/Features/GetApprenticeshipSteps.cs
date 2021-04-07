@@ -22,9 +22,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _context = context;
             _apprentice = _fixture.Build<Apprentice>().Create();
+
+            var startDate = new System.DateTime(2000, 01, 01);
+            _fixture.Inject(new CourseDetails("", 1, null,
+                startDate, startDate.AddMonths(32)));
+
             _apprenticeship = _fixture.Build<Apprenticeship>()
                 .Do(a => a.ConfirmTrainingProvider(true))
                 .Do(a => a.ConfirmEmployer(true))
+                .Do(a => a.ConfirmApprenticeshipDetails(true))
                 .Create();
         }
 
@@ -72,11 +78,18 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             a.Should().NotBeNull();
             a.Id.Should().Be(_apprenticeship.Id);
             a.CommitmentsApprenticeshipId.Should().Be(_apprenticeship.CommitmentsApprenticeshipId);
-            a.EmployerName.Should().Be(_apprenticeship.EmployerName);
-            a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.EmployerAccountLegalEntityId);
-            a.TrainingProviderName.Should().Be(_apprenticeship.TrainingProviderName);
+            a.EmployerName.Should().Be(_apprenticeship.Details.EmployerName);
+            a.EmployerAccountLegalEntityId.Should().Be(_apprenticeship.Details.EmployerAccountLegalEntityId);
+            a.TrainingProviderName.Should().Be(_apprenticeship.Details.TrainingProviderName);
             a.TrainingProviderCorrect.Should().Be(_apprenticeship.TrainingProviderCorrect);
             a.EmployerCorrect.Should().Be(_apprenticeship.EmployerCorrect);
+            a.ApprenticeshipDetailsCorrect.Should().Be(_apprenticeship.ApprenticeshipDetailsCorrect);
+            a.CourseName.Should().Be(_apprenticeship.Details.Course.Name);
+            a.CourseLevel.Should().Be(_apprenticeship.Details.Course.Level);
+            a.CourseOption.Should().Be(_apprenticeship.Details.Course.Option);
+            a.PlannedStartDate.Should().Be(_apprenticeship.Details.Course.PlannedStartDate);
+            a.PlannedEndDate.Should().Be(_apprenticeship.Details.Course.PlannedEndDate);
+            a.DurationInMonths.Should().Be(32 + 1); // Duration is inclusive of start and end months
         }
 
         [Then(@"the result should return NotFound")]

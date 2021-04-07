@@ -7,4 +7,109 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="EmployerName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1828a50d-e7e7-4f34-ab4c-1151deec6bc7" ChangeDateTime="03/25/2021 06:07:16">
+    <Property Name="ElementName" Value="[dbo].[Registration].[EmployerAccountLegalEntityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_EmployerAccountLegalEntityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a1fca5b-985c-4847-8889-74208d311d2c" ChangeDateTime="03/25/2021 06:07:33">
+    <Property Name="ElementName" Value="[dbo].[Registration].[EmployerName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_EmployerName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ec02b8d9-b8f6-41f5-a6ba-41193dce01b8" ChangeDateTime="03/25/2021 06:07:35">
+    <Property Name="ElementName" Value="[dbo].[Registration].[TrainingProviderId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_TrainingProviderId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9106f052-54ce-42ae-98e6-6b26838bca44" ChangeDateTime="03/25/2021 06:07:38">
+    <Property Name="ElementName" Value="[dbo].[Registration].[TrainingProviderName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Apprenticeship_TrainingProviderName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="386f729b-cdcc-474e-8559-767faae9cb2a" ChangeDateTime="04/07/2021 09:18:14">
+    <Property Name="ElementName" Value="[dbo].[Apprenticeship].[Details_Course_PlannedStartDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Apprenticeship]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlannedStartDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9d8615ae-13a3-44ad-bd66-044c790a7478" ChangeDateTime="04/07/2021 09:18:16">
+    <Property Name="ElementName" Value="[dbo].[Apprenticeship].[Details_Course_PlannedEndDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Apprenticeship]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlannedEndDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="32617ed3-8051-4bb8-983f-ecf533cce31e" ChangeDateTime="04/07/2021 09:32:10">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_EmployerAccountLegalEntityId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmployerAccountLegalEntityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7bd64798-d41c-46c8-a042-db4ee7d99a2c" ChangeDateTime="04/07/2021 09:32:15">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_EmployerName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmployerName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="078cbbaa-9901-4833-8433-d44657db8a20" ChangeDateTime="04/07/2021 09:32:18">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_TrainingProviderId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TrainingProviderId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5bac0264-57df-4627-a38c-5e34cf1da4b2" ChangeDateTime="04/07/2021 09:32:21">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_TrainingProviderName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TrainingProviderName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2b3c0d67-78ab-4256-b7b3-adf295db4295" ChangeDateTime="04/07/2021 09:32:25">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_Course_Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CourseName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7fa33c60-e77c-4728-98ba-1eaf2fab4cae" ChangeDateTime="04/07/2021 09:32:28">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_Course_Level]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CourseLevel" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="aa5ba2aa-ceed-4928-ba2b-fbb2dcb11c05" ChangeDateTime="04/07/2021 09:32:33">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_Course_Option]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CourseOption" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d43e7676-dfdc-4f35-9285-7e59aca8127d" ChangeDateTime="04/07/2021 09:32:36">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_Course_PlannedStartDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlannedStartDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d14d0a51-2beb-4b29-b801-39394ace4ea5" ChangeDateTime="04/07/2021 09:32:38">
+    <Property Name="ElementName" Value="[dbo].[Registration].[Apprenticeship_Course_PlannedEndDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Registration]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlannedEndDate" />
+  </Operation>
 </Operations>
