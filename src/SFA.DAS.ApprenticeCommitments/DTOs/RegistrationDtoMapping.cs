@@ -11,12 +11,12 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
                 ApprenticeId = registration.ApprenticeId,
                 CreatedOn = registration.CreatedOn,
                 ApprenticeshipId = registration.ApprenticeshipId,
-                Email = registration.Email,
-                EmployerName = registration.EmployerName,
-                EmployerAccountLegalEntityId = registration.EmployerAccountLegalEntityId,
+                Email = registration.Email.ToString(),
+                EmployerName = registration.Apprenticeship.EmployerName,
+                EmployerAccountLegalEntityId = registration.Apprenticeship.EmployerAccountLegalEntityId,
                 UserIdentityId = registration.UserIdentityId,
-                TrainingProviderId = registration.TrainingProviderId,
-                TrainingProviderName = registration.TrainingProviderName,
+                TrainingProviderId = registration.Apprenticeship.TrainingProviderId,
+                TrainingProviderName = registration.Apprenticeship.TrainingProviderName,
             };
         }
     }

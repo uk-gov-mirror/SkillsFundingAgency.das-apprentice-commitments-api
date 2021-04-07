@@ -51,12 +51,50 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             modelBuilder.Entity<Apprenticeship>()
                 .HasKey(a => a.Id);
 
+            modelBuilder.Entity<Apprenticeship>()
+                .OwnsOne(e => e.Details, details =>
+                {
+                    details.Property(p => p.EmployerAccountLegalEntityId).HasColumnName("EmployerAccountLegalEntityId");
+                    details.Property(p => p.EmployerName).HasColumnName("EmployerName");
+                    details.Property(p => p.TrainingProviderId).HasColumnName("TrainingProviderId");
+                    details.Property(p => p.TrainingProviderName).HasColumnName("TrainingProviderName");
+                    details.OwnsOne(e => e.Course, course =>
+                    {
+                        course.Property(p => p.Name).HasColumnName("CourseName");
+                        course.Property(p => p.Level).HasColumnName("CourseLevel");
+                        course.Property(p => p.Option).HasColumnName("CourseOption");
+                        course.Property(p => p.PlannedStartDate).HasColumnName("PlannedStartDate");
+                        course.Property(p => p.PlannedEndDate).HasColumnName("PlannedEndDate");
+                    });
+                });
+
             modelBuilder.Entity<Registration>(entity =>
             {
                 entity.HasKey(e => e.ApprenticeId);
-                entity.Property(e => e.TrainingProviderName).IsRequired();
+                
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.Property(e => e.Email)
+                    .HasConversion(
+                        v => v.ToString(),
+                        v => new MailAddress(v));
             });
+
+            modelBuilder.Entity<Registration>()
+                .OwnsOne(e => e.Apprenticeship, apprenticeship =>
+                {
+                    apprenticeship.Property(p => p.EmployerAccountLegalEntityId).HasColumnName("EmployerAccountLegalEntityId");
+                    apprenticeship.Property(p => p.EmployerName).HasColumnName("EmployerName");
+                    apprenticeship.Property(p => p.TrainingProviderId).HasColumnName("TrainingProviderId");
+                    apprenticeship.Property(p => p.TrainingProviderName).HasColumnName("TrainingProviderName");
+                    apprenticeship.OwnsOne(e => e.Course, course =>
+                    {
+                        course.Property(p => p.Name).HasColumnName("CourseName");
+                        course.Property(p => p.Level).HasColumnName("CourseLevel");
+                        course.Property(p => p.Option).HasColumnName("CourseOption");
+                        course.Property(p => p.PlannedStartDate).HasColumnName("PlannedStartDate");
+                        course.Property(p => p.PlannedEndDate).HasColumnName("PlannedEndDate");
+                    });
+                });
 
             base.OnModelCreating(modelBuilder);
         }

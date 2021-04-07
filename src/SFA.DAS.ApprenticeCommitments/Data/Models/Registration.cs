@@ -11,8 +11,9 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
     public class Registration
     {
 #pragma warning disable CS8618 // Private constructor for entity framework
+
         private Registration()
-#pragma warning restore CS8618 
+#pragma warning restore CS8618
         {
         }
 
@@ -20,30 +21,20 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             Guid apprenticeId,
             long apprenticeshipId,
             MailAddress email,
-            string employerName,
-            long employerAccountLegalEntityId,
-            long trainingProviderId,
-            string trainingProviderName)
+            ApprenticeshipDetails apprenticeship)
         {
             ApprenticeId = apprenticeId;
             ApprenticeshipId = apprenticeshipId;
-            Email = email.ToString();
-            EmployerName = employerName;
-            EmployerAccountLegalEntityId = employerAccountLegalEntityId;
-            TrainingProviderId = trainingProviderId;
-            TrainingProviderName = trainingProviderName;
-            CreatedOn = DateTime.UtcNow;
+            Email = email;
+            Apprenticeship = apprenticeship;
         }
 
         public Guid ApprenticeId { get; private set; }
         public long ApprenticeshipId { get; private set; }
-        public string Email { get; private set; }
-        public string EmployerName { get; private set; }
-        public long EmployerAccountLegalEntityId { get; private set; }
+        public MailAddress Email { get; private set; }
         public Guid? UserIdentityId { get; private set; }
+        public ApprenticeshipDetails Apprenticeship { get; private set; }
         public DateTime? CreatedOn { get; private set; }
-        public long TrainingProviderId { get; private set; }
-        public string TrainingProviderName { get; private set; }
         public DateTime? FirstViewedOn { get; private set; }
         public DateTime? SignUpReminderSentOn { get; private set; }
 
@@ -87,7 +78,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
         {
-            if (!emailAddress.ToString().Equals(Email, StringComparison.InvariantCultureIgnoreCase))
+            if (!emailAddress.ToString().Equals(Email.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 throw new DomainException($"Email from verifying user doesn't match registered user {ApprenticeId}");
         }
 
@@ -96,10 +87,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             var apprentice = new Apprentice(
                 ApprenticeId, firstName, lastName, emailAddress, dateOfBirth);
 
-            apprentice.AddApprenticeship(new Apprenticeship(
-                ApprenticeshipId,
-                EmployerAccountLegalEntityId, EmployerName,
-                TrainingProviderId, TrainingProviderName));
+            apprentice.AddApprenticeship(new Apprenticeship(ApprenticeshipId, Apprenticeship));
 
             return apprentice;
         }

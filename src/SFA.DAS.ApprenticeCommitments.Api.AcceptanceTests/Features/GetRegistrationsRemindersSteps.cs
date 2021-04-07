@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -41,7 +42,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
                 var registration = _fixture.Create<Registration>();
                 
                 registration.SetProperty(x=>x.CreatedOn, reg.CreatedOn);
-                registration.SetProperty(x=>x.Email, reg.Email);
+                registration.SetProperty(x=>x.Email, new MailAddress(reg.Email));
                 registration.SetProperty(x=>x.FirstViewedOn, reg.FirstViewedOn);
                 registration.SetProperty(x=>x.UserIdentityId, reg.UserIdentityId);
                 registration.SetProperty(x=>x.SignUpReminderSentOn, reg.SignUpReminderSentOn);
