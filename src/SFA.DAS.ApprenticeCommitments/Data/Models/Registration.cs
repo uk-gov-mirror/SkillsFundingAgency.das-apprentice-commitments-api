@@ -34,7 +34,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public MailAddress Email { get; private set; }
         public Guid? UserIdentityId { get; private set; }
         public ApprenticeshipDetails Apprenticeship { get; private set; }
-        public DateTime? CreatedOn { get; private set; }
+        public DateTime? CreatedOn { get; private set; } = DateTime.UtcNow;
         public DateTime? FirstViewedOn { get; private set; }
         public DateTime? SignUpReminderSentOn { get; private set; }
 
