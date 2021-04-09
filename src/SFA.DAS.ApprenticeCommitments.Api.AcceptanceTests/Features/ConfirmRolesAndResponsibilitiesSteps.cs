@@ -10,17 +10,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
 {
     [Binding]
     [Scope(Feature = "ConfirmRolesAndResponsibilities")]
-    public sealed class ConfirmRolesAndResponsibilities
+    public sealed class ConfirmRolesAndResponsibilitiesSteps
     {
         private readonly Fixture _fixture = new Fixture();
         private readonly TestContext _context;
         private readonly Apprentice _apprentice;
         private readonly Apprenticeship _apprenticeship;
         private bool? RolesAndResponsibilitiesCorrect { get; set; }        
-        private string endpoint;
-        private object command;
 
-        public ConfirmRolesAndResponsibilities(TestContext context)
+        public ConfirmRolesAndResponsibilitiesSteps(TestContext context)
         {
             _context = context;
 
@@ -46,30 +44,25 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         [Given("a ConfirmRolesAndResponsibilitiesRequest stating the roles and responsibilities are correct")]
         public void GivenAConfirmRolesAndResponsibilitiesRequestStatingTheRolesAndResponsibilitiesAreCorrect()
         {
-            endpoint = "RolesAndResponsibilitiesConfirmation";
             RolesAndResponsibilitiesCorrect = true;
-            command = new ConfirmRolesAndResponsibilitiesRequest
-            {
-                RolesAndResponsibilitiesCorrect = true,
-            };
         }
 
         [Given("a ConfirmRolesAndResponsibilitiesRequest stating the roles and responsibilities are incorrect")]
         public void GivenAConfirmRolesAndResponsibilitiesRequestStatingTheRolesAndResponsibilitiesAreIncorrect()
         {
-            endpoint = "RolesAndResponsibilitiesConfirmation";
             RolesAndResponsibilitiesCorrect = false;
-            command = new ConfirmRolesAndResponsibilitiesRequest
-            {
-                RolesAndResponsibilitiesCorrect = false,
-            };
         }
 
         [When("we send the confirmation")]
         public async Task WhenWeSendTheConfirmation()
         {
+            var command = new ConfirmRolesAndResponsibilitiesRequest
+            {
+                RolesAndResponsibilitiesCorrect = (bool)RolesAndResponsibilitiesCorrect,
+            };
+
             await _context.Api.Post(
-                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/{endpoint}",
+                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/RolesAndResponsibilitiesConfirmation",
                 command);
         }
 
