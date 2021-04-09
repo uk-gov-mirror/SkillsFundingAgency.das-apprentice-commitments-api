@@ -58,7 +58,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         [When(@"we want reminders before cut off date (.*)")]
         public async Task WhenWeGetRemindersBeforeCutOffDate(DateTime cutOffTime)
         {
-            await _context.Api.Get($"registrations/reminders/?cutOffDateTime={cutOffTime.ToString("yyy-MM-dd")}");
+            await _context.Api.Get($"registrations/reminders/?invitationCutOffTime={cutOffTime.ToString("yyy-MM-dd")}");
         }
 
         [Then(@"the result should return (.*) matching registration")]
