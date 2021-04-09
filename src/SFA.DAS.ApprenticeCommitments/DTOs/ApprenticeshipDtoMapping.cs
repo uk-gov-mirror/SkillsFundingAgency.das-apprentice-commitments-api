@@ -21,6 +21,7 @@ namespace SFA.DAS.ApprenticeCommitments.Map
                 TrainingProviderName = apprenticeship.TrainingProviderName,
                 TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
                 EmployerCorrect = apprenticeship.EmployerCorrect,
+                RolesAndResponsibilitiesCorrect = apprenticeship.RolesAndResponsibilitiesCorrect,
             };
         }
     }

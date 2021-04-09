@@ -33,7 +33,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables();
 
-            if (!Configuration.IsAcceptanceTest())
+            if (!Configuration.IsLocalAcceptanceOrDev()) 
             {
                 config.AddAzureTableStorage(options =>
                 {
