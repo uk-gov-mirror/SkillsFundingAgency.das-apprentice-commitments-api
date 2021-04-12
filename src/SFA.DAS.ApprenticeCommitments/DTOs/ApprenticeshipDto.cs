@@ -1,4 +1,6 @@
-﻿namespace SFA.DAS.ApprenticeCommitments.DTOs
+﻿using System;
+
+namespace SFA.DAS.ApprenticeCommitments.DTOs
 {
     public class ApprenticeshipDto
     {
@@ -11,5 +13,12 @@
         public bool? TrainingProviderCorrect { get; set; }
         public bool? EmployerCorrect { get; set; }
         public bool? RolesAndResponsibilitiesCorrect { get; set; }
+        public bool? ApprenticeshipDetailsCorrect { get; set; }
+        public string CourseName { get; set; }
+        public int CourseLevel { get; set; }
+        public string CourseOption { get; set; }
+        public DateTime PlannedStartDate { get; set; }
+        public DateTime PlannedEndDate { get; set; }
+        public int DurationInMonths { get; set; }
     }
 }
