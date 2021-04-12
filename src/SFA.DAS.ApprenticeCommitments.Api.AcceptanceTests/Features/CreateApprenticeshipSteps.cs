@@ -34,7 +34,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
             _createApprenticeshipRequest = new CreateRegistrationCommand
             {
-                RegistrationId = Guid.NewGuid(),
+                ApprenticeId = Guid.NewGuid(),
                 ApprenticeshipId = 1233,
                 Email = "paul@fff.com",
                 EmployerName = "My Company",
@@ -80,7 +80,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         public void ThenTheRegistrationExistsInDatabase()
         {
             var registration = _context.DbContext.Registrations
-                .FirstOrDefault(x => x.Id == _createApprenticeshipRequest.RegistrationId);
+                .FirstOrDefault(x => x.ApprenticeId == _createApprenticeshipRequest.ApprenticeId);
             registration.Should().NotBeNull();
             registration.Email.Should().Be(_createApprenticeshipRequest.Email);
             registration.Apprenticeship.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);

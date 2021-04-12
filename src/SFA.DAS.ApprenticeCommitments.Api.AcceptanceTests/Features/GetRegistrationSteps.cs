@@ -32,20 +32,23 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
         {
         }
 
-        [Given(@"there is a registration")]
-        public Task GivenThereIsARegistration()
+        [Given(@"there is a registration with a First Viewed on (.*) and has the (.*) assigned to it")]
+        public Task GivenThereIsARegistrationWithAFirstViewedOnAndHasTheAssignedToIt(DateTime? viewedOn, Guid? userIdentityId)
         {
+            _registration.SetProperty(x => x.FirstViewedOn, viewedOn);
+            _registration.SetProperty(x => x.UserIdentityId, userIdentityId);
             _context.DbContext.Registrations.Add(_registration);
             return _context.DbContext.SaveChangesAsync();
         }
 
+
         [When(@"we try to retrieve the registration")]
         public Task WhenWeTryToRetrieveTheRegistration()
         {
-            return _context.Api.Get($"registrations/{_registration.Id}");
+            return _context.Api.Get($"registrations/{_registration.ApprenticeId}");
         }
 
-        [Given(@"there is an empty registration")]
+        [Given(@"there is an empty apprentice id")]
         public void GivenThereIsAnEmptyRegistration()
         {
             _fixture.Inject(Guid.Empty);
@@ -64,14 +67,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
-        [Then(@"the response should match the registration in the database")]
-        public async Task ThenTheResponseShouldMatchTheRegistrationInTheDatabase()
+        [Then(@"the response should match the registration in the database with (.*) and (.*)")]
+        public async Task ThenTheResponseShouldMatchTheRegistrationInTheDatabaseWithAnd(bool hasViewed, bool hasCompleted)
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
-            var response  = JsonConvert.DeserializeObject<RegistrationResponse>(content);
+            var response = JsonConvert.DeserializeObject<RegistrationResponse>(content);
             response.Email.Should().Be(_registration.Email.ToString());
-            response.RegistrationId.Should().Be(_registration.Id);
+            response.ApprenticeId.Should().Be(_registration.ApprenticeId);
+            response.HasViewedVerification.Should().Be(hasViewed);
+            response.HasCompletedVerification.Should().Be(hasCompleted);
         }
 
         [Then(@"the result should return not found")]
@@ -86,15 +91,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
             _context.Api.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Then(@"the error must be say registration must be valid")]
+        [Then(@"the error must be say apprentice id must be valid")]
         public async Task ThenTheErrorMustBeSayRegistrationMustBeValid()
         {
             var content = await _context.Api.Response.Content.ReadAsStringAsync();
             content.Should().NotBeNull();
             var response = JsonConvert.DeserializeObject<List<ErrorItem>>(content);
             response.Count.Should().Be(1);
-            response[0].PropertyName.Should().Be("RegistrationId");
-            response[0].ErrorMessage.Should().Be("The Registration Id must be valid");
+            response[0].PropertyName.Should().Be("ApprenticeId");
+            response[0].ErrorMessage.Should().Be("The Apprentice Id must be valid");
         }
     }
 }
