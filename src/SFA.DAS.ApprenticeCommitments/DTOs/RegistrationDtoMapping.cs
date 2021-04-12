@@ -1,7 +1,6 @@
 ﻿using SFA.DAS.ApprenticeCommitments.Data.Models;
-using SFA.DAS.ApprenticeCommitments.DTOs;
 
-namespace SFA.DAS.ApprenticeCommitments.Map
+namespace SFA.DAS.ApprenticeCommitments.DTOs
 {
     public static class RegistrationDtoMapping
     {
@@ -9,7 +8,8 @@ namespace SFA.DAS.ApprenticeCommitments.Map
         {
             return new RegistrationDto
             {
-                Id = registration.Id,
+                ApprenticeId = registration.ApprenticeId,
+                CreatedOn = registration.CreatedOn,
                 ApprenticeshipId = registration.ApprenticeshipId,
                 Email = registration.Email.ToString(),
                 EmployerName = registration.Apprenticeship.EmployerName,

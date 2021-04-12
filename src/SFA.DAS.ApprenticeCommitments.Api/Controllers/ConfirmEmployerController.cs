@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmTrainingProviderCommand;
 using System;
 using System.Threading.Tasks;
+using SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmEmployerCommand;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
 {

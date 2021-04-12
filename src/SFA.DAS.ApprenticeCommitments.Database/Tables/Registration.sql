@@ -1,7 +1,6 @@
 ﻿CREATE TABLE [dbo].[Registration]
 (
-	[Id] UNIQUEIDENTIFIER NOT NULL, 
-    [ApprenticeId] UNIQUEIDENTIFIER NULL,
+    [ApprenticeId] UNIQUEIDENTIFIER NOT NULL,
     [ApprenticeshipId] BIGINT NOT NULL, 
     [Email] NVARCHAR(150) NOT NULL, 
     [UserIdentityId] UNIQUEIDENTIFIER NULL,
@@ -15,5 +14,7 @@
     [CourseOption] NVARCHAR(MAX) NULL, 
     [PlannedStartDate] datetime2 NOT NULL,
     [PlannedEndDate] datetime2 NOT NULL,
-    CONSTRAINT PK_Registration_Id PRIMARY KEY CLUSTERED ([Id]),
+    [FirstViewedOn] DATETIME2 NULL, 
+    [SignUpReminderSentOn] DATETIME2 NULL, 
+    CONSTRAINT PK_Registration_ApprenticeId PRIMARY KEY CLUSTERED ([ApprenticeId]),
 )

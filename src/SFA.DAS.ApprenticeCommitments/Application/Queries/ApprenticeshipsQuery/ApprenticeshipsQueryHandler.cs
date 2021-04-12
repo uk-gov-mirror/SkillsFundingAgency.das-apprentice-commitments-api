@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using SFA.DAS.ApprenticeCommitments.Data;
-using SFA.DAS.ApprenticeCommitments.Map;
 using SFA.DAS.ApprenticeCommitments.DTOs;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.ApprenticeshipsQuery

@@ -19,7 +19,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.VerifyRegistrationC
 
         public async Task<Unit> Handle(VerifyRegistrationCommand command, CancellationToken cancellationToken)
         {
-            var registration = await _registrations.GetById(command.RegistrationId);
+            var registration = await _registrations.GetById(command.ApprenticeId);
 
             var apprentice = registration.ConvertToApprentice(
                 command.FirstName, command.LastName,
