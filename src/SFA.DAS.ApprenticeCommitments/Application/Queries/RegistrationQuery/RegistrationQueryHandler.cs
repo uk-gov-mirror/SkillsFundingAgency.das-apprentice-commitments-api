@@ -29,7 +29,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
             return new RegistrationResponse
             {
                 RegistrationId = model.Id,
-                Email = model.Email
+                Email = model.Email.ToString()
             };
         }
     }

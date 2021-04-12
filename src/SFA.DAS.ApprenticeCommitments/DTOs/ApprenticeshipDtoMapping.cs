@@ -15,13 +15,20 @@ namespace SFA.DAS.ApprenticeCommitments.Map
             {
                 Id = apprenticeship.Id,
                 CommitmentsApprenticeshipId = apprenticeship.CommitmentsApprenticeshipId,
-                EmployerName = apprenticeship.EmployerName,
-                EmployerAccountLegalEntityId = apprenticeship.EmployerAccountLegalEntityId,
-                TrainingProviderId = apprenticeship.TrainingProviderId,
-                TrainingProviderName = apprenticeship.TrainingProviderName,
+                EmployerName = apprenticeship.Details.EmployerName,
+                EmployerAccountLegalEntityId = apprenticeship.Details.EmployerAccountLegalEntityId,
+                TrainingProviderId = apprenticeship.Details.TrainingProviderId,
+                TrainingProviderName = apprenticeship.Details.TrainingProviderName,
                 TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
+                ApprenticeshipDetailsCorrect = apprenticeship.ApprenticeshipDetailsCorrect,
                 EmployerCorrect = apprenticeship.EmployerCorrect,
                 RolesAndResponsibilitiesCorrect = apprenticeship.RolesAndResponsibilitiesCorrect,
+                CourseName = apprenticeship.Details.Course.Name,
+                CourseLevel = apprenticeship.Details.Course.Level,
+                CourseOption = apprenticeship.Details.Course.Option,
+                PlannedStartDate = apprenticeship.Details.Course.PlannedStartDate,
+                PlannedEndDate = apprenticeship.Details.Course.PlannedEndDate,
+                DurationInMonths = apprenticeship.Details.Course.DurationInMonths,
             };
         }
     }

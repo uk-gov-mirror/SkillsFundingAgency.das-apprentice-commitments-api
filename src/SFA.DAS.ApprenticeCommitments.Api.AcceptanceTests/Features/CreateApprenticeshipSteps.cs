@@ -1,12 +1,12 @@
-﻿using System;
+﻿using FluentAssertions;
+using Newtonsoft.Json;
+using SFA.DAS.ApprenticeCommitments.Api.Extensions;
+using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Newtonsoft.Json;
-using SFA.DAS.ApprenticeCommitments.Api.Extensions;
-using SFA.DAS.ApprenticeCommitments.Application.Commands.CreateRegistrationCommand;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
@@ -16,7 +16,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
     public class CreateApprenticeshipSteps
     {
         private readonly TestContext _context;
-        private CreateRegistrationCommand _createApprenticeshipRequest; 
+        private CreateRegistrationCommand _createApprenticeshipRequest;
 
         public CreateApprenticeshipSteps(TestContext context)
         {
@@ -41,6 +41,11 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 EmployerAccountLegalEntityId = 61234,
                 TrainingProviderId = 71234,
                 TrainingProviderName = "My Training Provider",
+                CourseName = "My course",
+                CourseLevel = 5,
+                CourseOption = "",
+                PlannedStartDate = new DateTime(2001, 03, 20),
+                PlannedEndDate = new DateTime(2003, 07, 15),
             };
         }
 
@@ -78,10 +83,15 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Steps
                 .FirstOrDefault(x => x.Id == _createApprenticeshipRequest.RegistrationId);
             registration.Should().NotBeNull();
             registration.Email.Should().Be(_createApprenticeshipRequest.Email);
-            registration.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
-            registration.EmployerAccountLegalEntityId.Should().Be(_createApprenticeshipRequest.EmployerAccountLegalEntityId);
+            registration.Apprenticeship.EmployerName.Should().Be(_createApprenticeshipRequest.EmployerName);
+            registration.Apprenticeship.EmployerAccountLegalEntityId.Should().Be(_createApprenticeshipRequest.EmployerAccountLegalEntityId);
             registration.ApprenticeshipId.Should().Be(_createApprenticeshipRequest.ApprenticeshipId);
-            registration.TrainingProviderName.Should().Be(_createApprenticeshipRequest.TrainingProviderName);
+            registration.Apprenticeship.TrainingProviderName.Should().Be(_createApprenticeshipRequest.TrainingProviderName);
+            registration.Apprenticeship.Course.Name.Should().Be(_createApprenticeshipRequest.CourseName);
+            registration.Apprenticeship.Course.Level.Should().Be(_createApprenticeshipRequest.CourseLevel);
+            registration.Apprenticeship.Course.Option.Should().Be(_createApprenticeshipRequest.CourseOption);
+            registration.Apprenticeship.Course.PlannedStartDate.Should().Be(_createApprenticeshipRequest.PlannedStartDate);
+            registration.Apprenticeship.Course.PlannedEndDate.Should().Be(_createApprenticeshipRequest.PlannedEndDate);
         }
     }
 }

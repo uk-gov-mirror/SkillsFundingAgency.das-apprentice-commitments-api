@@ -66,4 +66,7 @@
     <Build Include="Tables\Apprenticeship.sql" />
     <Build Include="Tables\ApprenticeEmailAddressHistory.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SFA.DAS.ApprenticeCommitments.Database.refactorlog" />
+  </ItemGroup>
 </Project>
