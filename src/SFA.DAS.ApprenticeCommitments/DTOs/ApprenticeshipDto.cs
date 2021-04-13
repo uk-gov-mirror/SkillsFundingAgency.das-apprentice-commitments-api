@@ -13,6 +13,7 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
         public bool? TrainingProviderCorrect { get; set; }
         public bool? EmployerCorrect { get; set; }
         public bool? ApprenticeshipDetailsCorrect { get; set; }
+        public bool? HowApprenticeshipDeliveredCorrect { get; set; }
         public string CourseName { get; set; }
         public int CourseLevel { get; set; }
         public string CourseOption { get; set; }
