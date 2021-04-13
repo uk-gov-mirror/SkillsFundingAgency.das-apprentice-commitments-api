@@ -20,7 +20,7 @@ Scenario: Positively confirm that I understood the HowMyApprenticeshipWillBeDeli
 
 Scenario: Attempt to change a confirmation selection
 	Given we have an apprenticeship that has previously had HowMyApprenticeshipWillBeDelivered positively confirmed
-	And a HowApprenticeshipWillBeDeliveredRequest stating the HowMyApprenticeshipWillBeDelivered page is not understood
+	And a HowApprenticeshipWillBeDeliveredRequest stating the HowApprenticeshipWillBeDeliveredRequest is incorrect
 	When we send the confirmation
 	Then the response is BadRequest
 	And the apprenticeship record remains unchanged

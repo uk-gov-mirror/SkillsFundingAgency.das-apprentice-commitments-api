@@ -17,8 +17,6 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         private readonly Apprentice _apprentice;
         private readonly Apprenticeship _apprenticeship;
         private bool? HowApprenticeshipDeliveredCorrect { get; set; }
-        private string endpoint;
-        private object command;
 
         public HowApprenticeshipWillBeDeliveredSteps(TestContext context)
         {
@@ -38,23 +36,13 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
         [Given("a HowApprenticeshipWillBeDeliveredRequest stating the HowMyApprenticeshipWillBeDelivered is correct")]
         public void GivenAHowApprenticeshipWillBeDeliveredRequestStatingTheHowMyApprenticeshipWillBeDeliveredIsCorrect()
         {
-            endpoint = "howapprenticeshipwillbedeliveredconfirmation";
             HowApprenticeshipDeliveredCorrect = true;
-            command = new HowApprenticeshipWillBeDeliveredRequest
-            {
-                HowApprenticeshipDeliveredCorrect = true,
-            };
         }
 
         [Given("a HowApprenticeshipWillBeDeliveredRequest stating the HowApprenticeshipWillBeDeliveredRequest is incorrect")]
         public void GivenAHowApprenticeshipWillBeDeliveredRequestStatingTheHowMyApprenticeshipWillBeDeliveredIsIncorrect()
         {
-            endpoint = "howapprenticeshipwillbedeliveredconfirmation";
             HowApprenticeshipDeliveredCorrect = false;
-            command = new HowApprenticeshipWillBeDeliveredRequest
-            {
-                HowApprenticeshipDeliveredCorrect = false,
-            };
         }
 
         [Given("we have an apprenticeship that has previously had HowMyApprenticeshipWillBeDelivered positively confirmed")]
@@ -64,23 +52,16 @@ namespace SFA.DAS.ApprenticeCommitments.Api.AcceptanceTests.Features
             await GivenWeHaveAnApprenticeshipWaitingToBeConfirmed();
         }
 
-        [Given("a HowApprenticeshipWillBeDeliveredRequest stating the HowMyApprenticeshipWillBeDelivered page is not understood")]
-        public void GivenAHowApprenticeshipWillBeDeliveredRequestStatingTheHowMyApprenticeshipWillBeDeliveredPageIsNotUnderstood()
-        {
-            endpoint = "howapprenticeshipwillbedeliveredconfirmation";
-            HowApprenticeshipDeliveredCorrect = false;
-            command = new HowApprenticeshipWillBeDeliveredRequest
-            {
-                HowApprenticeshipDeliveredCorrect = false,
-            };
-        }
-
         [When("we send the confirmation")]
         public async Task WhenWeSendTheConfirmation()
         {
+
             await _context.Api.Post(
-                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/{endpoint}",
-                command);
+                $"apprentices/{_apprentice.Id}/apprenticeships/{_apprenticeship.Id}/howapprenticeshipwillbedeliveredconfirmation",
+                new HowApprenticeshipWillBeDeliveredRequest
+                {
+                    HowApprenticeshipDeliveredCorrect = (bool)HowApprenticeshipDeliveredCorrect,
+                });
         }
 
         [Then("the response is OK")]

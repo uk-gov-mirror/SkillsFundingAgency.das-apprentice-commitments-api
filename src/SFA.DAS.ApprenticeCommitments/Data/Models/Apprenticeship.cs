@@ -30,7 +30,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public bool? TrainingProviderCorrect { get; private set; }
         public bool? EmployerCorrect { get; private set; }
         public bool? ApprenticeshipDetailsCorrect { get; private set; }
-        public bool? HowApprenticeshipDeliveredCorrect { get; set; }
+        public bool? HowApprenticeshipDeliveredCorrect { get; private set; }
 
         public void ConfirmTrainingProvider(bool trainingProviderCorrect)
         {
