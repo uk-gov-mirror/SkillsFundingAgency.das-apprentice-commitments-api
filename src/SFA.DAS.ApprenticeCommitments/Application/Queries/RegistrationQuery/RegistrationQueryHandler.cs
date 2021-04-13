@@ -15,7 +15,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 
         public async Task<RegistrationResponse> Handle(RegistrationQuery query, CancellationToken _)
         {
-            var model = await _registrations.Find(query.RegistrationId);
+            var model = await _registrations.Find(query.ApprenticeId);
             return Map(model);
         }
 
@@ -28,8 +28,10 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.RegistrationQuery
 
             return new RegistrationResponse
             {
-                RegistrationId = model.Id,
-                Email = model.Email.ToString()
+                ApprenticeId = model.ApprenticeId,
+                Email = model.Email.ToString(),
+                HasViewedVerification = model.FirstViewedOn.HasValue,
+                HasCompletedVerification = model.HasBeenCompleted
             };
         }
     }

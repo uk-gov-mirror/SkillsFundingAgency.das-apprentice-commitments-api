@@ -70,7 +70,8 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
             modelBuilder.Entity<Registration>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.ApprenticeId);
+                
                 entity.Property(e => e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
                 entity.Property(e => e.Email)
                     .HasConversion(
@@ -78,10 +79,13 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                         v => new MailAddress(v));
             });
 
-            modelBuilder.Entity<Registration>()
-                .OwnsOne(e => e.Apprenticeship, apprenticeship =>
+            modelBuilder.Entity<Registration>(entity =>
+            {
+                entity.Property(e=>e.CreatedOn).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                entity.OwnsOne(e => e.Apprenticeship, apprenticeship =>
                 {
-                    apprenticeship.Property(p => p.EmployerAccountLegalEntityId).HasColumnName("EmployerAccountLegalEntityId");
+                    apprenticeship.Property(p => p.EmployerAccountLegalEntityId)
+                        .HasColumnName("EmployerAccountLegalEntityId");
                     apprenticeship.Property(p => p.EmployerName).HasColumnName("EmployerName");
                     apprenticeship.Property(p => p.TrainingProviderId).HasColumnName("TrainingProviderId");
                     apprenticeship.Property(p => p.TrainingProviderName).HasColumnName("TrainingProviderName");
@@ -94,7 +98,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
                         course.Property(p => p.PlannedEndDate).HasColumnName("PlannedEndDate");
                     });
                 });
-
+            });
             base.OnModelCreating(modelBuilder);
         }
     }

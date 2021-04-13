@@ -18,24 +18,25 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         }
 
         public Registration(
-            Guid registrationId,
+            Guid apprenticeId,
             long apprenticeshipId,
             MailAddress email,
             ApprenticeshipDetails apprenticeship)
         {
-            Id = registrationId;
+            ApprenticeId = apprenticeId;
             ApprenticeshipId = apprenticeshipId;
             Email = email;
             Apprenticeship = apprenticeship;
         }
 
-        public Guid Id { get; private set; }
+        public Guid ApprenticeId { get; private set; }
         public long ApprenticeshipId { get; private set; }
         public MailAddress Email { get; private set; }
         public Guid? UserIdentityId { get; private set; }
-        public DateTime CreatedOn { get; private set; } = DateTime.UtcNow;
-
         public ApprenticeshipDetails Apprenticeship { get; private set; }
+        public DateTime? CreatedOn { get; private set; } = DateTime.UtcNow;
+        public DateTime? FirstViewedOn { get; private set; }
+        public DateTime? SignUpReminderSentOn { get; private set; }
 
         public bool HasBeenCompleted => UserIdentityId != null;
 
@@ -48,22 +49,43 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             return CreateRegisteredApprentice(firstName, lastName, emailAddress, dateOfBirth);
         }
 
+        public void ViewedByUser(DateTime viewedOn)
+        {
+            if (FirstViewedOn.HasValue)
+            {
+                return;
+            }
+
+            FirstViewedOn = viewedOn;
+        }
+
+        public void SignUpReminderSent(DateTime sentOn)
+        {
+            if (SignUpReminderSentOn.HasValue)
+            {
+                return;
+            }
+
+            SignUpReminderSentOn = sentOn;
+        }
+
+
         private void EnsureNotAlreadyCompleted()
         {
             if (HasBeenCompleted)
-                throw new DomainException($"Registration {Id} id already verified");
+                throw new DomainException($"Registration {ApprenticeId} id already verified");
         }
 
         private void EnsureStatedEmailMatchesApproval(MailAddress emailAddress)
         {
             if (!emailAddress.ToString().Equals(Email.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                throw new DomainException($"Email from verifying user doesn't match registered user {Id}");
+                throw new DomainException($"Email from verifying user doesn't match registered user {ApprenticeId}");
         }
 
         private Apprentice CreateRegisteredApprentice(string firstName, string lastName, MailAddress emailAddress, DateTime dateOfBirth)
         {
             var apprentice = new Apprentice(
-                Id, firstName, lastName, emailAddress, dateOfBirth);
+                ApprenticeId, firstName, lastName, emailAddress, dateOfBirth);
 
             apprentice.AddApprenticeship(new Apprenticeship(ApprenticeshipId, Apprenticeship));
 
