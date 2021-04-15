@@ -31,6 +31,7 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
         public bool? EmployerCorrect { get; private set; }
         public bool? RolesAndResponsibilitiesCorrect { get; private set; }
         public bool? ApprenticeshipDetailsCorrect { get; private set; }
+        public bool? HowApprenticeshipDeliveredCorrect { get; private set; }
 
         public void ConfirmTrainingProvider(bool trainingProviderCorrect)
         {
@@ -74,6 +75,17 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
             }
 
             ApprenticeshipDetailsCorrect = apprenticeshipDetailsCorrect;
+        }
+
+        public void ConfirmHowApprenticeshipWillBeDelivered(bool howApprenticeshipDeliveredCorrect)
+        {
+            if (HowApprenticeshipDeliveredCorrect != null)
+            {
+                throw new DomainException(
+                    "Cannot update HowApprenticeshipDeliveredCorrect state more than once");
+            }
+
+            HowApprenticeshipDeliveredCorrect = howApprenticeshipDeliveredCorrect;
         }
     }
 }

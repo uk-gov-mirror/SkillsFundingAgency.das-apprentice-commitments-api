@@ -20,6 +20,7 @@ namespace SFA.DAS.ApprenticeCommitments.DTOs
                 TrainingProviderName = apprenticeship.Details.TrainingProviderName,
                 TrainingProviderCorrect = apprenticeship.TrainingProviderCorrect,
                 ApprenticeshipDetailsCorrect = apprenticeship.ApprenticeshipDetailsCorrect,
+                HowApprenticeshipDeliveredCorrect = apprenticeship.HowApprenticeshipDeliveredCorrect,
                 EmployerCorrect = apprenticeship.EmployerCorrect,
                 RolesAndResponsibilitiesCorrect = apprenticeship.RolesAndResponsibilitiesCorrect,
                 CourseName = apprenticeship.Details.Course.Name,
