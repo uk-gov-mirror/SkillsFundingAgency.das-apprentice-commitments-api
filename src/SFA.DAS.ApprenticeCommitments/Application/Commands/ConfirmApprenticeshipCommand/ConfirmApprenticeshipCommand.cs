@@ -9,11 +9,11 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Commands.ConfirmApprenticesh
 {
     public class ConfirmApprenticeshipCommand : IUnitOfWorkCommand
     {
-        public ConfirmApprenticeshipCommand(Guid apprenticeId, long apprenticeshipId, bool rolesAndResponsibilitiesCorrect)
+        public ConfirmApprenticeshipCommand(Guid apprenticeId, long apprenticeshipId, bool apprenticeshipCorrect)
         {
             ApprenticeId = apprenticeId;
             ApprenticeshipId = apprenticeshipId;
-            ApprenticeshipCorrect = rolesAndResponsibilitiesCorrect;
+            ApprenticeshipCorrect = apprenticeshipCorrect;
         }
 
         public Guid ApprenticeId { get; }
