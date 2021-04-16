@@ -17,6 +17,7 @@
     [RolesAndResponsibilitiesCorrect] BIT NULL, 
     [ApprenticeshipDetailsCorrect] bit NULL,
     [HowApprenticeshipDeliveredCorrect] BIT NULL, 
+    [ApprenticeshipConfirmed] bit NULL,
     CONSTRAINT PK_Apprenticeship_Id PRIMARY KEY CLUSTERED ([Id]),
 	CONSTRAINT FK_Apprenticeship_ApprenticeId FOREIGN KEY ([ApprenticeId]) REFERENCES [dbo].[Apprentice] ([Id])
 )
