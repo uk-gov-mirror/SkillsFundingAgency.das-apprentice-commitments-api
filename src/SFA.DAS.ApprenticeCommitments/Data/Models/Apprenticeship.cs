@@ -1,5 +1,4 @@
-﻿using SFA.DAS.ApprenticeCommitments.Exceptions;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable enable
 
@@ -36,67 +35,31 @@ namespace SFA.DAS.ApprenticeCommitments.Data.Models
 
         public void ConfirmTrainingProvider(bool trainingProviderCorrect)
         {
-            if (TrainingProviderCorrect != null)
-            {
-                throw new DomainException(
-                    "Cannot update TrainingProviderCorrect state more than once");
-            }
-
             TrainingProviderCorrect = trainingProviderCorrect;
         }
 
         public void ConfirmEmployer(bool employerCorrect)
         {
-            if (EmployerCorrect != null)
-            {
-                throw new DomainException(
-                    "Cannot update EmployerCorrect state more than once");
-            }
-
             EmployerCorrect = employerCorrect;
         }
 
         public void ConfirmRolesAndResponsibilities(bool rolesAndResponsibilitiesCorrect)
         {
-            if (RolesAndResponsibilitiesCorrect != null)
-            {
-                throw new DomainException(
-                    "Cannot update RolesAndResponsibilitiesCorrect state more than once");
-            }
-
             RolesAndResponsibilitiesCorrect = rolesAndResponsibilitiesCorrect;
         }
 
         public void ConfirmApprenticeshipDetails(bool apprenticeshipDetailsCorrect)
         {
-            if (ApprenticeshipDetailsCorrect != null)
-            {
-                throw new DomainException(
-                    "Cannot update ApprenticeshipDetailsCorrect state more than once");
-            }
-
             ApprenticeshipDetailsCorrect = apprenticeshipDetailsCorrect;
         }
 
         public void ConfirmHowApprenticeshipWillBeDelivered(bool howApprenticeshipDeliveredCorrect)
         {
-            if (HowApprenticeshipDeliveredCorrect != null)
-            {
-                throw new DomainException(
-                    "Cannot update HowApprenticeshipDeliveredCorrect state more than once");
-            }
-
             HowApprenticeshipDeliveredCorrect = howApprenticeshipDeliveredCorrect;
         }
 
         public void ConfirmApprenticeship(bool apprenticeshipCorrect)
         {
-            //if (ApprenticeshipConfirmed != null)
-            //{
-            //    throw new DomainException(
-            //        "Cannot update ApprenticeshipConfirmed state more than once");
-            //}
-
             ApprenticeshipConfirmed = apprenticeshipCorrect;
         }
     }
