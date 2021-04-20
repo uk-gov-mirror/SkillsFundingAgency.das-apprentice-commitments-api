@@ -21,5 +21,5 @@ Scenario: Attempt to change a training provider confirmirmation
 	Given we have an apprenticeship that has previously had its training provider positively confirmed
 	And a ConfirmTrainingProviderRequest stating the training provider is incorrect
 	When we send the confirmation
-	Then the response is BadRequest
-	And the apprenticeship record remains unchanged
+	Then the response is OK
+	And the apprenticeship record is updated
