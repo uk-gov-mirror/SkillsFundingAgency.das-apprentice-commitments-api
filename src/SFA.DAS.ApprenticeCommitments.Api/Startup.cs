@@ -131,7 +131,19 @@ namespace SFA.DAS.ApprenticeCommitments.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Append("X-Frame-Options", "DENY");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("X-Permitted-Cross-Domain-Policies", "none");
+                context.Response.Headers.Append("Content-Security-Policy", "default-src *; script-src *; connect-src *; img-src *; style-src *; object-src *;");
 
+                await next();
+            });
             app.UseProblemDetails();
 
             app.UseSwagger();
