@@ -37,5 +37,8 @@ GO
 
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Registration_CommitmentsApprenticeshipId]
     ON [dbo].[Registration]([CommitmentsApprenticeshipId]);
+GO
 
+CREATE NONCLUSTERED INDEX [IX_Registration_Email]
+    ON [dbo].[Registration]([Email]);
 GO
