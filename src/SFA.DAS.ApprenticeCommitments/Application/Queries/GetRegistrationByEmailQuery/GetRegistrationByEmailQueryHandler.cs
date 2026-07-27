@@ -18,7 +18,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.GetRegistrationByEma
         {
             var entity = await _registrationContext.FindByEmail(request.Email, cancellationToken);
 
-            if (entity == null) return new List<Registration>();
+            if (entity == null || entity.Count == 0) return new List<Registration>();
 
             return entity;
         }

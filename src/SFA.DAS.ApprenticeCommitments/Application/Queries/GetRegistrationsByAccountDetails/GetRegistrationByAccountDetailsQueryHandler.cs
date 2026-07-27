@@ -24,7 +24,7 @@ namespace SFA.DAS.ApprenticeCommitments.Application.Queries.GetRegistrationsByAc
                 request.DateOfBirth,
                 cancellationToken);
 
-            if (entity == null) return new List<Registration>();
+            if (entity == null || entity.Count == 0) return new List<Registration>();
 
             return entity;
         }

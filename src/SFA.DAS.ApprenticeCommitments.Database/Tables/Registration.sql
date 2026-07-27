@@ -42,3 +42,14 @@ GO
 CREATE NONCLUSTERED INDEX [IX_Registration_Email]
     ON [dbo].[Registration]([Email]);
 GO
+
+CREATE NONCLUSTERED INDEX IX_Registration_FindByAccountDetails
+ON dbo.Registration
+(
+    FirstName,
+    LastName,
+    DateOfBirth,
+    PlannedStartDate
+);
+
+GO
