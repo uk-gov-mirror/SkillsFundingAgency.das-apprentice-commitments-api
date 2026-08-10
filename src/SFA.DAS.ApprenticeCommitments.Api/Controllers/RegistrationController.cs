@@ -56,9 +56,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         public async Task<IActionResult> GetRegistrationsByAccountDetails(string firstName, string lastName, DateTime dateOfBirth)
         {
             var response = await _mediator.Send(new GetRegistrationByAccountDetailsQuery(
-                firstName, lastName, dateOfBirth));
-
-            if (response.Count == 0) return NotFound();
+                firstName, lastName, dateOfBirth));            
 
             return Ok(response);
         }
@@ -66,10 +64,7 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         [HttpGet("registrations/email")]
         public async Task<IActionResult> GetRegistrationByEmail(string email)
         {
-            var response = await _mediator.Send(new GetRegistrationByEmailQuery(email));
-
-            if (response.Count == 0) return NotFound();
-
+            var response = await _mediator.Send(new GetRegistrationByEmailQuery(email));           
             return Ok(response);
         }
 
