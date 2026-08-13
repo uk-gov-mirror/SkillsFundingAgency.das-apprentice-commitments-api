@@ -64,7 +64,10 @@ namespace SFA.DAS.ApprenticeCommitments.Api.Controllers
         [HttpGet("registrations/email")]
         public async Task<IActionResult> GetRegistrationByEmail(string email)
         {
-            var response = await _mediator.Send(new GetRegistrationByEmailQuery(email));           
+            var response = await _mediator.Send(new GetRegistrationByEmailQuery(email));
+
+            if (response == null) return NotFound();
+
             return Ok(response);
         }
 
