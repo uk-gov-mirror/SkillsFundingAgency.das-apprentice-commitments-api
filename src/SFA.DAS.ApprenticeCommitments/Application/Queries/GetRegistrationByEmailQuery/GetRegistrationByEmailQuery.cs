@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SFA.DAS.ApprenticeCommitments.Application.Queries.GetRegistrationByEmailQuery
 {
-    public class GetRegistrationByEmailQuery : IRequest<List<Registration>>
+    public class GetRegistrationByEmailQuery : IRequest<Registration>
     {
         public GetRegistrationByEmailQuery(string email)
         {

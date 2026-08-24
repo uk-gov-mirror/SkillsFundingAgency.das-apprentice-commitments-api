@@ -32,18 +32,21 @@ namespace SFA.DAS.ApprenticeCommitments.Data
             => Entities.AnyAsync();
 
         internal Task<List<Registration>> FindByAccountDetails(string firstName, string lastName, DateTime dateOfBirth, CancellationToken cancellationToken)
-            => Entities.Where(r =>
-            r.FirstName == firstName && 
-            r.LastName == lastName && 
-            r.DateOfBirth == dateOfBirth &&
-            r.Approval.Course.PlannedStartDate >= DateTime.Today.AddYears(-1))
-            .ToListAsync(cancellationToken);
+           => Entities.Where(r =>
+           r.FirstName == firstName &&
+           r.LastName == lastName &&
+           r.DateOfBirth == dateOfBirth &&
+           r.Approval.Course.PlannedStartDate >= DateTime.Today.AddYears(-1) &&
+           r.Approval.Course.PlannedEndDate >= DateTime.Now)           
+           .ToListAsync(cancellationToken);
 
-        internal Task<List<Registration>> FindByEmail(string email, CancellationToken cancellationToken)
-            => Entities.Where(r => 
+        internal Task<Registration?> FindByEmail(string email, CancellationToken cancellationToken)
+            => Entities.Where(r =>
             r.EmailAddress == email &&
-            r.Approval.Course.PlannedStartDate >= DateTime.Today.AddYears(-1))
-            .ToListAsync(cancellationToken);
+            r.Approval.Course.PlannedStartDate >= DateTime.Today.AddYears(-1) &&
+            r.Approval.Course.PlannedEndDate >= DateTime.Now)
+            .OrderByDescending(r => r.CreatedOn)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public static class RegistrationContextExtensions
